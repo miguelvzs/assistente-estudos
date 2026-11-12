@@ -1,10 +1,7 @@
-﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
-
 # Interface
 
-Nome funcional: Assistente de Estudos. Uma coluna, largura máxima de 760px, fundo claro, textos escuros, botão azul. Fonte do sistema; sem imagens, fontes externas ou ícones instalados.
+Uma coluna com largura máxima de 880px, fundo claro, fonte Arial e botão azul. Título acima de um único painel. Cabeçalho do painel com Conversa à esquerda e mascote à direita; área de mensagens; formulário na base. Informações de contexto abaixo do painel e identificação acadêmica no rodapé.
 
-Ordem: identificação da atividade, título, explicação curta, painel Pergunta, painel Resposta, autor. Rótulo visível do campo, foco de teclado, status anunciado por aria-live e erro com role alert. Tela responsiva por CSS simples.
+Mensagens do usuário à direita; respostas à esquerda. Texto preserva quebras de linha e quebra palavras compridas. Nenhuma rolagem interna forçada. O formulário agrupa orientação e botão, empilhados em telas de até 520px. Mascote de 64px no desktop e 56px no celular.
 
-Não usar marca Enviagora: este é trabalho acadêmico. Sem dashboard, métricas, menus ou abas.
-
+Rótulo visível, foco de teclado, aria-live para atualizações e role alert para erros. Sem biblioteca visual, ícones instalados, animações, menus ou abas. Mascote gerado por IA a pedido do autor; não indica produto oficial da OpenAI. Consulte docs/specs/03-organizacao-chat.md.
