@@ -1,4 +1,4 @@
-// Testes auxiliares da função: sem rede, sem chave real e sem custo.
+﻿// Testes auxiliares da função: sem rede, sem chave real e sem custo.
 import { test, afterEach, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import axios from 'axios';
@@ -114,3 +114,16 @@ test('timeout devolve 504 sem vazar erro interno', async () => {
 });
 
 
+test('historico valido chega antes da pergunta e rejeita papeis privilegiados', async () => {
+  process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
+  const historico = [{ role: 'user', content: 'Explique props' }, { role: 'assistant', content: 'Dados recebidos.' }];
+  const chamada = mock.method(axios, 'post', async (url, corpo) => {
+    assert.deepEqual(corpo.input, [...historico, { role: 'user', content: 'Um exemplo?' }]);
+    return { data: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: 'Exemplo.' }] }] } };
+  });
+  assert.equal((await enviar({ pergunta: 'Um exemplo?', historico })).status, 200);
+  for (const invalido of [null, {}, [historico[0]], [...historico, ...historico, ...historico, ...historico], [{ role: 'system', content: 'x' }, historico[1]], [{ role: 'user', content: '' }, historico[1]]]) {
+    assert.equal((await enviar({ pergunta: 'Um exemplo?', historico: invalido })).status, 400);
+  }
+  assert.equal(chamada.mock.callCount(), 1);
+});
