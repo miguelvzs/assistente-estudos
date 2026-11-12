@@ -1,7 +1,7 @@
 # Preparação da entrega
 
 ## Situação
-Código local pronto para teste real; chave, GitHub e Vercel pendentes. Nada enviado no Moodle. Não apresentar o ZIP atual como aplicação publicada ou integração já validada.
+Código publicado em [https://github.com/miguelvzs/assistente-estudos](https://github.com/miguelvzs/assistente-estudos), branch `development`, com commits unitários e verificação automática aprovada. Chave real, teste da OpenAI e Vercel pendentes. Nada enviado no Moodle. Não apresentar o ZIP atual como aplicação publicada ou integração já validada.
 
 ## Depois que Miguel fornecer a chave
 
@@ -15,7 +15,7 @@ Código local pronto para teste real; chave, GitHub e Vercel pendentes. Nada env
 
 O enunciado exige ambos. O código contém configuração para Vercel, mas ainda não foi publicado nem verificado nessa plataforma.
 
-- Escolher nome do repositório e confirmar visibilidade adequada à entrega.
+- Repositório público criado: `miguelvzs/assistente-estudos`; branch padrão `development`.
 - Conferir o conteúdo versionado: nunca node_modules, .env real, logs ou chave.
 - Publicar pelo serviço autorizado; manter README e docs coerentes.
 - Configuração prevista da Vercel: framework Vite; build `npm run build`; saída `dist`; função `api/perguntar.js`; Node compatível.
@@ -29,14 +29,15 @@ O enunciado exige ambos. O código contém configuração para Vercel, mas ainda
 
 Incluir código-fonte, api/, testes, configurações, package.json, package-lock.json, README e docs. Excluir node_modules, dist, .git, .vercel, .env real e logs. `.env.example` vazio pode entrar. Documentos de explicação acompanham o projeto.
 
-O ZIP entregue nesta etapa é uma cópia local verificável, ainda sem links publicados. Após publicação e teste real, atualizar README/VALIDACAO e gerar novamente o ZIP final.
+O ZIP entregue nesta etapa é uma cópia local verificável, com link GitHub publicado, ainda sem URL Vercel. Após publicação e teste real, atualizar README/VALIDACAO e gerar novamente o ZIP final.
 
 ## Conferência para 13/11/2026
 
 - [ ] OpenAI real respondeu a uma pergunta.
 - [ ] Não há resposta simulada na versão publicada.
 - [ ] Campo vazio não envia; carregamento e erro funcionam.
-- [ ] GitHub abre deslogado e tem instruções/bibliotecas.
+- [x] Repositório GitHub público com instruções e bibliotecas.
+- [ ] Conferir acesso deslogado na revisão final da entrega.
 - [ ] Vercel abre deslogado e a função responde.
 - [ ] ZIP abre, inclui lockfile e exclui dependências/segredos.
 - [ ] Ensaio cabe em 15 minutos.
