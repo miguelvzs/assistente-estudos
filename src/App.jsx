@@ -58,7 +58,7 @@ export default function App() {
         <h1>Assistente de Estudos</h1>
       </header>
 
-      <Painel titulo="Conversa" imagem="/assistente.png">
+      <Painel titulo="Conversa" imagem="/assistente.png" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
         <div aria-live="polite" aria-busy={carregando}>
           <Resposta mensagens={mensagens} carregando={carregando} erro={erro} />
         </div>
@@ -73,6 +73,7 @@ export default function App() {
     </main>
   );
 }
+
 
 
 

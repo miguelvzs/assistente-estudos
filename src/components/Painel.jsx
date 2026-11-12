@@ -1,12 +1,13 @@
 ﻿// Props e children: Aulas 04 e 05.
-export default function Painel({ titulo, imagem, children }) {
+export default function Painel({ titulo, imagem, status, children }) {
   return (
     <section className="painel">
       <div className="topo-painel">
-        <h2>{titulo}</h2>
+        <div><h2>{titulo}</h2>{status && <p className="status-integracao">{status}</p>}</div>
         {imagem && <img className="mascote" src={imagem} alt="Robô assistente de estudos segurando um livro" width="80" height="80" />}
       </div>
       {children}
     </section>
   );
 }
+

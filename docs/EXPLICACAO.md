@@ -298,3 +298,6 @@ O painel tem cabeçalho, conversa e formulário separados por espaçamento e lin
 
 ## Repositório e automação
 Código público: https://github.com/miguelvzs/assistente-estudos, branch development. .github/workflows/verificar.yml executa npm ci, npm test e npm run build em push e pull request. public/assistente.png é a imagem estática. docs/CHAT.md detalha histórico; specs/02-chat.md e specs/03-organizacao-chat.md definem conversa e interface. A API real e a Vercel seguem pendentes.
+
+## Aviso de conexão
+App passa a prop status ao Painel. import.meta.env.MODE informa o modo do Vite: demonstracao mostra aviso explícito de simulação. No modo real, mensagens.length maior que zero indica que já chegou uma resposta da API nesta sessão; antes disso, a tela aguarda a primeira resposta. Condições e props continuam básicas; a variável de modo é configuração do Vite, não um hook. O texto confirma uma resposta passada, sem garantir disponibilidade futura.
