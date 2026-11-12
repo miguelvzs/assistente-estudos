@@ -1,4 +1,4 @@
-# Apresentação — Assistente de Estudos
+﻿# Apresentação — Assistente de Estudos
 
 Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o projeto inteiro. A explicação completa está em EXPLICACAO.md; este é o roteiro de ensaio.
 
@@ -163,3 +163,19 @@ Sem olhar este roteiro, conseguir:
 8. Mostrar uma falha sem travar na explicação.
 
 Se algum ponto ainda depender de decorar palavras, voltar à seção correspondente de EXPLICACAO.md e explicar com o código aberto.
+
+## Roteiro atualizado para o chat — use esta sequência
+- 0–2 min: objetivo acadêmico: enviar dúvidas de estudo a uma API e mostrar respostas.
+- 2–4 min: demonstrar uma pergunta e uma continuação. Se estiver em demo, avisar explicitamente que são respostas fixas, sem OpenAI. Mostrar o aviso de memória de três trocas.
+- 4–7 min: abrir App.jsx: quatro estados, formulário controlado, preventDefault, validação, carregamento e Axios POST. Explicar que o histórico acompanha a pergunta.
+- 7–9 min: abrir Resposta.jsx: props, map, key e condições. Cada mensagem tem autor e texto; CSS diferencia as duas classes.
+- 9–11 min: explicar slice(-6), spread e atualização da lista no sucesso; erro preserva campo para nova tentativa. Atualizar a página perde a conversa.
+- 11–13 min: explicar servidor como exceção: recebe JSON, valida, usa chave privada e chama OpenAI. Retorna texto ou erro; chave nunca vai ao React.
+- 13–15 min: limites, testes e perguntas. Não há banco/login/persistência. Contexto aumenta consumo. Integração real só pode ser afirmada após chave válida e teste.
+
+Perguntas: “Onde está a memória?” No useState do navegador; as últimas três trocas são reenviadas. “Por que map?” Para gerar os blocos de mensagens a partir do array. “Por que key pelo índice?” A lista só cresce no final. “Por que não useEffect?” O envio depende de um evento explícito. “Por que servidor?” Para proteger a chave. Estude também CHAT.md, que explica cada alteração.
+
+Mascote: no canto superior direito da caixa da conversa, explicar brevemente que é uma imagem estática com img, src, alt e CSS; não participa da chamada à API e não exige novo conceito React.
+
+
+Na demonstração, apresente as três áreas: cabeçalho, conversa e formulário. Explique o alinhamento dos autores e o empilhamento do botão no celular como CSS, sem novos recursos React.
