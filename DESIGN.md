@@ -6,6 +6,9 @@ Mensagens do usuário à direita; respostas à esquerda. Texto preserva quebras 
 
 Rótulo visível, foco de teclado, aria-live para atualizações e role alert para erros. Sem biblioteca visual, ícones instalados, animações, menus ou abas. Mascote gerado por IA a pedido do autor; não indica produto oficial da OpenAI. Consulte docs/specs/03-organizacao-chat.md.
 
-Mascote branco e verde com detalhes vermelhos inspirado na paleta do IF. Verde de referência #2f9e41; vermelho #cd191e. Controle usa #216b2d para legibilidade do texto branco. A pedido do autor, a ilustração apresenta o símbolo do IF no livro e o da OpenAI no peito. Trata-se de representação gerada por IA, não arquivo vetorial oficial. Fonte em docs/specs/04-estudos-if.md.
+Mascote branco e verde com detalhes vermelhos inspirado na paleta do IF. Verde de referência #2f9e41; vermelho #cd191e. Controle usa #216b2d para legibilidade do texto branco. A pedido do autor, a ilustração apresenta os símbolos do IF e da OpenAI lado a lado no peito. Trata-se de representação gerada por IA, não arquivo vetorial oficial. Fonte em docs/specs/04-estudos-if.md.
 
+
+
+Mascote redesenhado por solicitação do autor: busto sem livro, traços mais simples, olhos discretos e duas marcas no torso.
 
