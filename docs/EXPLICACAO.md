@@ -1,5 +1,3 @@
-﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
-
 # Entenda o projeto inteiro
 
 Leia primeiro as seções 1–5. Depois acompanhe os arquivos abertos ao lado deste guia. Para apresentar, use APRESENTACAO-15-MIN.md: não é necessário ler todo este documento em voz alta.
@@ -39,19 +37,19 @@ Exemplo didático: “Qual é a diferença entre props e state?”. O exemplo de
 
 1. `index.html` cria a div `root` e carrega `main.jsx`.
 2. `main.jsx` coloca `App` dentro dessa div.
-3. App começa com pergunta/resposta/erro vazios e carregando falso.
+3. App começa com pergunta/erro vazios e mensagens como lista vazia e carregando falso.
 4. `FormularioPergunta` recebe o valor de pergunta e a função `mudarPergunta` por props.
 5. Ao digitar, `onChange` entrega um evento. `evento.target.value` é o texto atual do campo.
 6. `setPergunta` guarda esse texto. O React renderiza novamente, e `value={pergunta}` mantém o campo sincronizado com o estado.
 7. Ao enviar, `onSubmit` chama `enviarPergunta`. `preventDefault()` evita a submissão HTML tradicional e o recarregamento da página.
-8. A função limpa erro/resposta anteriores e rejeita texto vazio depois de retirar espaços das pontas com `trim()`.
+8. A função limpa o erro anterior, preserva a conversa e rejeita texto vazio depois de retirar espaços das pontas com `trim()`.
 9. `setCarregando(true)` muda o botão e bloqueia novo envio enquanto espera.
 10. `api.post('/perguntar', { pergunta: ... })` envia JSON para `/api/perguntar`. O prefixo `/api` vem da baseURL.
 11. A função de servidor valida os dados novamente. A validação do navegador melhora o uso, mas não impede que outra pessoa chame a rota diretamente.
 12. Com chave configurada, o servidor envia POST à Responses API. A pergunta entra no campo `input`.
 13. A OpenAI responde com um objeto maior. O servidor percorre os itens de saída, retira somente os textos e devolve `{ resposta: '...' }`.
 14. No navegador, `.then` recebe o retorno. O JSON já está convertido pelo Axios em `retorno.data`.
-15. `setResposta(retorno.data.resposta)` guarda o texto e `setCarregando(false)` libera o formulário.
+15. `setMensagens([...mensagens, { role: "user", content: pergunta.trim() }, { role: "assistant", content: retorno.data.resposta }])` acrescenta a troca; `setPergunta('')` limpa o campo e `setCarregando(false)` libera o formulário.
 16. `Resposta` recebe os novos valores e mostra a explicação. Não precisamos alterar o HTML manualmente.
 
 ```mermaid
@@ -76,7 +74,7 @@ sequenceDiagram
 | Estado | Valor inicial | O que guarda | Quem altera |
 |---|---|---|---|
 | pergunta | '' | Texto do campo | mudarPergunta |
-| resposta | '' | Texto devolvido pela API | enviarPergunta e .then |
+| mensagens | [] | Lista de perguntas e respostas | .then, após sucesso |
 | carregando | false | Se há consulta aguardando | enviarPergunta, .then e .catch |
 | erro | '' | Mensagem de falha ou validação | enviarPergunta, .then e .catch |
 
@@ -95,7 +93,7 @@ O if de carregando e o botão desabilitado evitam reenvios comuns pela interface
 - `.then(...)` trata sucesso; resposta textual ausente recebe mensagem de erro.
 - `.catch(...)` trata HTTP de erro, indisponibilidade e timeout. Se o servidor enviou `erro`, usamos esse texto; senão, mensagem de conexão.
 - Não existe retorno direto da IA na função de envio: a atualização acontece quando a Promise termina.
-- JSX organiza cabeçalho, dois painéis e rodapé.
+- JSX organiza cabeçalho, painel de conversa e rodapé.
 
 ### FormularioPergunta.jsx — entrada e envio
 
@@ -106,21 +104,18 @@ O if de carregando e o botão desabilitado evitam reenvios comuns pela interface
 - `value` e `onChange` fazem um campo controlado.
 - `rows` define altura inicial; `maxLength` limita entrada; o servidor também confere.
 - `disabled` bloqueia campo/botão na espera.
-- O ternário escolhe entre Perguntar e Consultando.
+- O ternário escolhe entre Enviar e Respondendo....
 - `aria-describedby` associa a orientação ao campo para leitores de tela.
 
 ### Painel.jsx — props e children
 
-Recebe `titulo` e `children`. `titulo` vai para h2. `children` é o conteúdo colocado entre a abertura e o fechamento de Painel no App. Reutilizamos o mesmo contorno visual para formulário e resposta, sem duplicar a estrutura.
+Recebe `titulo`, `imagem` e `children`. `titulo` vai para h2. `children` é o conteúdo colocado entre a abertura e o fechamento de Painel no App. Um único Painel contém conversa e formulário; imagem define o endereço do mascote.
 
 ### Resposta.jsx — quatro situações visuais
 
-1. Carregando: mostra espera.
-2. Erro preenchido: mostra aviso com `role="alert"`.
-3. Resposta preenchida: mostra texto e aviso sobre IA.
-4. Nenhuma das anteriores: mostra orientação inicial.
+A lista é renderizada com map e key. Lista vazia mostra orientação inicial; carregando acrescenta espera; erro acrescenta aviso com role="alert". A conversa anterior permanece visível durante a requisição.
 
-Os returns antecipados deixam a escolha clara. O texto aparece dentro de `{resposta}`; React o trata como texto, não como HTML executável. `aria-live` no App ajuda a anunciar atualizações sem precisar de biblioteca.
+As condições no JSX controlam os avisos. O texto aparece dentro de `{mensagem.content}`; React o trata como texto, não como HTML executável. `aria-live` no App ajuda a anunciar atualizações sem precisar de biblioteca.
 
 ### services/api.js — o endereço de nossa função
 
@@ -139,7 +134,7 @@ Arquivo: `api/perguntar.js`. Esta parte não foi encontrada nas aulas React; foi
 Entrada do navegador:
 
 ```json
-{ "pergunta": "Qual é a diferença entre props e state?" }
+{ "pergunta": "Qual é a diferença entre props e state?", "historico": [] }
 ```
 
 Saída de sucesso (exemplo de formato, não resposta real):
@@ -183,7 +178,7 @@ Saída de erro:
 | store | false; não manter o objeto de resposta para recuperação posterior via API |
 | timeout do Axios | 45 segundos; depois a função responde com erro de tempo |
 
-O pedido de até 180 palavras é uma orientação ao modelo, não validação rígida. O texto pode conter erro e não conhece automaticamente o Moodle. Nova chamada não recebe pergunta/resposta anterior.
+O pedido de até 180 palavras é uma orientação ao modelo, não validação rígida. O texto pode conter erro e não conhece automaticamente o Moodle. Nova chamada recebe as últimas três trocas no campo input junto da pergunta atual.
 
 ### Códigos HTTP
 
@@ -264,7 +259,7 @@ Headers limitam carregamento de conteúdo à própria origem, bloqueiam enquadra
 
 ## 9. Testes: o que provam e o que não provam
 
-Os 11 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key.
+Os 12 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key.
 
 Testam método, origem, formato, JSON inválido, ausência/tipo/vazio, tamanho, chave ausente, extração de texto, resposta incompleta, erros do provedor e timeout. A simulação de sucesso confere que campos indevidos do cliente não escolhem modelo/instruções e que detalhes internos não vazam.
 
@@ -274,7 +269,7 @@ Isso verifica nossa lógica. Não comprova saldo, autorização da chave, acesso
 
 Chave em variável do React não fica secreta: código de navegador é inspecionável. Por isso a chave é do servidor. Também não basta usar .gitignore se alguém inserir a chave diretamente em um arquivo já versionado.
 
-Não há memória nem banco no aplicativo; recarregar a página perde pergunta/resposta. A OpenAI recebe o texto e possui suas próprias políticas de retenção. Não enviar dados pessoais. A resposta não substitui as fontes da disciplina.
+Há memória transitória em useState, sem banco; recarregar a página perde as mensagens. A OpenAI recebe o texto e possui suas próprias políticas de retenção. Não enviar dados pessoais. A resposta não substitui as fontes da disciplina.
 
 Endpoint público sem autenticação pode ser chamado por terceiros. Tamanho e tokens limitam uma consulta, não custo total. Não há rate limit global, login, quota por pessoa ou garantia contra abuso. Isso deve ser considerado antes da publicação com chave real; não acrescentar infraestrutura complexa sem combinar.
 
@@ -290,7 +285,7 @@ Consultadas em 12/11/2026. Não afirmar que estas páginas fazem parte do materi
 
 
 ## Mascote no canto superior direito do painel
-Imagem gerada por IA a pedido de Miguel, salva em public/assistente.png. App.jsx passa o endereço pela prop imagem ao Painel. Painel.jsx usa a tag HTML img no JSX. src aponta para o arquivo público; alt descreve a imagem para leitores de tela. width e height reservam espaço. A classe mascote define tamanho de 80 pixels e object-fit: contain preserva a proporção, sem cortar a imagem. Não acrescenta estado, chamada à API ou biblioteca. É ilustração de um projeto acadêmico, não identificação de produto oficial da OpenAI.
+Imagem gerada por IA a pedido de Miguel, salva em public/assistente.png. App.jsx passa o endereço pela prop imagem ao Painel. Painel.jsx usa a tag HTML img no JSX. src aponta para o arquivo público; alt descreve a imagem para leitores de tela. width e height reservam espaço. A classe mascote define tamanho de 64 pixels no desktop e 56 no celular e object-fit: contain preserva a proporção, sem cortar a imagem. Não acrescenta estado, chamada à API ou biblioteca. É ilustração de um projeto acadêmico, não identificação de produto oficial da OpenAI.
 
 O topo-painel usa display: flex e justify-content: space-between para separar o título à esquerda e o mascote à direita. A linha ocupa espaço normal no painel, evitando sobreposição das mensagens. A imagem aparece apenas quando a prop imagem existe.
 
@@ -300,3 +295,6 @@ Revisão anti-slop: título menor sem espaçamento artificial entre letras, fund
 
 ## Organização de UI/UX
 O painel tem cabeçalho, conversa e formulário separados por espaçamento e linhas discretas. Mensagens próprias alinham à direita (margin-left: auto); respostas à esquerda. max-width evita linhas longas e overflow-wrap quebra textos compridos. O formulário agrupa textarea e botão; flex organiza ajuda à esquerda e ação à direita. A media query empilha essa linha no celular. O mascote continua no canto superior direito. A informação de memória fica fora do painel, e a identificação acadêmica no rodapé. Não há altura fixa ou rolagem interna, nem novos hooks ou dependências. Painel usa padding por área, em vez de um único padding externo. Campos, limites e envio permanecem iguais.
+
+## Repositório e automação
+Código público: https://github.com/miguelvzs/assistente-estudos, branch development. .github/workflows/verificar.yml executa npm ci, npm test e npm run build em push e pull request. public/assistente.png é a imagem estática. docs/CHAT.md detalha histórico; specs/02-chat.md e specs/03-organizacao-chat.md definem conversa e interface. A API real e a Vercel seguem pendentes.
