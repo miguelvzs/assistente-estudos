@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Entenda o projeto inteiro
 
 Leia primeiro as seções 1–5. Depois acompanhe os arquivos abertos ao lado deste guia. Para apresentar, use APRESENTACAO-15-MIN.md: não é necessário ler todo este documento em voz alta.
@@ -285,3 +287,16 @@ Endpoint público sem autenticação pode ser chamado por terceiros. Tamanho e t
 - [Funções Node na Vercel](https://vercel.com/docs/functions/runtimes/node-js).
 
 Consultadas em 12/11/2026. Não afirmar que estas páginas fazem parte do material da professora.
+
+
+## Mascote no canto superior direito do painel
+Imagem gerada por IA a pedido de Miguel, salva em public/assistente.png. App.jsx passa o endereço pela prop imagem ao Painel. Painel.jsx usa a tag HTML img no JSX. src aponta para o arquivo público; alt descreve a imagem para leitores de tela. width e height reservam espaço. A classe mascote define tamanho de 80 pixels e object-fit: contain preserva a proporção, sem cortar a imagem. Não acrescenta estado, chamada à API ou biblioteca. É ilustração de um projeto acadêmico, não identificação de produto oficial da OpenAI.
+
+O topo-painel usa display: flex e justify-content: space-between para separar o título à esquerda e o mascote à direita. A linha ocupa espaço normal no painel, evitando sobreposição das mensagens. A imagem aparece apenas quando a prop imagem existe.
+
+## Textos da interface
+O topo contém somente o título. Identificação da disciplina, AA04, autoria, instituição e tecnologias ficam reunidas no rodapé. Removida a frase promocional de introdução; estados e orientações usam texto direto. Mantidos os limites e avisos que explicam o funcionamento. Mascote permanece no canto superior direito da conversa. Nenhuma alteração no consumo da API.
+Revisão anti-slop: título menor sem espaçamento artificial entre letras, fundo neutro e bordas discretas. CSS puro; nenhuma alteração no fluxo React. Critérios e limites registrados em REVISAO-ANTI-SLOP.md.
+
+## Organização de UI/UX
+O painel tem cabeçalho, conversa e formulário separados por espaçamento e linhas discretas. Mensagens próprias alinham à direita (margin-left: auto); respostas à esquerda. max-width evita linhas longas e overflow-wrap quebra textos compridos. O formulário agrupa textarea e botão; flex organiza ajuda à esquerda e ação à direita. A media query empilha essa linha no celular. O mascote continua no canto superior direito. A informação de memória fica fora do painel, e a identificação acadêmica no rodapé. Não há altura fixa ou rolagem interna, nem novos hooks ou dependências. Painel usa padding por área, em vez de um único padding externo. Campos, limites e envio permanecem iguais.
