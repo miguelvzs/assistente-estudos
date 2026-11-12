@@ -1,41 +1,24 @@
 # Validação — 12/11/2026
 
-## Veredito
-Implementação e documentação locais preparadas. Build e testes simulados passaram. Não foi feita chamada real à OpenAI, nem publicação GitHub/Vercel, nem envio Moodle. A chave será fornecida depois.
+## Estado atual
+Código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), branch development. [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516) aprovou instalação, 12 testes simulados e build. A integração real com OpenAI, a Vercel e o envio Moodle permanecem pendentes.
 
-## Evidências
+## Evidências atuais
+- `npm test`: 12 testes aprovados, sem rede e sem chave real. Incluem validação do histórico e rejeição de papéis privilegiados.
+- `npm run build`: aprovado localmente e no GitHub.
+- Tela inicial do chat conferida no navegador local em desktop e celular: mascote, campo, botão e rodapé sem sobreposição observada.
+- Repositório remoto conferido como público e com development como branch padrão; conteúdo enviado coincide com o histórico local.
+- Arquivos versionados e histórico examinados por padrões comuns de credenciais; nenhuma ocorrência identificada. Não foram enviados node_modules, dist, logs ou .env real. Essa verificação não é garantia absoluta de segurança.
 
-| Verificação | Resultado |
-|---|---|
-| `npm test` | 11 testes passaram, zero falhas; Axios substituído, sem rede |
-| `npm run build` | Build Vite concluído; 78 módulos transformados |
-| `npm audit --omit=dev --audit-level=high` | Zero vulnerabilidades reportadas nas dependências de produção na consulta realizada |
-| Navegador: estado inicial | Campo vazio, botão e mensagem inicial presentes |
-| Navegador: envio vazio | Mensagem de validação exibida |
-| Navegador: consulta simulada | Botão/campo desabilitados durante espera; texto simulado visível depois |
-| Navegador: nova consulta | Resposta anterior removida na espera; nova consulta liberada |
-| Navegador: falta de chave | Função real local retornou 503 e tela mostrou configuração pendente; botão liberado |
-| Desktop e mobile | Inspeção visual; conteúdo sem estouro horizontal no preset mobile |
-| Console da demonstração | Sem erros de execução observados; mensagens normais do Vite/React |
-| API sem credencial | Não consulta o provedor; conferido também em teste unitário |
+## Verificações anteriores, antes da conversão em chat
+A consulta isolada foi exercitada em modo demo: campo vazio, espera, resposta simulada, nova consulta e erro 503 sem chave. Não confundir esses testes manuais com validação completa do fluxo atual de múltiplas mensagens. A consulta de dependências daquela etapa não reportou vulnerabilidades de produção.
 
-O 503 na aba de teste sem chave é esperado, não sucesso da integração. A função de nuvem ainda não foi executada na Vercel. A configuração de headers de produção não foi verificada em deploy.
+## Pendente
+- Credencial válida, saldo, acesso ao modelo e resposta real da OpenAI.
+- Ensaio manual completo de múltiplas mensagens na interface atual, incluindo erro e nova tentativa.
+- Deploy Vercel, headers em produção e acesso final deslogado.
+- Tempo real de resposta, consumo e limites operacionais de gastos.
+- Ensaio falado de até 15 minutos e envio pelo aluno.
 
-## Limitações
-
-- Chave válida, saldo, acesso ao modelo e qualidade da resposta real não conferidos.
-- Não medido tempo real de resposta nem consumo da OpenAI.
-- Não há limite global de gastos ou rate limit de produção; preparar operação antes de expor endpoint com chave.
-- Testes automatizados cobrem a função; a interface foi conferida manualmente no navegador, não por uma suíte de UI instalada no projeto.
-- A detecção de vulnerabilidades é um retrato da consulta, não garantia permanente de segurança.
-- As aulas foram consultadas nas cópias locais; enunciado/tema foram conferidos ao vivo no Moodle na estruturação.
-
-## Como repetir
-
-`npm ci`, `npm test`, `npm run build`. Para interface sem chave: `npm run demo`, enviar a pergunta de exemplo. Para validar configuração ausente: `npm run dev` sem chave e consultar. Ambos os casos não comprovam consumo real.
-
-## Verificação da alteração de chat
-Build aprovado; 12 testes de servidor aprovados, incluindo envio do histórico em ordem e rejeição de papéis privilegiados. Revisão visual do chat ainda não realizada. Integração real continua pendente de chave válida; não houve chamada à OpenAI. Verificações visuais anteriores referem-se à versão de consulta isolada.
-
-## Organização visual do chat
-Build aprovado. Tela inicial conferida no navegador local em desktop e celular: mascote à direita, campo e botão visíveis, rodapé separado e sem sobreposição observada. A revisão não inclui teste real de OpenAI.
+## Repetir
+`npm ci`, `npm test`, `npm run build`. Para ensaiar sem chave: `npm run demo`. Para testar ausência de configuração: `npm run dev` sem chave. A resposta fixa da demo não comprova integração com OpenAI nem memória real do modelo.
