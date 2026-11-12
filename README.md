@@ -1,12 +1,12 @@
-﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
-
 # Assistente de Estudos
 
-Aplicação React que recebe uma pergunta e exibe uma explicação curta da OpenAI. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
+Chat de estudos em React, preparado para consumir a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
 
-**Situação:** implementação local; integração real e publicação pendentes da chave que Miguel fornecerá depois. Simulação é apenas teste, não substitui consumo real da API na entrega.
+**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), na branch `development`. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). A chave real, o teste da OpenAI e o deploy na Vercel continuam pendentes. Simulação é apenas teste, não substitui consumo real da API na entrega.
 
 ## Comece aqui
+
+- [Funcionamento do chat e histórico](docs/CHAT.md)
 
 - [Explicação de todos os arquivos e do fluxo](docs/EXPLICACAO.md)
 - [Roteiro falado de 15 minutos e perguntas da professora](docs/APRESENTACAO-15-MIN.md)
@@ -19,6 +19,8 @@ Aplicação React que recebe uma pergunta e exibe uma explicação curta da Open
 Pré-requisito: Node.js 22.12+ (testado localmente com 24.14.1), com npm.
 
 ```powershell
+git clone https://github.com/miguelvzs/assistente-estudos.git
+cd assistente-estudos
 npm ci
 npm run demo
 ```
@@ -59,18 +61,17 @@ Testes usam recursos nativos do Node; nenhuma biblioteca extra de testes. Não h
 
 ## API e limites
 
-O frontend envia `POST /api/perguntar` com `{ "pergunta": "..." }`. A função retorna `{ "resposta": "..." }` ou `{ "erro": "..." }`.
+O frontend envia `POST /api/perguntar` com `{ "pergunta": "...", "historico": [{ "role": "user", "content": "..." }, { "role": "assistant", "content": "..." }] }` (histórico vazio na primeira pergunta). A função retorna `{ "resposta": "..." }` ou `{ "erro": "..." }`.
 
-O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-5-mini`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2000 caracteres, sem memória de conversa. A resposta é texto puro.
+O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-5-mini`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
 
 A professora autorizou OpenAI conforme informação de Miguel. A função Vercel é a exceção técnica aceita pelo usuário, não um conteúdo atribuído às aulas React. A OpenAI cobra por uso; esta aplicação não implementa controle global de gastos. Perguntas são enviadas ao provedor e não ficam salvas pelo app.
 
 ## Links da entrega
 
-- GitHub: **pendente**.
+- GitHub: [https://github.com/miguelvzs/assistente-estudos](https://github.com/miguelvzs/assistente-estudos).
 - Vercel: **pendente**.
 - Prazo Moodle: **13/11/2026 às 23h59**. Apresentação: **até 15 minutos**.
 - [Enunciado oficial](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
 
 Código e documentação preparados com assistência de IA a partir das aulas, para estudo e conferência pelo autor. Não afirmar que a simulação é uma resposta real da OpenAI.
-
