@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import Painel from './components/Painel';
 import FormularioPergunta from './components/FormularioPergunta';
 import Resposta from './components/Resposta';
@@ -58,7 +58,7 @@ export default function App() {
         <h1>Assistente de Estudos</h1>
       </header>
 
-      <Painel titulo="Conversa">
+      <Painel titulo="Conversa" imagem="/assistente.png">
         <div aria-live="polite" aria-busy={carregando}>
           <Resposta mensagens={mensagens} carregando={carregando} erro={erro} />
         </div>
