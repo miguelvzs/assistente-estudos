@@ -4,10 +4,11 @@ export default function Painel({ titulo, imagem, status, children }) {
     <section className="painel">
       <div className="topo-painel">
         <div><h2>{titulo}</h2>{status && <p className="status-integracao">{status}</p>}</div>
-        {imagem && <img className="mascote" src={imagem} alt="Robô assistente de estudos segurando um livro" width="80" height="80" />}
+        {imagem && <img className="mascote" src={imagem} alt="Robô de estudos com símbolo da OpenAI no peito e do IF no livro" width="80" height="80" />}
       </div>
       {children}
     </section>
   );
 }
+
 
