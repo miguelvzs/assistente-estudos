@@ -63,7 +63,7 @@ Testes usam recursos nativos do Node; nenhuma biblioteca extra de testes. Não h
 
 O frontend envia `POST /api/perguntar` com `{ "pergunta": "...", "historico": [{ "role": "user", "content": "..." }, { "role": "assistant", "content": "..." }] }` (histórico vazio na primeira pergunta). A função retorna `{ "resposta": "..." }` ou `{ "erro": "..." }`.
 
-O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-5-mini`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
+O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-6-luna`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
 
 A professora autorizou OpenAI conforme informação de Miguel. A função Vercel é a exceção técnica aceita pelo usuário, não um conteúdo atribuído às aulas React. A OpenAI cobra por uso; esta aplicação não implementa controle global de gastos. Perguntas são enviadas ao provedor e não ficam salvas pelo app.
 
@@ -75,3 +75,6 @@ A professora autorizou OpenAI conforme informação de Miguel. A função Vercel
 - [Enunciado oficial](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
 
 Código e documentação preparados com assistência de IA a partir das aulas, para estudo e conferência pelo autor. Não afirmar que a simulação é uma resposta real da OpenAI.
+
+## Custo do modelo
+Modelo econômico: gpt-6-luna, reasoning.effort none e saída máxima de 600 tokens. Preços Standard consultados em 12/11/2026: US$ 0,10 por milhão de tokens de entrada e US$ 0,50 de saída. Exemplo hipotético: 1.000 chamadas com 1.000 tokens de entrada e 300 de saída cada custam US$ 0,25, sem impostos ou conversão cambial. O histórico também conta na entrada. Limite por resposta não limita o gasto acumulado. Fonte: https://developers.openai.com/api/docs/models/gpt-6-luna . Acesso e resposta real ainda precisam ser validados com a chave do projeto.

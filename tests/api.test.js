@@ -1,4 +1,4 @@
-﻿// Testes auxiliares da função: sem rede, sem chave real e sem custo.
+// Testes auxiliares da função: sem rede, sem chave real e sem custo.
 import { test, afterEach, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import axios from 'axios';
@@ -65,9 +65,9 @@ test('sucesso extrai só texto e ignora os campos do cliente que tentam configur
   mock.method(axios, 'post', async (url, corpo, config) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
     assert.deepEqual(corpo.input, [{ role: 'user', content: 'Explique props.' }]);
-    assert.equal(corpo.model, 'gpt-5-mini');
+    assert.equal(corpo.model, 'gpt-6-luna');
     assert.equal(corpo.store, false);
-    assert.equal(corpo.max_output_tokens, 1200);
+    assert.equal(corpo.max_output_tokens, 600);
     assert.equal(config.timeout, 45000);
     return { data: { status: 'completed', output: [
       { type: 'reasoning' },

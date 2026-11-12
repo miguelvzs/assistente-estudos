@@ -25,7 +25,7 @@ Contexto → tela e função → testes simulados e build → chave real quando 
 - Miguel informou que fornecerá a chave depois. Não ler nem utilizar o valor anteriormente salvo no cofre; não fazer chamadas reais nesta etapa.
 - Exceção ao playbook empresarial: este exercício é público, sem dados empresariais e sem autenticação, conforme escopo aprovado. Não adicionar login, sessões, MFA, banco ou estrutura empresarial para cumprir o template genérico.
 - Preparação local usa adaptador de desenvolvimento e respostas simuladas explícitas. São ferramentas auxiliares da camada de servidor, não conteúdo apresentado como aula de React.
-- Modelo técnico provisório: gpt-5-mini, sem seleção pelo usuário do site; validar acesso/qualidade quando houver chave. Não afirmar que Miguel escolheu esse modelo.
+- Modelo técnico provisório: gpt-6-luna, sem seleção pelo usuário do site; validar acesso/qualidade quando houver chave. Não afirmar que Miguel escolheu esse modelo.
 - Repositório público definido: `miguelvzs/assistente-estudos`, branch `development`. ABERTO: projeto Vercel; disponibilidade da chave, acesso ao modelo e saldo; confirmação do funcionamento publicado.
 - Publicação: preparar resultado antes de pedir autorização de produção exigida pelo contrato de commits. O GitHub já foi publicado com autorização; o deploy Vercel permanece pendente.
 

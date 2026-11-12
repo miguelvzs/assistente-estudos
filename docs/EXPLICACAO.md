@@ -170,7 +170,7 @@ Saída de erro:
 
 | Campo | Valor/objetivo |
 |---|---|
-| model | gpt-5-mini, escolha técnica provisória ainda sem teste na conta |
+| model | gpt-6-luna, escolha técnica provisória ainda sem teste na conta |
 | instructions | Orienta resposta curta em português, com exemplo, sem fingir fontes ou acesso ao curso |
 | input | Pergunta digitada |
 | reasoning.effort | minimal; reduz o esforço para esta tarefa simples |
@@ -276,7 +276,7 @@ Endpoint público sem autenticação pode ser chamado por terceiros. Tamanho e t
 ## 11. Fontes externas usadas apenas para a exceção de servidor
 
 - [Responses API: contrato de entrada e saída](https://developers.openai.com/api/reference/resources/responses/methods/create).
-- [GPT-5 Mini](https://developers.openai.com/api/docs/models/gpt-5-mini).
+- [GPT-5 Mini](https://developers.openai.com/api/docs/models/gpt-6-luna).
 - [Reasoning minimal: modelos compatíveis](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_new_params_and_tools).
 - [Chave da API fora do navegador](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
 - [Funções Node na Vercel](https://vercel.com/docs/functions/runtimes/node-js).

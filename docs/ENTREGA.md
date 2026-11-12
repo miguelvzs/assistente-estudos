@@ -9,7 +9,7 @@ Código publicado em [https://github.com/miguelvzs/assistente-estudos](https://g
 2. Injetar no ambiente do processo/servidor sem copiar para workspace ou logs.
 3. Rodar `npm run dev` e testar uma pergunta de estudo não pessoal.
 4. Confirmar texto real, status HTTP, tempo de resposta e nova tentativa. Registrar evidências sem chave.
-5. Confirmar acesso ao modelo gpt-5-mini e saldo; se necessário, documentar ajuste técnico antes de alterar o modelo.
+5. Confirmar acesso ao modelo gpt-6-luna e saldo; se necessário, documentar ajuste técnico antes de alterar o modelo.
 
 ## GitHub e Vercel
 

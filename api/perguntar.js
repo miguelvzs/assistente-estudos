@@ -1,4 +1,4 @@
-﻿// EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
+// EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
 import axios from 'axios';
 
 function json(dados, status = 200) {
@@ -68,11 +68,11 @@ export default {
 
     try {
       const retorno = await axios.post('https://api.openai.com/v1/responses', {
-        model: 'gpt-5-mini',
+        model: 'gpt-6-luna',
         instructions: 'Você é um assistente de estudos. Responda em português do Brasil, com uma explicação curta e um exemplo simples. Use texto puro, sem formatação Markdown. Não invente fontes nem afirme ter acesso ao material da faculdade. Se não souber, diga. Mantenha a resposta em até 180 palavras.',
         input: entrada,
-        reasoning: { effort: 'minimal' },
-        max_output_tokens: 1200,
+        reasoning: { effort: 'none' },
+        max_output_tokens: 600,
         store: false,
       }, {
         headers: { Authorization: `Bearer ${chave}` },
