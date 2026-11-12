@@ -1,4 +1,4 @@
-﻿# Assistente de Estudos
+# Assistente de Estudos
 
 Chat de estudos em React, preparado para consumir a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
 
@@ -79,3 +79,6 @@ Código e documentação preparados com assistência de IA a partir das aulas, p
 ## Custo do modelo
 Modelo econômico: gpt-6-luna, reasoning.effort none e saída máxima de 600 tokens. Preços Standard consultados em 12/11/2026: US$ 0,10 por milhão de tokens de entrada e US$ 0,50 de saída. Exemplo hipotético: 1.000 chamadas com 1.000 tokens de entrada e 300 de saída cada custam US$ 0,25, sem impostos ou conversão cambial. O histórico também conta na entrada. Limite por resposta não limita o gasto acumulado. Fonte: https://developers.openai.com/api/docs/models/gpt-6-luna . Acesso e uma resposta real local foram confirmados com a chave do projeto; deploy ainda pendente.
 
+
+## Público e finalidade
+Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.

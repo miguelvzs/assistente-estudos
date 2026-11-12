@@ -1,4 +1,4 @@
-﻿// Formulário controlado: props, eventos e estado das Aulas 04, 07 e 08.
+// Formulário controlado: props, eventos e estado das Aulas 04, 07 e 08.
 export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando }) {
   return (
     <form className="formulario" onSubmit={aoEnviar}>
@@ -11,7 +11,7 @@ export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carreg
         value={pergunta}
         onChange={aoMudar}
         disabled={carregando}
-        placeholder="Ex.: Qual é a diferença entre props e state?"
+        placeholder="Ex.: Como resolvo uma equação do segundo grau?"
         aria-describedby="orientacao"
       />
       <div className="acoes-formulario">

@@ -31,3 +31,6 @@ Contexto → tela e função → testes simulados e build → chave real quando 
 
 ## 8. Limitações
 Sem controle global de gastos ou usuários. Limites de caracteres e tokens contêm uma chamada, não o gasto acumulado. Antes de expor uma chave em endpoint público, definir limites operacionais da conta/projeto; não tratar alertas de orçamento como bloqueio garantido. Simulação não satisfaz a entrega final de consumo real.
+
+## Público e finalidade
+Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.

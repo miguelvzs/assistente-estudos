@@ -1,4 +1,4 @@
-﻿# Apresentação — Assistente de Estudos
+# Apresentação — Assistente de Estudos
 
 Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o projeto inteiro. A explicação completa está em EXPLICACAO.md; este é o roteiro de ensaio.
 
@@ -167,3 +167,6 @@ Se algum ponto ainda depender de decorar palavras, voltar à seção corresponde
 ## Apoio visual
 Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celular, o botão ocupa a largura disponível. Veja CHAT.md para explicar slice(-6), spread e map/key.
 
+
+## Conceito ampliado
+Apresente como apoio de estudos gerais aos alunos do IF. Demonstre com matemática ou interpretação de texto e uma continuação, em vez de restringir a conversa a programação. Diferencie o público do produto das tecnologias usadas para construí-lo. Modelo e limites continuam econômicos.

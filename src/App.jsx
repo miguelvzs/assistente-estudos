@@ -1,4 +1,4 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
 import Painel from './components/Painel';
 import FormularioPergunta from './components/FormularioPergunta';
 import Resposta from './components/Resposta';
@@ -56,6 +56,7 @@ export default function App() {
     <main className="pagina">
       <header className="cabecalho">
         <h1>Assistente de Estudos</h1>
+        <p className="publico">Apoio aos estudos para alunos do IF</p>
       </header>
 
       <Painel titulo="Conversa" imagem="/assistente.png" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
