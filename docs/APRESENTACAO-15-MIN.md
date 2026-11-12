@@ -1,4 +1,4 @@
-﻿# Apresentação — Assistente de Estudos
+# Apresentação — Assistente de Estudos
 
 Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o projeto inteiro. A explicação completa está em EXPLICACAO.md; este é o roteiro de ensaio.
 
@@ -7,7 +7,7 @@ Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o pr
 ## Preparação antes de começar
 
 - Deixar a aplicação aberta e o editor com App.jsx, FormularioPergunta.jsx, Resposta.jsx, services/api.js e api/perguntar.js.
-- Abrir também README e os links de GitHub/Vercel quando publicados.
+- Abrir também README e o GitHub publicado; Vercel apenas quando disponível.
 - Aumentar a fonte do editor para a turma enxergar.
 - Não abrir cofre, credenciais, terminal com segredos ou configurações que revelem a chave.
 - Preparar uma pergunta: “Qual é a diferença entre props e state no React? Dê um exemplo simples.”
@@ -32,7 +32,7 @@ Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o pr
 
 “Meu projeto é um Assistente de Estudos. O objetivo da atividade é consumir uma API usando React. A pessoa escreve uma dúvida e recebe uma explicação curta com um exemplo. Escolhi a OpenAI, com autorização da professora. Mantive uma tela e uma consulta por vez para focar no fluxo de requisição e resposta.”
 
-Apontar campo, botão e painel. Não falar de dashboards, histórico ou recursos que não existem.
+Apontar campo, botão e painel. Mostrar a conversa; não apresentar recursos que não existem, como banco ou login.
 
 ## 01:00–03:00 — demonstração
 
@@ -46,7 +46,7 @@ Clicar uma vez. Enquanto carrega:
 
 Após resposta real:
 
-“A resposta voltou do servidor. O React guardou o texto no estado e atualizou este painel. Uma nova pergunta substitui esta resposta; o aplicativo não mantém uma conversa.”
+“A resposta voltou do servidor. O React acrescentou a pergunta e a resposta à lista de mensagens. A próxima chamada envia as últimas três trocas como contexto.”
 
 **No ensaio sem chave, substituir a fala acima:** “Esta resposta está simulada para testar o fluxo local. Ela é fixa e está identificada na tela. Ainda não demonstra uma chamada real à OpenAI.”
 
@@ -56,7 +56,7 @@ Se o serviço falhar no dia, mostrar a mensagem e explicar o tratamento. Não re
 
 Mostrar imports e JSX do App:
 
-“O App coordena os dados. Separei o formulário e a resposta em componentes para cada um ter uma responsabilidade. O Painel é reutilizado duas vezes. Ele recebe o título por props e o conteúdo por children, que é o que colocamos entre as tags do componente.”
+“O App coordena os dados. Separei o formulário e a resposta em componentes para cada um ter uma responsabilidade. O Painel envolve a conversa e o formulário uma vez. Ele recebe o título por props e o conteúdo por children, que é o que colocamos entre as tags do componente.”
 
 Abrir Painel rapidamente e apontar `{titulo}` e `{children}`. Não ler import por import.
 
@@ -64,7 +64,7 @@ Abrir Painel rapidamente e apontar `{titulo}` e `{children}`. Não ler import po
 
 Apontar os quatro useState:
 
-“Pergunta guarda o que foi digitado. Resposta guarda o texto retornado. Carregando indica se a consulta está em andamento. Erro guarda uma mensagem de falha. Cada estado vem com uma função de atualização. Quando uso setPergunta, o React refaz a parte necessária da interface.”
+“Pergunta guarda o que foi digitado. Mensagens guarda a lista de perguntas e respostas. Carregando indica se a consulta está em andamento. Erro guarda uma mensagem de falha. Cada estado vem com uma função de atualização. Quando uso setPergunta, o React refaz a parte necessária da interface.”
 
 Abrir formulário:
 
@@ -82,11 +82,11 @@ Abrir services/api.js:
 
 Voltar à função no App:
 
-“Uso POST porque estou enviando uma pergunta no corpo da requisição. Este objeto com a propriedade pergunta é enviado em JSON. A chamada retorna uma Promise, então a resposta não chega imediatamente.”
+“Uso POST porque estou enviando uma pergunta no corpo da requisição. O objeto com pergunta e historico é enviado em JSON. A chamada retorna uma Promise, então a resposta não chega imediatamente.”
 
 Apontar then/catch:
 
-“No then trato sucesso. O Axios já disponibiliza o JSON convertido em retorno.data; por isso acesso retorno.data.resposta. Guardo o texto com setResposta e encerro o carregamento. No catch trato falha de rede ou resposta HTTP de erro e também libero a tela para tentar novamente.”
+“No then trato sucesso. O Axios já disponibiliza o JSON convertido em retorno.data; por isso acesso retorno.data.resposta. Acrescento a troca com setMensagens e limpo o campo com setPergunta e encerro o carregamento. No catch trato falha de rede ou resposta HTTP de erro e também libero a tela para tentar novamente.”
 
 “Não usei useEffect porque a consulta não precisa acontecer ao abrir a página nem a cada mudança do texto: ela acontece por uma ação explícita no formulário.”
 
@@ -98,7 +98,7 @@ Abrir api/perguntar.js:
 
 Apontar validação, process.env, Axios POST e retorno:
 
-“A função verifica o método e a pergunta. Lê a chave do ambiente do servidor, envia a pergunta no campo input e define instruções para uma explicação curta em português. O modelo está fixado no servidor. A resposta da OpenAI tem vários campos; retiro só o texto e devolvo um JSON simples ao React.”
+“A função verifica o método e a pergunta. Lê a chave do ambiente do servidor, envia a lista de contexto e a pergunta no campo input e define instruções para uma explicação curta em português. O modelo está fixado no servidor. A resposta da OpenAI tem vários campos; retiro só o texto e devolvo um JSON simples ao React.”
 
 “Também existe limite de tamanho e de tempo. Eles evitam uma consulta muito grande ou uma espera indefinida, mas não são um controle de gasto acumulado.”
 
@@ -108,7 +108,7 @@ Não abrir o valor de nenhuma variável. Não afirmar que as validações impede
 
 Abrir Resposta.jsx:
 
-“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. São condições que escolhem qual JSX devolver. O botão também usa um ternário para mudar seu texto.”
+“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. map transforma a lista em blocos; condições mostram os estados adicionais sem apagar a conversa. O botão também usa um ternário para mudar seu texto.”
 
 Na tela, apagar a pergunta e tentar enviar:
 
@@ -124,7 +124,7 @@ Não mostrar links como prontos se ainda estiverem pendentes. Se estiver usando 
 
 ## 13:00–14:00 — fechamento
 
-“O fluxo principal é: evento de envio, validação, POST, resposta JSON, atualização do estado e renderização. A aplicação não armazena conversas e não acessa o Moodle. As respostas precisam ser conferidas com o material da disciplina. Mantive o React dentro dos recursos estudados e separei a função necessária para a credencial.”
+“O fluxo principal é: evento de envio, validação, POST, resposta JSON, atualização do estado e renderização. A aplicação mantém a conversa apenas em memória e não acessa o Moodle. As respostas precisam ser conferidas com o material da disciplina. Mantive o React dentro dos recursos estudados e separei a função necessária para a credencial.”
 
 ## 14:00–15:00 — perguntas possíveis
 
@@ -138,11 +138,11 @@ Não mostrar links como prontos se ainda estiverem pendentes. Se estiver usando 
 | O que é children? | Conteúdo colocado entre as tags de um componente, recebido como prop |
 | Por que preventDefault? | Para evitar o envio tradicional do formulário e manter o fluxo no React |
 | Por que não usou useEffect? | O envio é um evento; não preciso de consulta automática ou sincronização |
-| Por que não usou map? | Não há lista de respostas; mostro um texto por vez |
+| Por que usou map? | Para transformar cada mensagem da lista em um bloco na tela; key identifica cada item |
 | Para que serve o catch? | Tratar falha da Promise, inclusive HTTP de erro tratado pelo Axios |
 | Onde está a chave? | Somente no ambiente do servidor; não está no bundle, ZIP ou repositório |
 | Um .env no React esconderia a chave? | Não. Valores incluídos no código de navegador ficam acessíveis ao usuário |
-| O app guarda a conversa? | Não. Cada chamada é independente; recarregar perde os estados |
+| O app guarda a conversa? | Apenas enquanto a página está aberta; últimas três trocas são reenviadas. Recarregar apaga os estados |
 | A IA conhece as aulas? | Não automaticamente. Não conectamos Moodle nem documentos ao modelo |
 | A resposta é garantidamente correta? | Não. É necessário conferir com as fontes da disciplina |
 | Como foi testado sem chave? | Com substituto local explicitamente simulado e testes da função sem rede |
@@ -164,18 +164,5 @@ Sem olhar este roteiro, conseguir:
 
 Se algum ponto ainda depender de decorar palavras, voltar à seção correspondente de EXPLICACAO.md e explicar com o código aberto.
 
-## Roteiro atualizado para o chat — use esta sequência
-- 0–2 min: objetivo acadêmico: enviar dúvidas de estudo a uma API e mostrar respostas.
-- 2–4 min: demonstrar uma pergunta e uma continuação. Se estiver em demo, avisar explicitamente que são respostas fixas, sem OpenAI. Mostrar o aviso de memória de três trocas.
-- 4–7 min: abrir App.jsx: quatro estados, formulário controlado, preventDefault, validação, carregamento e Axios POST. Explicar que o histórico acompanha a pergunta.
-- 7–9 min: abrir Resposta.jsx: props, map, key e condições. Cada mensagem tem autor e texto; CSS diferencia as duas classes.
-- 9–11 min: explicar slice(-6), spread e atualização da lista no sucesso; erro preserva campo para nova tentativa. Atualizar a página perde a conversa.
-- 11–13 min: explicar servidor como exceção: recebe JSON, valida, usa chave privada e chama OpenAI. Retorna texto ou erro; chave nunca vai ao React.
-- 13–15 min: limites, testes e perguntas. Não há banco/login/persistência. Contexto aumenta consumo. Integração real só pode ser afirmada após chave válida e teste.
-
-Perguntas: “Onde está a memória?” No useState do navegador; as últimas três trocas são reenviadas. “Por que map?” Para gerar os blocos de mensagens a partir do array. “Por que key pelo índice?” A lista só cresce no final. “Por que não useEffect?” O envio depende de um evento explícito. “Por que servidor?” Para proteger a chave. Estude também CHAT.md, que explica cada alteração.
-
-Mascote: no canto superior direito da caixa da conversa, explicar brevemente que é uma imagem estática com img, src, alt e CSS; não participa da chamada à API e não exige novo conceito React.
-
-
-Na demonstração, apresente as três áreas: cabeçalho, conversa e formulário. Explique o alinhamento dos autores e o empilhamento do botão no celular como CSS, sem novos recursos React.
+## Apoio visual
+Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celular, o botão ocupa a largura disponível. Veja CHAT.md para explicar slice(-6), spread e map/key.
