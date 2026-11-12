@@ -1,4 +1,4 @@
-// EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
+﻿// EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
 import axios from 'axios';
 
 function json(dados, status = 200) {
@@ -47,6 +47,20 @@ export default {
       return json({ erro: 'Use uma pergunta com até 2.000 caracteres.' }, 400);
     }
 
+    const historico = dados.historico === undefined ? [] : dados.historico;
+    if (!Array.isArray(historico) || historico.length > 6 || historico.length % 2 !== 0) {
+      return json({ erro: 'Histórico inválido. Atualize a página para recomeçar.' }, 400);
+    }
+    for (let i = 0; i < historico.length; i++) {
+      const item = historico[i];
+      if (!item || item.role !== (i % 2 === 0 ? 'user' : 'assistant') ||
+          typeof item.content !== 'string' || !item.content.trim() || item.content.length > 6000) {
+        return json({ erro: 'Histórico inválido. Atualize a página para recomeçar.' }, 400);
+      }
+    }
+    const entrada = historico.map((item) => ({ role: item.role, content: item.content }));
+    entrada.push({ role: 'user', content: pergunta });
+
     const chave = process.env.OPENAI_API_KEY;
     if (!chave) {
       return json({ erro: 'A integração com a OpenAI ainda não foi configurada.' }, 503);
@@ -56,7 +70,7 @@ export default {
       const retorno = await axios.post('https://api.openai.com/v1/responses', {
         model: 'gpt-5-mini',
         instructions: 'Você é um assistente de estudos. Responda em português do Brasil, com uma explicação curta e um exemplo simples. Use texto puro, sem formatação Markdown. Não invente fontes nem afirme ter acesso ao material da faculdade. Se não souber, diga. Mantenha a resposta em até 180 palavras.',
-        input: pergunta,
+        input: entrada,
         reasoning: { effort: 'minimal' },
         max_output_tokens: 1200,
         store: false,
@@ -102,3 +116,4 @@ export default {
     }
   },
 };
+

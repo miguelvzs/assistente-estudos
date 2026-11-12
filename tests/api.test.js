@@ -1,4 +1,4 @@
-﻿// Testes auxiliares da função: sem rede, sem chave real e sem custo.
+// Testes auxiliares da função: sem rede, sem chave real e sem custo.
 import { test, afterEach, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import axios from 'axios';
@@ -64,7 +64,7 @@ test('sucesso extrai só texto e ignora os campos do cliente que tentam configur
   process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
   mock.method(axios, 'post', async (url, corpo, config) => {
     assert.equal(url, 'https://api.openai.com/v1/responses');
-    assert.equal(corpo.input, 'Explique props.');
+    assert.deepEqual(corpo.input, [{ role: 'user', content: 'Explique props.' }]);
     assert.equal(corpo.model, 'gpt-5-mini');
     assert.equal(corpo.store, false);
     assert.equal(corpo.max_output_tokens, 1200);
@@ -112,4 +112,5 @@ test('timeout devolve 504 sem vazar erro interno', async () => {
   mock.method(axios, 'post', async () => { throw { code: 'ECONNABORTED' }; });
   assert.equal((await enviar({ pergunta: 'Explique props.' })).status, 504);
 });
+
 
