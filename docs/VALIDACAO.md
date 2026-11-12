@@ -33,3 +33,9 @@ O 503 na aba de teste sem chave é esperado, não sucesso da integração. A fun
 ## Como repetir
 
 `npm ci`, `npm test`, `npm run build`. Para interface sem chave: `npm run demo`, enviar a pergunta de exemplo. Para validar configuração ausente: `npm run dev` sem chave e consultar. Ambos os casos não comprovam consumo real.
+
+## Verificação da alteração de chat
+Build aprovado; 12 testes de servidor aprovados, incluindo envio do histórico em ordem e rejeição de papéis privilegiados. Revisão visual do chat ainda não realizada. Integração real continua pendente de chave válida; não houve chamada à OpenAI. Verificações visuais anteriores referem-se à versão de consulta isolada.
+
+## Organização visual do chat
+Build aprovado. Tela inicial conferida no navegador local em desktop e celular: mascote à direita, campo e botão visíveis, rodapé separado e sem sobreposição observada. A revisão não inclui teste real de OpenAI.
