@@ -1,8 +1,8 @@
-# Apresentação — Assistente de Estudos
+﻿# Apresentação — Assistente de Estudos
 
 Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o projeto inteiro. A explicação completa está em EXPLICACAO.md; este é o roteiro de ensaio.
 
-**Estado atual:** teste real ainda depende da chave. O ensaio local usa resposta fixa identificada. Antes da apresentação final, trocar para a integração real e conferir. Se isso não acontecer, dizer explicitamente que o provedor está simulado; não apresentar simulação como objetivo concluído.
+**Estado atual:** teste real local confirmado com gpt-6-luna. O ensaio local usa resposta fixa identificada. Antes da apresentação final, trocar para a integração real e conferir. Se isso não acontecer, dizer explicitamente que o provedor está simulado; não apresentar simulação como objetivo concluído.
 
 ## Preparação antes de começar
 
@@ -166,3 +166,4 @@ Se algum ponto ainda depender de decorar palavras, voltar à seção corresponde
 
 ## Apoio visual
 Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celular, o botão ocupa a largura disponível. Veja CHAT.md para explicar slice(-6), spread e map/key.
+

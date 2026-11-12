@@ -1,8 +1,8 @@
-# Assistente de Estudos
+﻿# Assistente de Estudos
 
 Chat de estudos em React, preparado para consumir a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
 
-**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), na branch `development`. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). A chave real, o teste da OpenAI e o deploy na Vercel continuam pendentes. Simulação é apenas teste, não substitui consumo real da API na entrega.
+**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), na branch `development`. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). Chave configurada no cofre e chamada real local à OpenAI confirmada (HTTP 200). Deploy Vercel ainda pendente. Simulação é apenas teste, não substitui consumo real da API na entrega.
 
 ## Comece aqui
 
@@ -33,7 +33,7 @@ Abra o endereço mostrado no terminal. O botão percorre React → POST local �
 npm run dev
 ```
 
-O servidor precisa receber `OPENAI_API_KEY` pelo ambiente seguro. A chave será fornecida depois, pelo cofre do OpenBot. Nenhuma chave é distribuída com o projeto. Sem configuração, a tela abre e a consulta informa que a integração não foi configurada. O projeto não carrega automaticamente a chave de um arquivo `.env`.
+O servidor precisa receber `OPENAI_API_KEY` pelo ambiente seguro. A chave do projeto está no cofre do OpenBot e deve ser injetada no ambiente do servidor. Nenhuma chave é distribuída com o projeto. Sem configuração, a tela abre e a consulta informa que a integração não foi configurada. O projeto não carrega automaticamente a chave de um arquivo `.env`.
 
 Na Vercel, a chave será variável **somente do servidor**, nunca `VITE_OPENAI_API_KEY`. O arquivo `.env.example` lista o nome, sem valor real. Não inserir a chave no React, README, GitHub ou ZIP.
 
@@ -77,4 +77,5 @@ A professora autorizou OpenAI conforme informação de Miguel. A função Vercel
 Código e documentação preparados com assistência de IA a partir das aulas, para estudo e conferência pelo autor. Não afirmar que a simulação é uma resposta real da OpenAI.
 
 ## Custo do modelo
-Modelo econômico: gpt-6-luna, reasoning.effort none e saída máxima de 600 tokens. Preços Standard consultados em 12/11/2026: US$ 0,10 por milhão de tokens de entrada e US$ 0,50 de saída. Exemplo hipotético: 1.000 chamadas com 1.000 tokens de entrada e 300 de saída cada custam US$ 0,25, sem impostos ou conversão cambial. O histórico também conta na entrada. Limite por resposta não limita o gasto acumulado. Fonte: https://developers.openai.com/api/docs/models/gpt-6-luna . Acesso e resposta real ainda precisam ser validados com a chave do projeto.
+Modelo econômico: gpt-6-luna, reasoning.effort none e saída máxima de 600 tokens. Preços Standard consultados em 12/11/2026: US$ 0,10 por milhão de tokens de entrada e US$ 0,50 de saída. Exemplo hipotético: 1.000 chamadas com 1.000 tokens de entrada e 300 de saída cada custam US$ 0,25, sem impostos ou conversão cambial. O histórico também conta na entrada. Limite por resposta não limita o gasto acumulado. Fonte: https://developers.openai.com/api/docs/models/gpt-6-luna . Acesso e uma resposta real local foram confirmados com a chave do projeto; deploy ainda pendente.
+

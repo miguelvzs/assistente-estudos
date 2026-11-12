@@ -1,9 +1,9 @@
-# Preparação da entrega
+﻿# Preparação da entrega
 
 ## Situação
-Código publicado em [https://github.com/miguelvzs/assistente-estudos](https://github.com/miguelvzs/assistente-estudos), branch `development`, com commits unitários e verificação automática aprovada. Chave real, teste da OpenAI e Vercel pendentes. Nada enviado no Moodle. Não apresentar o ZIP atual como aplicação publicada ou integração já validada.
+Código publicado em [https://github.com/miguelvzs/assistente-estudos](https://github.com/miguelvzs/assistente-estudos), branch `development`, com commits unitários e verificação automática aprovada. Chave no cofre e teste real local confirmados. Vercel pendente. Nada enviado no Moodle. Não apresentar o ZIP atual como aplicação publicada ou integração já validada.
 
-## Depois que Miguel fornecer a chave
+## Procedimento de configuração (chave já recebida)
 
 1. Receber a chave por formulário seguro. O valor anteriormente informado era apenas um aviso, não uma credencial, e não deve ser usado.
 2. Injetar no ambiente do processo/servidor sem copiar para workspace ou logs.
@@ -33,7 +33,7 @@ O ZIP entregue nesta etapa é uma cópia local verificável, com link GitHub pub
 
 ## Conferência para 13/11/2026
 
-- [ ] OpenAI real respondeu a uma pergunta.
+- [x] OpenAI real respondeu a uma pergunta no teste local.
 - [ ] Não há resposta simulada na versão publicada.
 - [ ] Campo vazio não envia; carregamento e erro funcionam.
 - [x] Repositório GitHub público com instruções e bibliotecas.
@@ -44,3 +44,4 @@ O ZIP entregue nesta etapa é uma cópia local verificável, com link GitHub pub
 - [ ] Separados link Vercel, link GitHub e ZIP para envio por Miguel.
 
 Prazo de envio: 13/11 às 23h59. Apresentação no mesmo dia, limite de 15 minutos. Fonte: [Moodle](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
+
