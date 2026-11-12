@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Onde cada parte foi ensinada
 
 Material: arquivos `BRADWFR_REACTJS_...` da seção Materiais do Componente Curricular do [curso 587](https://moodle.bra.ifsp.edu.br/course/view.php?id=587). Os nomes abaixo permitem localizar as aulas no Moodle. Esta tabela distingue o React estudado da integração de servidor adicional.
@@ -35,3 +37,4 @@ Material: arquivos `BRADWFR_REACTJS_...` da seção Materiais do Componente Curr
 `vite.config.js`, `vercel.json` e `tests/api.test.js`: configuração e verificação auxiliares dessa integração. Não são recursos adicionais do produto nem conteúdo a atribuir à professora.
 
 A aprovação da OpenAI pela professora foi informada por Miguel. O Moodle registra o tema Assistente de Estudos, não o nome do provedor.
+

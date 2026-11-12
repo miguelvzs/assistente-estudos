@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Assistente de Estudos
 
 Aplicação React que recebe uma pergunta e exibe uma explicação curta da OpenAI. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
@@ -71,3 +73,4 @@ A professora autorizou OpenAI conforme informação de Miguel. A função Vercel
 - [Enunciado oficial](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
 
 Código e documentação preparados com assistência de IA a partir das aulas, para estudo e conferência pelo autor. Não afirmar que a simulação é uma resposta real da OpenAI.
+

@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Escopo
 
 ## 1. Objetivo
@@ -31,3 +33,4 @@ Contexto → tela e função → testes simulados e build → chave real quando 
 
 ## 8. Limitações
 Sem controle global de gastos ou usuários. Limites de caracteres e tokens contêm uma chamada, não o gasto acumulado. Antes de expor uma chave em endpoint público, definir limites operacionais da conta/projeto; não tratar alertas de orçamento como bloqueio garantido. Simulação não satisfaz a entrega final de consumo real.
+

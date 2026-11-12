@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Assistente de Estudos — regras do projeto
 
 - Leia PRODUCT.md, docs/ESCOPO.md, SEGURANCA.md, ARCHITECTURE.md, DESIGN.md e docs/specs/01-consulta.md, nesta ordem.
@@ -8,3 +10,4 @@
 - Não enviar tarefas nem alterar o Moodle. Publicação e teste real ainda pendentes.
 - Siga docs/COMMITS.md e docs/DOCUMENTACAO.md. Commits sem trailer de IA.
 - As regras empresariais genéricas de autenticação de SEGURANCA.md são adaptadas conforme docs/ESCOPO.md §7, devido ao escopo acadêmico explicitamente aprovado.
+

@@ -1,3 +1,5 @@
+﻿> Atualização aprovada: chat com histórico transitório em useState substitui a consulta isolada e a antiga exclusão de histórico. Consulte docs/CHAT.md (ou CHAT.md nesta pasta) e docs/specs/02-chat.md. Sem persistência; últimas 3 trocas enviadas à API. As descrições anteriores de resposta única são históricas.
+
 # Spec 01 — Perguntar
 
 - Campo: **Sua pergunta**, até 2000 caracteres. Exemplo no placeholder, não preenchido automaticamente.
@@ -11,3 +13,4 @@
 - Somente o botão/formulário dispara consulta; nada é enviado ao abrir ou digitar.
 - Modo local demonstracao retorna texto explicitamente simulado; não se apresentar como integração real.
 - Verificar: vazio, sucesso, falha, nova tentativa, limite, resposta inválida, chave ausente e método incorreto.
+

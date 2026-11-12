@@ -1,21 +1,20 @@
-// Renderização condicional: Aula 06.
-export default function Resposta({ resposta, carregando, erro }) {
-  if (carregando) {
-    return <p className="estado">Consultando... Aguarde a resposta.</p>;
-  }
-
-  if (erro) {
-    return <p className="erro" role="alert">{erro}</p>;
-  }
-
-  if (resposta) {
-    return (
-      <div>
-        <p className="texto-resposta">{resposta}</p>
-        <p className="aviso">Resposta gerada por IA. Confira com o material da disciplina.</p>
-      </div>
-    );
-  }
-
-  return <p className="estado">A resposta à sua pergunta aparecerá aqui.</p>;
+﻿// Listas, key e condições: Aula 06. Dados recebidos por props: Aula 04.
+export default function Resposta({ mensagens, carregando, erro }) {
+  return (
+    <div className="conversa">
+      {mensagens.length === 0 && <div className="conversa-vazia"><p>Qual é sua dúvida?</p><span>Escreva uma pergunta no campo abaixo.</span></div>}
+      {mensagens.map((mensagem, indice) => (
+        <article className={'mensagem ' + mensagem.role} key={indice}>
+          <strong>{mensagem.role === 'user' ? 'Você' : 'Assistente'}</strong>
+          <p className="texto-resposta">{mensagem.content}</p>
+        </article>
+      ))}
+      {carregando && <p className="estado">Respondendo...</p>}
+      {erro && <p className="erro" role="alert">{erro}</p>}
+    </div>
+  );
 }
+
+
+
+

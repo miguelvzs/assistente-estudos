@@ -8,7 +8,7 @@ import './App.css';
 export default function App() {
   // useState: Aula 08. Cada estado tem uma responsabilidade.
   const [pergunta, setPergunta] = useState('');
-  const [resposta, setResposta] = useState('');
+  const [mensagens, setMensagens] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
 
@@ -23,7 +23,6 @@ export default function App() {
     if (carregando) return;
 
     setErro('');
-    setResposta('');
 
     if (pergunta.trim() === '') {
       setErro('Digite uma pergunta antes de enviar.');
@@ -33,10 +32,11 @@ export default function App() {
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: pergunta.trim() })
+    api.post('/perguntar', { pergunta: pergunta.trim(), historico: mensagens.slice(-6) })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
-          setResposta(retorno.data.resposta);
+          setMensagens([...mensagens, { role: 'user', content: pergunta.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
+          setPergunta('');
         } else {
           setErro('A consulta não retornou uma resposta. Tente novamente.');
         }
@@ -55,27 +55,26 @@ export default function App() {
   return (
     <main className="pagina">
       <header className="cabecalho">
-        <p className="disciplina">DESENVOLVIMENTO WEB FRONT END · AA04</p>
         <h1>Assistente de Estudos</h1>
-        <p className="introducao">Uma dúvida de cada vez. Receba uma explicação curta e um exemplo para estudar.</p>
       </header>
 
-      <Painel titulo="O que você quer entender?">
-        <FormularioPergunta
-          pergunta={pergunta}
-          aoMudar={mudarPergunta}
-          aoEnviar={enviarPergunta}
-          carregando={carregando}
-        />
-      </Painel>
-
-      <Painel titulo="Resposta">
+      <Painel titulo="Conversa">
         <div aria-live="polite" aria-busy={carregando}>
-          <Resposta resposta={resposta} carregando={carregando} erro={erro} />
+          <Resposta mensagens={mensagens} carregando={carregando} erro={erro} />
         </div>
+        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
       </Painel>
+      <p className="nota-conversa">A IA considera as últimas 3 trocas. Ao atualizar a página, a conversa é apagada.</p>
 
-      <footer>Miguel Vaz de Souza · IFSP Bragança Paulista · React + OpenAI</footer>
+      <footer>
+        <p>Miguel Vaz de Souza · IFSP Bragança Paulista</p>
+        <p>Desenvolvimento Web Front End · AA04 · React + OpenAI</p>
+      </footer>
     </main>
   );
 }
+
+
+
+
+
