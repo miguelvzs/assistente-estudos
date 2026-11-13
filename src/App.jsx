@@ -59,7 +59,7 @@ export default function App() {
         <p className="publico">Apoio aos estudos para alunos do IF</p>
       </header>
 
-      <Painel titulo="Conversa" imagem="/assistente.png" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
+      <Painel titulo="Conversa" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
         <div className="area-conversa" aria-busy={carregando}>
           <Resposta mensagens={mensagens} carregando={carregando} erro={erro} pergunta={pergunta} />
         </div>

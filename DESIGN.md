@@ -5,3 +5,5 @@ Enter envia, Shift+Enter quebra linha. Foco visível, rótulo, role log e alert.
 Créditos: docs/CREDITOS-UI.md; licença MIT em licenses. Não substituir entrega/produção nesta etapa.
 
 Compositor: caixa de 22px de raio, textarea expansível (56–160px), barra inferior com envio circular e status real de carregamento. Referência Kokonut UI, adaptada sem biblioteca adicional.
+
+Pedido posterior: remover mascote do cabeçalho. Fonte conferida contra origin/main: Arial/Helvetica/sans-serif, mantida. Texto de mensagens 15px e entrelinha 1.75, fundo neutro e bordas discretas.

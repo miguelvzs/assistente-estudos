@@ -320,3 +320,5 @@ App.css agora mantém sent e received à esquerda; ambos exibem avatar e fundo t
 
 ### Campo expansível e envio integrado
 FormularioPergunta recebe as mesmas quatro props. A barra inferior mostra a orientação ou Respondendo conforme carregando; a mesma prop desabilita envio e campo. O círculo de espera é CSS, sem temporizador nem resposta simulada na produção. field-sizing: content ajusta a altura ao texto, entre 56 e 160px; acima disso há rolagem. Navegadores sem suporte permitem redimensionar verticalmente. prefers-reduced-motion desliga a rotação. Enter/Shift+Enter e o fluxo Axios permanecem iguais. Créditos e licença Kokonut em CREDITOS-UI.md.
+
+Painel deixou de receber imagem e de renderizar img: mascote removido da interface por pedido de Miguel. Arquivo de imagem histórico preservado. Fonte original Arial mantida; ajustes apenas de tamanho, entrelinha e espaçamento.

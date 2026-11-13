@@ -68,3 +68,14 @@ footer p { margin: 0; }
 @keyframes girar { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .indicador-envio { animation: none; } }
 @supports not (field-sizing: content) { .compositor textarea { resize: vertical; } }
+/* Acabamento: fonte original Arial, hierarquia e espaçamento neutros. */
+body { color: #222b38; background: #f4f5f7; }
+.pagina { max-width: 880px; margin-top: 30px; }
+.painel { border-color: #e1e5e9; border-radius: 16px; box-shadow: 0 4px 20px #222b3806; }
+.topo-painel { padding: 18px 28px; }
+.chat-bubble { gap: 14px; }
+.chat-bubble strong { font-size: 12px; font-weight: 600; color: #485563; }
+.texto-resposta { font-size: 15px; line-height: 1.75; }
+.compositor { background: #fff; border-color: #cbd3d0; box-shadow: 0 2px 8px #222b3805; }
+.formulario { border-top-color: #edf0ee; }
+@media (max-width: 600px) { .pagina { margin-top: 14px; } .topo-painel { padding: 14px 18px; } .chat-bubble { gap: 10px; } }
