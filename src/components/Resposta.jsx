@@ -1,20 +1,23 @@
-// Listas, key e condições: Aula 06. Dados recebidos por props: Aula 04.
-export default function Resposta({ mensagens, carregando, erro }) {
+import ChatBubble from './ChatBubble';
+
+// Ref de montagem: rola quando um novo trecho entra, não a cada tecla digitada.
+function mostrarFinal(elemento) {
+  if (elemento) elemento.scrollIntoView({ block: 'nearest' });
+}
+
+export default function Resposta({ mensagens, carregando, erro, pergunta }) {
   return (
-    <div className="conversa">
-      {mensagens.length === 0 && <div className="conversa-vazia"><p>O que você está estudando?</p><span>Tire dúvidas, revise conteúdos ou pratique exercícios.</span></div>}
+    <div className="conversa" role="log" aria-label="Conversa de estudos" aria-live="polite">
+      {mensagens.length === 0 && !carregando && <div className="conversa-vazia"><span className="simbolo-estudo" aria-hidden="true">Aa</span><p>Vamos estudar?</p><span>Escreva sua dúvida para começar.</span><div className="exemplo">Por exemplo: “Como funciona a regra de três?”</div></div>}
       {mensagens.map((mensagem, indice) => (
-        <article className={'mensagem ' + mensagem.role} key={indice}>
-          <strong>{mensagem.role === 'user' ? 'Você' : 'Assistente'}</strong>
-          <p className="texto-resposta">{mensagem.content}</p>
-        </article>
+        <div key={indice} ref={indice === mensagens.length - 1 ? mostrarFinal : null}>
+          <ChatBubble variant={mensagem.role === 'user' ? 'sent' : 'received'}>
+            <p className="texto-resposta">{mensagem.content}</p>
+          </ChatBubble>
+        </div>
       ))}
-      {carregando && <p className="estado">Respondendo...</p>}
-      {erro && <p className="erro" role="alert">{erro}</p>}
+      {carregando && <div ref={mostrarFinal}><ChatBubble variant="sent"><p className="texto-resposta">{pergunta.trim()}</p></ChatBubble><ChatBubble><p className="estado">Preparando a resposta<span aria-hidden="true"> ···</span></p></ChatBubble></div>}
+      {erro && <p className="erro" role="alert" ref={mostrarFinal}>{erro}</p>}
     </div>
   );
 }
-
-
-
-

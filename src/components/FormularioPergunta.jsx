@@ -1,26 +1,21 @@
-// Formulário controlado: props, eventos e estado das Aulas 04, 07 e 08.
 export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando }) {
+  function aoPressionar(evento) {
+    if (evento.key === 'Enter' && !evento.shiftKey && !evento.nativeEvent.isComposing) {
+      evento.preventDefault();
+      if (!carregando) evento.currentTarget.form.requestSubmit();
+    }
+  }
   return (
     <form className="formulario" onSubmit={aoEnviar}>
       <label htmlFor="pergunta">Sua mensagem</label>
-      <textarea
-        id="pergunta"
-        name="pergunta"
-        rows="3"
-        maxLength="2000"
-        value={pergunta}
-        onChange={aoMudar}
-        disabled={carregando}
-        placeholder="Ex.: Como resolvo uma equação do segundo grau?"
-        aria-describedby="orientacao"
-      />
-      <div className="acoes-formulario">
-        <p id="orientacao" className="ajuda">Até 2.000 caracteres. Não inclua dados pessoais.</p>
-        <button type="submit" disabled={carregando}>
-          {carregando ? 'Respondendo...' : 'Enviar'}
-        </button>
+      <div className="compositor">
+        <textarea id="pergunta" name="pergunta" rows="2" maxLength="2000"
+          value={carregando ? '' : pergunta} onChange={aoMudar} onKeyDown={aoPressionar}
+          disabled={carregando} placeholder="Escreva uma dúvida de estudo..." aria-describedby="orientacao" />
+        <button type="submit" disabled={carregando} aria-label={carregando ? 'Aguardando resposta' : 'Enviar mensagem'}><span aria-hidden="true">↑</span></button>
       </div>
-      <p className="aviso">A IA pode errar. Confira as respostas.</p>
+      <div className="acoes-formulario"><p id="orientacao" className="ajuda">Enter envia · Shift + Enter quebra linha</p><span className="ajuda">{pergunta.length}/2000</span></div>
+      <p className="aviso">A IA pode errar. Confira as respostas e não inclua dados pessoais.</p>
     </form>
   );
 }

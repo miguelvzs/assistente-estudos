@@ -60,12 +60,12 @@ export default function App() {
       </header>
 
       <Painel titulo="Conversa" imagem="/assistente.png" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
-        <div aria-live="polite" aria-busy={carregando}>
-          <Resposta mensagens={mensagens} carregando={carregando} erro={erro} />
+        <div className="area-conversa" aria-busy={carregando}>
+          <Resposta mensagens={mensagens} carregando={carregando} erro={erro} pergunta={pergunta} />
         </div>
         <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
       </Painel>
-      <p className="nota-conversa">A IA considera as últimas 3 trocas. Ao atualizar a página, a conversa é apagada.</p>
+      <p className="nota-conversa">Contexto: últimas 3 trocas · A conversa é apagada ao atualizar.</p>
       <p className="nota-conversa">Limite compartilhado de 50 consultas por dia. Renova à meia-noite de Brasília.</p>
 
       <footer>

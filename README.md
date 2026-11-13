@@ -89,3 +89,6 @@ Modelo: `gpt-6-luna`, `reasoning.effort: none`, máximo de 600 tokens de saída 
 
 ## Público e finalidade
 Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.
+
+## Prévia de interface
+Esta branch adapta Chat Bubble do 21st.dev. Veja [créditos e licença](docs/CREDITOS-UI.md). A entrega Moodle e produção main continuam na versão anterior até aprovação desta prévia. Execute `npm run demo` para conferir o visual com resposta simulada identificada.

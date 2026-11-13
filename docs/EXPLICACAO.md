@@ -1,3 +1,5 @@
+# Prévia visual: leia também a seção Revisão visual ao final
+
 # Entenda o projeto inteiro
 
 Leia primeiro as seções 1–5. Depois acompanhe os arquivos abertos ao lado deste guia. Para apresentar, use APRESENTACAO-15-MIN.md: não é necessário ler todo este documento em voz alta.
@@ -304,3 +306,11 @@ Código público: https://github.com/miguelvzs/assistente-estudos, branch develo
 ## Aviso de conexão
 App passa a prop status ao Painel. import.meta.env.MODE informa o modo do Vite: demonstracao mostra aviso explícito de simulação. No modo real, mensagens.length maior que zero indica que já chegou uma resposta da API nesta sessão; antes disso, a tela aguarda a primeira resposta. Condições e props continuam básicas; a variável de modo é configuração do Vite, não um hook. O texto confirma uma resposta passada, sem garantir disponibilidade futura.
 Conceito IF: o prompt do servidor orienta estudos gerais e técnicos; não limita perguntas a React. O subtítulo e o exemplo de matemática comunicam esse público. A paleta foi alterada em CSS e na imagem estática, sem nova biblioteca ou hook. Modelo, limite de 600 tokens e histórico permanecem iguais.
+
+## Revisão visual na branch feat/chat-ui-21st
+
+Base externa e licença: [CREDITOS-UI.md](CREDITOS-UI.md). ChatBubble.jsx recebe variant e children, exibe autoria/avatar e aplica classes sent/received. Sem novas bibliotecas.
+Resposta.jsx mostra pergunta pendente usando o texto já existente no App; no sucesso a troca entra na lista. Em erro o balão provisório desaparece, mas a pergunta continua no campo para reenviar. Não envia pergunta duplicada no histórico.
+mostrarFinal é callback ref de montagem, definida fora do componente para não mudar enquanto se digita. scrollIntoView move a conversa para o trecho novo. Ref e API DOM são técnicas adicionais a explicar, não hooks.
+FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; Shift+Enter mantém quebra de linha. isComposing evita enviar durante composição de texto por teclado/IME. O campo aparece vazio durante espera, mas o estado conserva a pergunta até sucesso.
+CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.

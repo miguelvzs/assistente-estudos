@@ -37,3 +37,6 @@ conexão confirmado após a resposta. Essas consultas consomem duas vagas do dia
 Interface conferida com resposta em desktop (1905px) e celular (375px), sem
 sobreposição observada. Nenhum diagnóstico de erro no navegador nessa verificação.
 A proteção da main exige PR e verificação `verificar` aprovada antes de merge.
+
+## Prévia chat 21st — branch separada
+Build e 18 testes de servidor aprovados. Navegador local: sucesso simulado com Enter, pergunta vazia recusada, Shift+Enter insere quebra sem enviar, duas mensagens por troca. Desktop 1159×693 e mobile 375×844 conferidos visualmente; nenhum estouro horizontal observado no desktop. API real não foi chamada nesta revisão visual. O modo demonstracao permanece identificado. Produção e ZIP submetido não foram substituídos.

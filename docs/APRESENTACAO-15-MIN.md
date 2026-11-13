@@ -42,7 +42,7 @@ Digitar a pergunta preparada. Antes de clicar:
 
 Clicar uma vez. Enquanto carrega:
 
-“Agora o estado carregando mudou para verdadeiro. O botão mostra Respondendo... e fica desabilitado, assim como o campo. A requisição ocorre sem recarregar a página.”
+“Agora o estado carregando mudou para verdadeiro. O campo e o botão ficam desabilitados. A pergunta aparece imediatamente na conversa, seguida do indicador Preparando a resposta. A requisição ocorre sem recarregar a página.”
 
 Após resposta real:
 
@@ -108,7 +108,7 @@ Não abrir o valor de nenhuma variável. Não afirmar que as validações impede
 
 Abrir Resposta.jsx:
 
-“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. map transforma a lista em blocos; condições mostram os estados adicionais sem apagar a conversa. O botão também usa um ternário para mudar seu texto.”
+“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. map transforma a lista em blocos; condições mostram os estados adicionais sem apagar a conversa. O botão usa rótulo acessível; o indicador de espera aparece na conversa.”
 
 Na tela, apagar a pergunta e tentar enviar:
 
@@ -181,3 +181,11 @@ ensinada nas aulas de React.”
 
 Não repetir 103 linhas como total atual: essa contagem era da função antes do
 limite. Veja INVENTARIO.md. A versão SUAP fica em outra branch, com guia próprio.
+
+## Revisão visual na branch feat/chat-ui-21st
+
+Base externa e licença: [CREDITOS-UI.md](CREDITOS-UI.md). ChatBubble.jsx recebe variant e children, exibe autoria/avatar e aplica classes sent/received. Sem novas bibliotecas.
+Resposta.jsx mostra pergunta pendente usando o texto já existente no App; no sucesso a troca entra na lista. Em erro o balão provisório desaparece, mas a pergunta continua no campo para reenviar. Não envia pergunta duplicada no histórico.
+mostrarFinal é callback ref de montagem, definida fora do componente para não mudar enquanto se digita. scrollIntoView move a conversa para o trecho novo. Ref e API DOM são técnicas adicionais a explicar, não hooks.
+FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; Shift+Enter mantém quebra de linha. isComposing evita enviar durante composição de texto por teclado/IME. O campo aparece vazio durante espera, mas o estado conserva a pergunta até sucesso.
+CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.
