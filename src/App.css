@@ -16,12 +16,12 @@ h2 { font-size: 15px; margin: 0; }
 .conversa-vazia p { font-size: 24px; color: #24372d; letter-spacing: -.6px; margin: 18px 0 3px; }
 .conversa-vazia > span:not(.simbolo-estudo) { font-size: 14px; }
 .exemplo { margin-top: 20px; font-size: 12px; color: #637168; }
-.chat-bubble { display: flex; gap: 10px; align-items: flex-start; max-width: 88%; margin: 0 0 24px; }
-.chat-bubble.sent { margin-left: auto; flex-direction: row-reverse; }
+.chat-bubble { display: flex; gap: 10px; align-items: flex-start; width: 100%; margin: 0; padding: 24px 0; border-bottom: 1px solid #e8ede7; }
+.chat-bubble.sent { flex-direction: row; }
 .avatar { flex-shrink: 0; width: 30px; height: 30px; border: 1px solid #dce3dc; border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: bold; color: #386348; margin-top: 4px; }
-.sent .avatar { display: none; }
-.chat-bubble-message { min-width: 0; padding: 14px 18px; background: #f4f6f3; border-radius: 3px 16px 16px; }
-.sent .chat-bubble-message { color: #fff; background: #28603b; border-radius: 16px 3px 16px 16px; }
+.sent .avatar { background: #edf4ed; }
+.chat-bubble-message { min-width: 0; flex: 1; padding: 0 4px; background: transparent; }
+.sent .chat-bubble-message { color: inherit; }
 .chat-bubble strong { display: block; font-size: 11px; margin-bottom: 5px; }
 .texto-resposta { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px; margin: 0; }
 .estado { font-size: 13px; margin: 0; color: #596b5f; }
@@ -52,8 +52,8 @@ footer p { margin: 0; }
  .topo-painel { padding: 10px 16px; }
  .mascote { width: 44px; height: 44px; }
  .conversa { padding: 20px 14px; }
- .chat-bubble { max-width: 96%; gap: 7px; }
- .chat-bubble-message { padding: 12px; }
+ .chat-bubble { gap: 10px; padding: 20px 0; }
+ .chat-bubble-message { padding: 0; }
  .formulario { padding: 12px; }
  .conversa-vazia { padding: 8px; }
  .exemplo { max-width: 220px; }

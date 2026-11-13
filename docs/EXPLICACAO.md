@@ -314,3 +314,6 @@ Resposta.jsx mostra pergunta pendente usando o texto já existente no App; no su
 mostrarFinal é callback ref de montagem, definida fora do componente para não mudar enquanto se digita. scrollIntoView move a conversa para o trecho novo. Ref e API DOM são técnicas adicionais a explicar, não hooks.
 FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; Shift+Enter mantém quebra de linha. isComposing evita enviar durante composição de texto por teclado/IME. O campo aparece vazio durante espera, mas o estado conserva a pergunta até sucesso.
 CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.
+
+### Layout de mensagens escolhido
+App.css agora mantém sent e received à esquerda; ambos exibem avatar e fundo transparente. A borda inferior separa as falas. ChatBubble continua recebendo variant e children; não mudou a lógica da API. Esta decisão substitui a descrição anterior de balões verdes à direita. Os controles de copiar/regenerar da referência não foram adicionados.
