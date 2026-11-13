@@ -82,7 +82,8 @@ test('sucesso extrai só texto e ignora os campos do cliente que tentam configur
     assert.deepEqual(corpo.input, [{ role: 'user', content: 'Explique props.' }]);
     assert.equal(corpo.model, 'gpt-6-luna');
     assert.equal(corpo.store, false);
-    assert.equal(corpo.max_output_tokens, 600);
+    assert.deepEqual(corpo.reasoning, { effort: 'low' });
+    assert.equal(corpo.max_output_tokens, 1500);
     assert.equal(config.timeout, 45000);
     return { data: { status: 'completed', output: [
       { type: 'reasoning' },
@@ -96,6 +97,19 @@ test('sucesso extrai só texto e ignora os campos do cliente que tentam configur
   assert.equal(retorno.status, 200);
   assert.equal(retorno.headers.get('Cache-Control'), 'no-store');
   assert.deepEqual(await retorno.json(), { resposta: 'Explicação.\nExemplo.' });
+});
+
+test('esforço aceita só low, medium e high; outro valor vira low', async () => {
+  process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
+  const chamadas = [];
+  mock.method(axios, 'post', async (url, corpo, config) => {
+    chamadas.push([corpo.reasoning.effort, corpo.max_output_tokens, config.timeout]);
+    return { data: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: 'Ok.' }] }] } };
+  });
+  for (const esforco of ['medium', 'high', 'xhigh', 7]) {
+    assert.equal((await enviar({ pergunta: 'Explique props.', esforco })).status, 200);
+  }
+  assert.deepEqual(chamadas, [['medium', 3000, 50000], ['high', 6000, 55000], ['low', 1500, 45000], ['low', 1500, 45000]]);
 });
 
 test('matéria da lista acrescenta o contexto da disciplina; desconhecida é ignorada', async () => {

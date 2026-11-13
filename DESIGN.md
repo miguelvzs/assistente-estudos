@@ -5,7 +5,7 @@ Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Nome IFAI:
 - Cabeçalho fixo: marca IFAI compacta, selo de status (telas largas), “Nova conversa” quando há mensagens e botão “Apresentação”, que abre o guia lateral.
 - Conversa: única área com rolagem; coluna máxima de 768px. Pergunta em balão verde à direita (Chat Bubble `sent`); resposta com avatar e texto em largura total (Chat Bubble layout `ai`). Espera com três pontos animados.
 - Tela inicial: marca IFAI grande, “Vamos estudar?”, filtros por matéria do semestre e cartões de perguntas (seis no computador, três no celular) e, com matéria escolhida, a lista de temas, aviso de memória e autoria.
-- Seletor de matéria acima do campo, ligado aos filtros da tela inicial.
+- Chips dentro da caixa de digitação, à esquerda do envio: matéria (ligada aos filtros da tela inicial) e esforço de raciocínio (baixo, médio, alto).
 - Campo: AI Input With Loading (Kokonut): pílula cinza que cresce até 200px, botão interno verde quando há texto, quadrado girando durante a espera, status abaixo e aviso de que a IA pode errar.
 - Animações curtas (até 0,3s): entrada das mensagens, troca da tela inicial, toque no botão. Desligadas quando o sistema pede menos movimento.
 - Responsivo a partir de 375px, sem rolagem horizontal; área segura do iPhone respeitada; texto do campo em 16px.

@@ -1,7 +1,8 @@
-// AI Input With Loading — Kokonut UI (MIT), encontrado no 21st.dev.
+// AI Input With Loading, da Kokonut UI (MIT), encontrado no 21st.dev.
 // Adaptação: o texto (value) e a espera (loading) vêm do App, que faz a requisição real;
 // removidos os temporizadores de demonstração (loadingDuration, thinkingDuration, autoAnimate).
 // O botão virou type="submit" para o <form> do projeto tratar o envio.
+// A caixa ganhou uma barra interna: à esquerda, um espaço livre (acessorio); à direita, o envio.
 // Ver docs/CREDITOS-UI.md.
 import { useEffect } from 'react';
 import { CornerRightUp } from 'lucide-react';
@@ -12,12 +13,13 @@ import { useAutoResizeTextarea } from '../../hooks/use-auto-resize-textarea';
 export function AIInputWithLoading({
   id = 'ai-input-with-loading',
   placeholder = 'Ask me anything!',
-  minHeight = 56,
+  minHeight = 44,
   maxHeight = 200,
   value,
   onChange,
   loading = false,
   maxLength,
+  acessorio,
   className,
 }) {
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({ minHeight, maxHeight });
@@ -31,7 +33,12 @@ export function AIInputWithLoading({
   return (
     <div className={cn('w-full', className)}>
       <div className="relative mx-auto flex w-full max-w-3xl flex-col items-center gap-2">
-        <div className="relative w-full">
+        <div
+          className={cn(
+            'w-full rounded-3xl bg-black/5 ring-1 ring-transparent transition-[background-color,box-shadow]',
+            'focus-within:bg-white focus-within:shadow-[0_6px_24px_rgb(0_0_0/0.06)] focus-within:ring-primary/40'
+          )}
+        >
           <textarea
             id={id}
             ref={textareaRef}
@@ -41,13 +48,7 @@ export function AIInputWithLoading({
             value={loading ? '' : value}
             disabled={loading}
             style={{ minHeight, maxHeight }}
-            className={cn(
-              'block w-full resize-none rounded-3xl bg-black/5 py-4 pl-6 pr-14',
-              'text-base leading-6 text-foreground placeholder:text-black/50',
-              'outline-none ring-1 ring-transparent transition-[background-color,box-shadow]',
-              'focus:bg-white focus:shadow-[0_6px_24px_rgb(0_0_0/0.06)] focus:ring-primary/40',
-              'disabled:cursor-wait'
-            )}
+            className="block w-full resize-none rounded-t-3xl bg-transparent px-5 pt-4 pb-1 text-base leading-6 text-foreground outline-none placeholder:text-black/50 disabled:cursor-wait"
             onChange={(e) => {
               onChange(e);
               adjustHeight();
@@ -60,32 +61,35 @@ export function AIInputWithLoading({
               }
             }}
           />
-          <motion.button
-            type="submit"
-            disabled={loading}
-            whileTap={{ scale: 0.9 }}
-            aria-label={loading ? 'Aguardando resposta' : 'Enviar mensagem'}
-            className={cn(
-              'absolute bottom-2.5 right-2.5 grid size-9 place-items-center rounded-xl transition-colors',
-              loading
-                ? 'bg-transparent'
-                : temTexto
-                  ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                  : 'bg-black/5 text-foreground'
-            )}
-          >
-            {loading ? (
-              <div
-                className="size-4 animate-spin rounded-sm bg-foreground transition duration-700"
-                style={{ animationDuration: '3s' }}
-              />
-            ) : (
-              <CornerRightUp
-                aria-hidden="true"
-                className={cn('size-4 transition-opacity', temTexto ? 'opacity-100' : 'opacity-40')}
-              />
-            )}
-          </motion.button>
+          <div className="flex items-center justify-between gap-2 px-3 pb-2.5">
+            <div className="min-w-0">{acessorio}</div>
+            <motion.button
+              type="submit"
+              disabled={loading}
+              whileTap={{ scale: 0.9 }}
+              aria-label={loading ? 'Aguardando resposta' : 'Enviar mensagem'}
+              className={cn(
+                'grid size-9 shrink-0 place-items-center rounded-xl transition-colors',
+                loading
+                  ? 'bg-transparent'
+                  : temTexto
+                    ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                    : 'bg-black/5 text-foreground'
+              )}
+            >
+              {loading ? (
+                <div
+                  className="size-4 animate-spin rounded-sm bg-foreground transition duration-700"
+                  style={{ animationDuration: '3s' }}
+                />
+              ) : (
+                <CornerRightUp
+                  aria-hidden="true"
+                  className={cn('size-4 transition-opacity', temTexto ? 'opacity-100' : 'opacity-40')}
+                />
+              )}
+            </motion.button>
+          </div>
         </div>
         <p role="status" className="h-4 text-xs text-black/60">
           <motion.span

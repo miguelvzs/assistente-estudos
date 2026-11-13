@@ -184,8 +184,8 @@ Saída de erro:
 | model | gpt-6-luna, validado com uma chamada real local |
 | instructions | Orienta resposta curta em português, com exemplo, sem fingir fontes ou acesso ao curso |
 | input | Até seis mensagens anteriores e a pergunta digitada |
-| reasoning.effort | none; configuração usada nesta tarefa |
-| max_output_tokens | 600; teto de tokens de saída, não uma contagem de palavras |
+| reasoning.effort | low, medium ou high, escolhido na tela (padrão low). Antes de 13/11/2026 era none |
+| max_output_tokens | 1500 (low), 3000 (medium) ou 6000 (high). Teto de tokens de saída, incluindo os de raciocínio; não é contagem de palavras |
 | store | false; não manter o objeto de resposta para recuperação posterior via API |
 | timeout do Axios | 45 segundos; depois a função responde com erro de tempo |
 
@@ -376,3 +376,9 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 - **Logo:** `MarcaIF.jsx` monta o IFAI na grade do Manual da Marca do IF (ver DESIGN.md e CREDITOS-UI.md). Versão completa na tela inicial; compacta no cabeçalho.
 - **Guia:** a aba Roteiro saiu; a agenda de 15 minutos continua em APRESENTACAO-15-MIN.md.
 - **Revisão anti-slop** (skill design-taste-frontend): sem travessões e sem excesso de pontos médios na interface; rodapés em frases simples.
+
+### Esforço de raciocínio e chips na caixa de digitação
+
+- **Estado novo `esforco`** no App (padrão `'low'`). Vai no POST: `{ pergunta, historico, materia, esforco }`.
+- **Servidor:** `ESFORCOS` em `api/perguntar.js` aceita só `low`, `medium` e `high`; outro valor vira `low`. Cada nível define o teto de tokens (1500, 3000, 6000) e o tempo limite (45, 50, 55 s), dentro dos 60 s da função. A documentação do gpt-6-luna lista `none`, `low`, `medium` (padrão), `high`, `xhigh` e `max`, e informa que os tokens de raciocínio contam em `max_output_tokens`. Teste: `esforço aceita só low, medium e high; outro valor vira low` (20 testes no total).
+- **Tela:** os seletores de matéria e esforço viraram chips dentro da caixa de digitação, à esquerda do botão de enviar. O componente da Kokonut ganhou a prop `acessorio` para receber esses chips.

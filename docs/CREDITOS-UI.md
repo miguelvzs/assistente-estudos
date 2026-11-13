@@ -43,3 +43,5 @@ Não afirmar autoria exclusiva nem que é cópia integral dos componentes.
 ## Logo IFAI
 
 Composição feita para o projeto seguindo a grade de construção do Manual da Marca 2015 (pág. 6 a 8): módulo x = lado do quadrado, nome em Open Sans Bold e linhas de apoio em Open Sans Regular com 75% de x, cada linha apoiada numa fileira de quadrados. O símbolo não foi alterado. Código: `src/components/MarcaIF.jsx`.
+
+Adaptação posterior do AI Input With Loading (13/11/2026): a caixa virou um contêiner com o textarea em cima e uma barra interna embaixo (prop `acessorio` à esquerda, envio à direita), para abrigar os chips de matéria e de esforço.
