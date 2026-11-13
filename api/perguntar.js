@@ -91,7 +91,7 @@ export default {
       const retorno = await axios.post('https://api.openai.com/v1/responses', {
         model: 'gpt-6-luna',
         // Instruções com o contexto do semestre; a matéria só vale se estiver na lista.
-        instructions: montarInstrucoes(typeof dados.materia === 'string' ? dados.materia : ''),
+        instructions: montarInstrucoes(typeof dados.materia === 'string' ? dados.materia : '', dados.modo === 'treino' ? 'treino' : ''),
         input: entrada,
         reasoning: { effort: nivel },
         max_output_tokens: esforco.tokens,

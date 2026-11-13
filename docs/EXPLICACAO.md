@@ -382,3 +382,9 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 - **Estado novo `esforco`** no App (padrão `'low'`). Vai no POST: `{ pergunta, historico, materia, esforco }`.
 - **Servidor:** `ESFORCOS` em `api/perguntar.js` aceita só `low`, `medium` e `high`; outro valor vira `low`. Cada nível define o teto de tokens (1500, 3000, 6000) e o tempo limite (45, 50, 55 s), dentro dos 60 s da função. A documentação do gpt-6-luna lista `none`, `low`, `medium` (padrão), `high`, `xhigh` e `max`, e informa que os tokens de raciocínio contam em `max_output_tokens`. Teste: `esforço aceita só low, medium e high; outro valor vira low` (20 testes no total).
 - **Tela:** os seletores de matéria e esforço viraram chips dentro da caixa de digitação, à esquerda do botão de enviar. O componente da Kokonut ganhou a prop `acessorio` para receber esses chips.
+
+### Modo treino e agenda (13/11/2026)
+
+- **Modo treino:** estado `treino` no App; botão Treino na caixa. O POST leva `modo: "treino"`; o servidor só aceita esse valor e acrescenta às instruções: um exercício por vez, correção passo a passo, dica antes da solução. Teste novo (21 no total).
+- **Agenda:** `src/conteudo/agenda.js` com as próximas avaliações do calendário do Moodle (13/11) e do documento de Extensão 2. `Agenda.jsx` mostra as quatro próximas; “Plano de estudo” escolhe a matéria e pede um plano até a data.
+- **Pendentes:** laboratório que roda SQL/Python no navegador e respostas baseadas no material das aulas.
