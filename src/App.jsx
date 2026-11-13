@@ -42,10 +42,10 @@ export default function App() {
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia, esforco, modo: treino ? 'treino' : '' })
+    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6).map((m) => ({ role: m.role, content: m.content })), materia, esforco, modo: treino ? 'treino' : '' })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
-          setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
+          setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta, fontes: retorno.data.fontes || [] }]);
           setPergunta('');
         } else {
           setErro('A consulta não retornou uma resposta. Tente novamente.');

@@ -388,3 +388,9 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 - **Modo treino:** estado `treino` no App; botão Treino na caixa. O POST leva `modo: "treino"`; o servidor só aceita esse valor e acrescenta às instruções: um exercício por vez, correção passo a passo, dica antes da solução. Teste novo (21 no total).
 - **Agenda:** `src/conteudo/agenda.js` com as próximas avaliações do calendário do Moodle (13/11) e do documento de Extensão 2. `Agenda.jsx` mostra as quatro próximas; “Plano de estudo” escolhe a matéria e pede um plano até a data.
 - **Pendentes:** laboratório que roda SQL/Python no navegador e respostas baseadas no material das aulas.
+
+### Respostas baseadas no material e chips no celular (13/11/2026)
+
+- **Material das aulas:** `server/material.js` busca (BM25) em 1.602 trechos extraídos do Moodle das 6 matérias, incluindo o material novo de Eng. Software (V&V, testes, template final). O índice fica no Blob privado (`material/indice.json`), enviado por `scripts/enviar-indice.mjs`; o material não vai ao GitHub. A função junta até 4 trechos às instruções e a IA cita [1], [2]. Só os nomes dos arquivos voltam ao navegador e aparecem em “Baseado no material das aulas”. Sem índice, a resposta segue sem material.
+- **Celular:** chips com rótulos curtos (Todas, Baixo), sem ícones e Treino só com ícone abaixo de 640px; a linha rola para o lado se faltar espaço. Corrige a sobreposição com as setas e o botão de enviar.
+- 23 testes.

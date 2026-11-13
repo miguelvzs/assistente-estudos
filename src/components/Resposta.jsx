@@ -16,6 +16,23 @@ function mostrarFinal(elemento) {
   if (elemento) elemento.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
+// Fontes do material das aulas usadas na resposta (os números batem com [1], [2] no texto).
+function Fontes({ fontes }) {
+  if (!fontes || fontes.length === 0) return null;
+  return (
+    <div className="mt-3 border-t border-border pt-2">
+      <p className="text-xs font-semibold text-muted-foreground">Baseado no material das aulas</p>
+      <ol className="mt-1 space-y-0.5 text-xs leading-5 text-muted-foreground">
+        {fontes.map((fonte) => (
+          <li key={fonte.n}>
+            [{fonte.n}] <span className="font-medium text-foreground">{fonte.materia}</span>, {fonte.arquivo}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function AvatarAssistente() {
   return <ChatBubbleAvatar fallback={<SimboloIF className="h-4 w-auto" />} />;
 }
@@ -80,7 +97,10 @@ export default function Resposta({ mensagens, carregando, erro, pergunta, aoEsco
                 ) : (
                   <ChatBubble layout="ai">
                     <AvatarAssistente />
-                    <ChatBubbleMessage layout="ai">{mensagem.content}</ChatBubbleMessage>
+                    <div className="min-w-0 flex-1">
+                      <ChatBubbleMessage layout="ai">{mensagem.content}</ChatBubbleMessage>
+                      <Fontes fontes={mensagem.fontes} />
+                    </div>
                   </ChatBubble>
                 )}
               </motion.div>

@@ -4,8 +4,12 @@ import assert from 'node:assert/strict';
 import axios from 'axios';
 import perguntar from '../api/perguntar.js';
 import limite from '../server/limite-diario.js';
+import material, { preparar, buscar } from '../server/material.js';
 
-beforeEach(() => mock.method(limite, 'reservarConsulta', async () => true));
+beforeEach(() => {
+  mock.method(limite, 'reservarConsulta', async () => true);
+  mock.method(material, 'buscarTrechos', async () => []);
+});
 
 afterEach(() => {
   mock.restoreAll();
@@ -96,7 +100,7 @@ test('sucesso extrai só texto e ignora os campos do cliente que tentam configur
   const retorno = await enviar({ pergunta: '  Explique props.  ', model: 'outro', instructions: 'outras' });
   assert.equal(retorno.status, 200);
   assert.equal(retorno.headers.get('Cache-Control'), 'no-store');
-  assert.deepEqual(await retorno.json(), { resposta: 'Explicação.\nExemplo.' });
+  assert.deepEqual(await retorno.json(), { resposta: 'Explicação.\nExemplo.', fontes: [] });
 });
 
 test('esforço aceita só low, medium e high; outro valor vira low', async () => {
@@ -184,4 +188,30 @@ test('historico valido chega antes da pergunta e rejeita papeis privilegiados', 
     assert.equal((await enviar({ pergunta: 'Um exemplo?', historico: invalido })).status, 400);
   }
   assert.equal(chamada.mock.callCount(), 1);
+});
+
+test('busca no material acha o trecho certo e filtra pela matéria', () => {
+  const indice = preparar({ trechos: [
+    { m: 'bd1', a: 'Aula07 ligação de tabelas', s: '', t: 'INNER JOIN retorna as linhas com correspondência nas duas tabelas. LEFT JOIN mantém todas da esquerda.' },
+    { m: 'bd1', a: 'Aula06 agregação', s: '', t: 'GROUP BY agrupa linhas; HAVING filtra grupos depois da agregação com COUNT e SUM.' },
+    { m: 'poo', a: 'Aula14 orientação a objetos', s: '', t: 'A classe define atributos; __init__ inicializa o objeto e self é a instância.' },
+  ] });
+  assert.equal(buscar(indice, 'diferença entre LEFT JOIN e INNER JOIN')[0].arquivo, 'Aula07 ligação de tabelas');
+  assert.equal(buscar(indice, 'como usar HAVING com GROUP BY', 'bd1')[0].arquivo, 'Aula06 agregação');
+  assert.equal(buscar(indice, 'como usar HAVING com GROUP BY', 'poo').length, 0);
+});
+
+test('trechos do material vão para as instruções e só os nomes das fontes voltam', async () => {
+  process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
+  material.buscarTrechos.mock.mockImplementation(async () => [{ materia: 'bd1', arquivo: 'Aula07 ligação de tabelas', secao: '', texto: 'TEXTO DA PROFESSORA' }]);
+  let instrucoes = '';
+  mock.method(axios, 'post', async (url, corpo) => {
+    instrucoes = corpo.instructions;
+    return { data: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: 'JOIN liga tabelas [1].' }] }] } };
+  });
+  const retorno = await enviar({ pergunta: 'O que é JOIN?', materia: 'bd1' });
+  const corpo = await retorno.json();
+  assert.ok(instrucoes.includes('TEXTO DA PROFESSORA') && instrucoes.includes('[1] BD1, Aula07'));
+  assert.deepEqual(corpo.fontes, [{ n: 1, materia: 'BD1', arquivo: 'Aula07 ligação de tabelas' }]);
+  assert.ok(!JSON.stringify(corpo).includes('TEXTO DA PROFESSORA'));
 });
