@@ -2,7 +2,7 @@
 
 Chat de estudos em React que consome a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
 
-**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), com `main` para produção e `development` para manutenção. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). Chave configurada no cofre e chamada real local à OpenAI confirmada (HTTP 200). Limite diário validado em testes e no Blob real. Projeto Vercel vinculado à `main`; publicação final em verificação. Consulte docs/VALIDACAO.md para o estado atualizado. Simulação é apenas teste, não substitui consumo real da API na entrega.
+**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), com `main` para produção e `development` para manutenção. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). Chave configurada no cofre e chamada real local à OpenAI confirmada (HTTP 200). Limite diário validado em testes e no Blob real. Projeto Vercel vinculado à `main`; publicação automática após merge confirmada, com resposta real pela URL pública. Consulte docs/VALIDACAO.md para o estado atualizado. Simulação é apenas teste, não substitui consumo real da API na entrega.
 
 ## Versões
 
