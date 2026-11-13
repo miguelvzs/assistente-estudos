@@ -204,4 +204,4 @@ Use esta seção só se apresentar a versão nova. O tempo sai do bloco “compo
 | Como ficou responsivo? | Classes com `sm:` mudam a partir de 640px: menos sugestões, balões mais largos e textos menores no celular. |
 ## Botão Apresentação
 
-No app publicado, o botão **Apresentação** (canto superior direito) abre um resumo deste roteiro: agenda, fluxo, React, API, servidor, interface, tecnologias e perguntas. Use para consultar durante o ensaio. Na abertura, o nome do projeto agora é **IFAI**.
+No app publicado, o botão **Apresentação** (canto superior direito) abre um resumo para consulta: fluxo, React, API, servidor, interface, tecnologias e perguntas. A agenda de 15 minutos fica só neste documento. Na abertura, o nome do projeto agora é **IFAI**.

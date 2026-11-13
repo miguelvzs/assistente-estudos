@@ -4,10 +4,9 @@ import { X } from 'lucide-react';
 import { SimboloIF } from './MarcaIF';
 
 // Guia de apresentação: painel lateral aberto pelo botão "Apresentação" do cabeçalho.
-// Resume docs/APRESENTACAO-15-MIN.md, docs/EXPLICACAO.md e docs/TECNOLOGIAS.md.
+// Resume docs/EXPLICACAO.md e docs/TECNOLOGIAS.md.
 
 const abas = [
-  { id: 'roteiro', nome: 'Roteiro' },
   { id: 'fluxo', nome: 'Fluxo' },
   { id: 'react', nome: 'React' },
   { id: 'api', nome: 'API' },
@@ -55,38 +54,6 @@ function Link({ href, children }) {
 const c = (texto) => <code className="rounded bg-secondary px-1 py-0.5 text-[13px]">{texto}</code>;
 
 const conteudo = {
-  roteiro: (
-    <>
-      <Titulo>Agenda de 15 minutos</Titulo>
-      <Tabela
-        colunas={['Tempo', 'Mostrar', 'Mensagem']}
-        linhas={[
-          ['00–01', 'Tela inicial', 'Problema, objetivo e escopo'],
-          ['01–03', 'Enviar pergunta e esperar', 'Demonstração do fluxo'],
-          ['03–04:30', 'App e componentes', 'Organização da interface'],
-          ['04:30–06:30', 'useState e formulário', 'Estado, props e eventos'],
-          ['06:30–09', 'enviar() e services/api.js', 'POST, JSON, Promise e resposta'],
-          ['09–11', 'api/perguntar.js', 'Servidor, chave e OpenAI'],
-          ['11–12', 'Resposta e envio vazio', 'Condicionais e erros'],
-          ['12–13', 'README, GitHub, Vercel', 'Execução e entrega'],
-          ['13–14', 'Síntese', 'O que aprendi e limites'],
-          ['14–15', 'Perguntas', 'Margem para diálogo'],
-        ]}
-      />
-      <Titulo>Abertura</Titulo>
-      <Fala>“Meu projeto é o IFAI, um assistente de estudos para alunos do IF. O objetivo da atividade é consumir uma API usando React. A pessoa escreve uma dúvida e recebe uma explicação curta com exemplo. Usei a OpenAI, com autorização da professora.”</Fala>
-      <Titulo>Demonstração</Titulo>
-      <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
-        <li>Clique numa sugestão ou digite: “Explique frações equivalentes com um exemplo.”</li>
-        <li>Durante a espera: “carregando virou verdadeiro; o campo trava e aparecem os três pontos.”</li>
-        <li>Depois peça: “Agora me dê um exercício sobre isso.” — mostra o contexto das últimas 3 trocas.</li>
-        <li>Mostre no celular (F12 → modo dispositivo) e o botão Nova conversa.</li>
-      </ul>
-      <Titulo>Fechamento</Titulo>
-      <Fala>“O fluxo é: evento de envio, validação, POST, resposta JSON, atualização do estado e renderização. A conversa fica só em memória e não acessa o Moodle. As respostas precisam ser conferidas com o material.”</Fala>
-      <p className="text-sm text-muted-foreground">Se passar de 13 minutos antes das perguntas, corte CSS e configuração, nunca a explicação do POST.</p>
-    </>
-  ),
   fluxo: (
     <>
       <Titulo>Da pergunta à resposta</Titulo>
@@ -95,8 +62,8 @@ const conteudo = {
           ['Digitar', <>onChange chama {c('mudarPergunta')} → {c('setPergunta')} guarda o texto.</>],
           ['Enviar', <>Enter ou botão → {c('onSubmit')} → {c('enviarPergunta')} → {c('preventDefault()')} → {c('enviar(pergunta)')}.</>],
           ['Validar', <>Texto vazio vira erro; senão {c('setCarregando(true)')}.</>],
-          ['POST', <>Axios envia {c('{ pergunta, historico }')} para {c('/api/perguntar')}.</>],
-          ['Servidor', 'A função na Vercel valida, reserva 1 das 50 consultas do dia e chama a OpenAI com a chave guardada no servidor.'],
+          ['POST', <>Axios envia {c('{ pergunta, historico, materia }')} para {c('/api/perguntar')}.</>],
+          ['Servidor', 'A função na Vercel valida, monta as instruções com o contexto da matéria, reserva 1 das 50 consultas do dia e chama a OpenAI com a chave guardada no servidor.'],
           ['Resposta', <>A função devolve só {c('{ resposta }')} ao navegador.</>],
           ['Atualizar', <>{c('then')}: {c('setMensagens')} acrescenta a troca e limpa o campo. {c('catch')}: {c('setErro')}. Nos dois: {c('setCarregando(false)')}.</>],
           ['Mostrar', 'O React redesenha: balão da pergunta e resposta surgindo com animação.'],
@@ -112,7 +79,7 @@ const conteudo = {
   ),
   react: (
     <>
-      <Titulo>Estados (useState — Aula 08)</Titulo>
+      <Titulo>Estados (useState, Aula 08)</Titulo>
       <Tabela
         colunas={['Estado', 'Guarda']}
         linhas={[
@@ -120,6 +87,7 @@ const conteudo = {
           [c('mensagens'), 'Lista de perguntas e respostas'],
           [c('carregando'), 'Se há consulta em andamento'],
           [c('erro'), 'Mensagem de falha'],
+          [c('materia'), 'Matéria escolhida: muda sugestões e contexto da IA'],
           [c('guiaAberto'), 'Só interface: abre e fecha este guia'],
         ]}
       />
@@ -153,7 +121,8 @@ const conteudo = {
       <Titulo>A requisição (Aula 09)</Titulo>
       <Codigo>{`api.post('/perguntar', {
   pergunta: texto.trim(),
-  historico: mensagens.slice(-6)
+  historico: mensagens.slice(-6),
+  materia
 })
   .then((retorno) => { /* retorno.data.resposta */ })
   .catch((falha) => { /* falha.response.data.erro */ });`}</Codigo>
@@ -161,6 +130,7 @@ const conteudo = {
         <li>{c('post')}: envia dados no corpo da requisição, em JSON.</li>
         <li>{c('trim()')}: tira espaços do começo e do fim.</li>
         <li>{c('slice(-6)')}: últimas 6 mensagens = 3 perguntas + 3 respostas.</li>
+        <li>{c('materia')}: id da matéria escolhida ({c("'bd1'")}, {c("'poo'")}...) ou vazio para todas.</li>
         <li>{c('services/api.js')}: {c('axios.create')} com base {c('/api')} e tempo limite de 60 s.</li>
         <li>É assíncrono: a Promise termina depois; {c('then')} trata sucesso e {c('catch')} trata falha.</li>
         <li>{c('retorno.data')}: o Axios já converte o JSON da resposta.</li>
@@ -176,6 +146,7 @@ const conteudo = {
       <ol className="list-decimal space-y-1 pl-5 text-sm leading-6">
         <li>Aceita só POST, do próprio site, em JSON.</li>
         <li>Valida a pergunta: texto, não vazia, até 2000 caracteres.</li>
+        <li>Monta as instruções com o semestre de ADS e, se houver matéria, os temas e as ferramentas dela (ex.: MySQL em BD1, Python em POO). O id só vale se estiver na lista de {c('conteudo/semestre.js')}.</li>
         <li>Reserva 1 das 50 consultas do dia (contador privado no Vercel Blob; renova à meia-noite de Brasília).</li>
         <li>Chama a OpenAI (modelo {c('gpt-6-luna')}, até 600 tokens, tempo limite de 45 s).</li>
         <li>Devolve só o texto em {c('{ resposta }')}, ou um erro curto.</li>
@@ -221,7 +192,7 @@ const conteudo = {
           [<Link href="https://vercel.com/docs/functions/runtimes/node-js">Vercel Functions</Link>, 'Função de servidor que protege a chave'],
           [<Link href="https://vercel.com/docs/vercel-blob">Vercel Blob</Link>, 'Contador privado das 50 consultas/dia'],
           [<Link href="https://vercel.com">Vercel</Link>, 'Hospedagem e deploy automático da main'],
-          [<Link href="https://nodejs.org/api/test.html">Node.js + node:test</Link>, '18 testes automáticos do servidor'],
+          [<Link href="https://nodejs.org/api/test.html">Node.js + node:test</Link>, '19 testes automáticos do servidor'],
           [<Link href="https://github.com/miguelvzs/assistente-estudos">GitHub + Actions</Link>, 'Código e verificação (testes + build) a cada envio'],
           [<Link href="https://tailwindcss.com">Tailwind CSS 4</Link>, 'Estilo'],
           [<Link href="https://motion.dev">Motion</Link>, 'Animações'],
@@ -231,10 +202,10 @@ const conteudo = {
       />
       <Titulo>Sites de componentes e recursos</Titulo>
       <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
-        <li><Link href="https://21st.dev">21st.dev</Link> — biblioteca de componentes React da comunidade.</li>
-        <li><Link href="https://21st.dev/@jakobhoeg/components/chat-bubble">Chat Bubble</Link> — Jakob Hoeg, do projeto <Link href="https://github.com/jakobhoeg/shadcn-chat">shadcn-chat</Link> (MIT).</li>
-        <li><Link href="https://21st.dev/@kokonutd/components/ai-input-with-loading">AI Input With Loading</Link> — <Link href="https://kokonutui.com">Kokonut UI</Link> (MIT).</li>
-        <li><Link href="https://commons.wikimedia.org/wiki/File:Instituto_Federal_Marca_2015.svg">Símbolo do IF</Link> — Wikimedia Commons, Manual da Marca 2015 (Setec/MEC), domínio público.</li>
+        <li><Link href="https://21st.dev">21st.dev</Link>: biblioteca de componentes React da comunidade.</li>
+        <li><Link href="https://21st.dev/@jakobhoeg/components/chat-bubble">Chat Bubble</Link>, de Jakob Hoeg, do projeto <Link href="https://github.com/jakobhoeg/shadcn-chat">shadcn-chat</Link> (MIT).</li>
+        <li><Link href="https://21st.dev/@kokonutd/components/ai-input-with-loading">AI Input With Loading</Link>, da <Link href="https://kokonutui.com">Kokonut UI</Link> (MIT).</li>
+        <li><Link href="https://commons.wikimedia.org/wiki/File:Instituto_Federal_Marca_2015.svg">Símbolo do IF</Link>: Wikimedia Commons, Manual da Marca 2015 (Setec/MEC), domínio público.</li>
       </ul>
       <Titulo>Assistência de IA</Titulo>
       <p className="text-sm leading-6">Servidor, limite diário, adaptação dos componentes e documentação foram feitos com pesquisa e assistência de IA. Lista completa em {c('docs/TECNOLOGIAS.md')}.</p>
@@ -260,14 +231,15 @@ const conteudo = {
         ['O que é Tailwind?', 'Classes CSS prontas no JSX; os componentes usam.'],
         ['O que o Motion faz?', 'Anima entrada das mensagens e toque no botão.'],
         ['Por que o campo cresce?', 'Um hook mede o scrollHeight do texto e ajusta a altura.'],
-        ['A lógica mudou com a nova interface?', 'Não. Estados, POST e histórico são os mesmos.'],
+        ['Como a IA sabe a matéria?', 'O App manda o id da matéria; o servidor troca pelo contexto da lista. O navegador não escreve as instruções.'],
+        ['De onde vieram os temas?', 'Dos títulos das aulas e atividades do Moodle de cada disciplina.'],
       ]}
     />
   ),
 };
 
 export default function GuiaApresentacao({ aoFechar }) {
-  const [aba, setAba] = useState('roteiro');
+  const [aba, setAba] = useState('fluxo');
 
   return (
     <div className="fixed inset-0 z-50" onKeyDown={(evento) => evento.key === 'Escape' && aoFechar()}>
@@ -293,7 +265,7 @@ export default function GuiaApresentacao({ aoFechar }) {
             <SimboloIF className="h-9 w-auto" />
             <div>
               <h2 id="titulo-guia" className="text-base font-semibold">Guia da apresentação</h2>
-              <p className="text-xs text-muted-foreground">IFAI · roteiro de 15 minutos, código e perguntas</p>
+              <p className="text-xs text-muted-foreground">Fluxo, código, tecnologias e perguntas</p>
             </div>
           </div>
           <button
@@ -333,7 +305,7 @@ export default function GuiaApresentacao({ aoFechar }) {
         >
           {conteudo[aba]}
           <p className="mt-8 border-t border-border pt-4 text-xs text-muted-foreground">
-            Completo no GitHub: <Link href="https://github.com/miguelvzs/assistente-estudos/blob/feat/chat-ui-21st/docs/EXPLICACAO.md">EXPLICACAO.md</Link> · <Link href="https://github.com/miguelvzs/assistente-estudos/blob/feat/chat-ui-21st/docs/APRESENTACAO-15-MIN.md">APRESENTACAO-15-MIN.md</Link> · <Link href="https://github.com/miguelvzs/assistente-estudos/blob/feat/chat-ui-21st/docs/TECNOLOGIAS.md">TECNOLOGIAS.md</Link>
+            Explicação completa no GitHub: <Link href="https://github.com/miguelvzs/assistente-estudos/blob/main/docs/EXPLICACAO.md">EXPLICACAO.md</Link> e <Link href="https://github.com/miguelvzs/assistente-estudos/blob/main/docs/TECNOLOGIAS.md">TECNOLOGIAS.md</Link>
           </p>
         </motion.div>
       </motion.aside>

@@ -95,7 +95,7 @@ export function AIInputWithLoading({
             transition={{ duration: 0.2 }}
             className={loading ? 'inline-block' : 'hidden sm:inline-block'}
           >
-            {loading ? 'Respondendo…' : 'Enter envia · Shift + Enter quebra linha'}
+            {loading ? 'Respondendo…' : 'Enter envia, Shift + Enter quebra linha'}
           </motion.span>
         </p>
       </div>

@@ -46,3 +46,5 @@ Campo Kokonut adaptado: build aprovado e 18 testes de servidor/quota passaram. P
 Chat de IA com componentes 21st.dev, Tailwind, Motion e Inter (13/11, noite): build aprovado e 18 testes passaram. Prévia de demonstração conferida em 1159px e 375px: tela inicial, sugestão enviada, três pontos de espera, resposta animada, campo cresce de 56 para 104px com texto longo e volta a 56px no envio, Nova conversa limpa, Enter vazio mostra alerta, sem rolagem horizontal. Fonte Inter carregada (document.fonts.check). Sem chamada real à OpenAI nesta revisão.
 
 IFAI (13/11, noite): marca com símbolo oficial do IF, paleta IF, guia de apresentação e sugestões por matéria. Conferido em 1159px e 375px: guia abre, troca de aba, fecha com Esc, 23 links; filtros e cartões de sugestão; sem rolagem horizontal.
+
+Contexto por matéria, logo na grade e anti-slop (13/11, noite): 19 testes e build aprovados. Prévia em 1159px e 375px: filtro e seletor sincronizados, temas exibidos, sem rolagem horizontal, guia sem aba Roteiro, nenhum travessão no texto da página.
