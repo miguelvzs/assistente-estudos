@@ -1,6 +1,6 @@
 # Créditos e adaptação da interface
 
-Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte Inter e animações com Motion. Os componentes ficam em `src/components/ui/`, separados do código do projeto.
+Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte (hoje Open Sans, oficial do IF) e animações com Motion. Os componentes ficam em `src/components/ui/`, separados do código do projeto.
 
 ## Chat Bubble — Jakob Hoeg Mørk
 
@@ -32,10 +32,14 @@ Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte Inter e a
 | tailwindcss, @tailwindcss/vite | 4.3.5 | MIT | Classes de estilo dos componentes |
 | motion | 14.14.0 | MIT | Animações ([motion.dev](https://motion.dev)) |
 | lucide-react | 1.72.0 | ISC | Ícones |
-| @fontsource-variable/inter | 5.3.0 | OFL-1.1 (fonte) | Fonte Inter servida pelo site |
+| @fontsource-variable/open-sans | 5.3.0 | OFL-1.1 (fonte) | Open Sans, fonte oficial do IF, servida pelo site |
 
 ## Como falar na apresentação
 
-“Usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion, fonte Inter. Fiz isso com assistência de IA.”
+“Usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion, fonte Open Sans, que é a oficial do IF. Fiz isso com assistência de IA.”
 
 Não afirmar autoria exclusiva nem que é cópia integral dos componentes.
+
+## Logo IFAI
+
+Composição feita para o projeto seguindo a grade de construção do Manual da Marca 2015 (pág. 6 a 8): módulo x = lado do quadrado, nome em Open Sans Bold e linhas de apoio em Open Sans Regular com 75% de x, cada linha apoiada numa fileira de quadrados. O símbolo não foi alterado. Código: `src/components/MarcaIF.jsx`.

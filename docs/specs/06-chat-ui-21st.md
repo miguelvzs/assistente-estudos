@@ -21,3 +21,9 @@ Critérios: build e 18 testes; vazio, espera, sucesso e erro; Enter/Shift+Enter;
 
 ## IFAI, guia e sugestões (13/11/2026, noite)
 Pedidos de Miguel: botão no topo com toda a explicação para apresentar; paleta do IF; nome IFAI com o símbolo do IF + AI; citar tecnologias e sites; base com os conteúdos do semestre para perguntas sugeridas; publicar no Vercel com deploy automático (merge na main). Símbolo obtido do arquivo em domínio público (Setec/MEC), não redesenhado. Perguntas sugeridas escritas a partir dos temas do Moodle.
+
+## Fonte oficial do IF (13/11/2026, noite)
+Pedido de Miguel: integrar a fonte oficial do IF. O Manual de Aplicação da Marca 2015 (Setec/MEC, pág. 16) define a família Open Sans. Substitui a Inter; servida por @fontsource-variable/open-sans, sem Google Fonts.
+
+## Contexto do semestre, logo e anti-slop (13/11/2026, noite)
+Pedidos de Miguel: aprofundar a ajuda no conteúdo específico do semestre; tirar o roteiro do guia de apresentação; tirar AI slops com a skill; melhorar a logo do IFAI. Decisões: matéria escolhida vai ao servidor só como id validado por lista; instruções com temas e ferramentas reais de cada disciplina; seis perguntas por matéria; logo na grade do Manual da Marca.

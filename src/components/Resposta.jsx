@@ -19,7 +19,7 @@ function AvatarAssistente() {
   return <ChatBubbleAvatar fallback={<SimboloIF className="h-4 w-auto" />} />;
 }
 
-export default function Resposta({ mensagens, carregando, erro, pergunta, aoEscolherSugestao, rodape }) {
+export default function Resposta({ mensagens, carregando, erro, pergunta, aoEscolherSugestao, materia, aoMudarMateria, rodape }) {
   // Enquanto espera, a pergunta enviada já aparece como balão.
   // Mesma posição (key) que ela terá na lista: assim não pisca quando a resposta chega.
   const itens = carregando ? [...mensagens, { role: 'user', content: pergunta.trim() }] : mensagens;
@@ -48,12 +48,12 @@ export default function Resposta({ mensagens, carregando, erro, pergunta, aoEsco
             transition={{ duration: 0.2 }}
             className="mx-auto flex w-full max-w-3xl grow flex-col items-center justify-center px-4 py-8 text-center sm:px-6"
           >
-            <MarcaIFAI tamanho="grande" />
+            <MarcaIFAI tamanho="grande" className="h-20 w-auto sm:h-24" />
             <h2 className="mt-5 text-2xl font-semibold tracking-tight sm:text-3xl">Vamos estudar?</h2>
             <p className="mt-2 max-w-md text-[15px] text-muted-foreground">
               Escolha uma matéria do semestre ou pergunte o que quiser. Eu explico com passos curtos e exemplos.
             </p>
-            <Sugestoes aoEscolher={aoEscolherSugestao} />
+            <Sugestoes aoEscolher={aoEscolherSugestao} materia={materia} aoMudarMateria={aoMudarMateria} />
             {avisoErro && <div className="mt-6 w-full max-w-2xl">{avisoErro}</div>}
             {rodape}
           </motion.div>

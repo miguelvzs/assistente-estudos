@@ -1,13 +1,14 @@
 /* Tailwind CSS v4: os componentes do 21st.dev são escritos com classes Tailwind. */
 @import "tailwindcss";
 
-/* Tema: nomes no padrão shadcn (primary, secondary, foreground...)
+/* Fonte oficial do IF: Open Sans (Manual da Marca 2015, pág. 16).
+   Tema: nomes no padrão shadcn (primary, secondary, foreground...)
    para que as classes dos componentes adaptados funcionem.
    Paleta do IF (Manual da Marca 2015): verde #2f9e41 e vermelho #cd191e.
    primary é o verde do IF escurecido: texto branco sobre #2f9e41 tem contraste
    3,5:1 (abaixo do mínimo 4,5:1); sobre #1f7a33, 5,4:1. */
 @theme {
-  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Open Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --color-if-verde: #2f9e41;
   --color-if-vermelho: #cd191e;
   --color-foreground: #16231a;

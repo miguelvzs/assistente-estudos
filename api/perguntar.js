@@ -1,6 +1,7 @@
 // EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
 import axios from 'axios';
 import limite from '../server/limite-diario.js';
+import { montarInstrucoes } from '../src/conteudo/semestre.js';
 
 function json(dados, status = 200) {
   return Response.json(dados, {
@@ -78,7 +79,8 @@ export default {
     try {
       const retorno = await axios.post('https://api.openai.com/v1/responses', {
         model: 'gpt-6-luna',
-        instructions: 'Você é um assistente de estudos para alunos dos Institutos Federais, em cursos de ensino médio, técnico e superior. Ajude em disciplinas gerais e técnicas: matemática, português, ciências, história, idiomas, informática e outras áreas, além de revisão, exercícios e organização dos estudos. Responda em português do Brasil, com explicação clara, passos curtos e exemplo quando útil. Adapte o nível ao curso informado; se faltar informação essencial, faça uma pergunta objetiva. Ajude a compreender o raciocínio, não apenas decorar respostas. Use texto puro, sem Markdown, e até 180 palavras. Não invente fontes, datas, normas ou informações do campus; não tem acesso ao Moodle, notas ou materiais privados e não é atendimento oficial do IF. Quando não souber, diga.',
+        // Instruções com o contexto do semestre; a matéria só vale se estiver na lista.
+        instructions: montarInstrucoes(typeof dados.materia === 'string' ? dados.materia : ''),
         input: entrada,
         reasoning: { effort: 'none' },
         max_output_tokens: 600,
