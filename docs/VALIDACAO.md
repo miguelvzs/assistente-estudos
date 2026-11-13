@@ -40,3 +40,5 @@ A proteção da main exige PR e verificação `verificar` aprovada antes de merg
 
 ## Prévia chat 21st — branch separada
 Build e 18 testes de servidor aprovados. Navegador local: sucesso simulado com Enter, pergunta vazia recusada, Shift+Enter insere quebra sem enviar, duas mensagens por troca. Desktop 1159×693 e mobile 375×844 conferidos visualmente; nenhum estouro horizontal observado no desktop. API real não foi chamada nesta revisão visual. O modo demonstracao permanece identificado. Produção e ZIP submetido não foram substituídos.
+
+Campo Kokonut adaptado: build aprovado e 18 testes de servidor/quota passaram. Prévia mobile 375px: texto com três linhas expande textarea a 86px, sem estouro horizontal; Enter envia, resposta simulada aparece e campo limpa. Screenshot conferido. A espera por texto automático expirou por diferença de maiúsculas, mas snapshot confirmou a resposta. Sem chamada real à OpenAI nesta revisão.

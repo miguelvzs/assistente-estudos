@@ -8,3 +8,9 @@ Adaptação simplificada, não instalação integral: composição de balão/ava
 
 Fala correta: “Adaptei o componente Chat Bubble de Jakob Hoeg, encontrado no 21st.dev, sob licença MIT. Simplifiquei para JSX e CSS e conectei ao estado e à requisição do projeto, com assistência de IA.”
 Não afirmar autoria exclusiva nem que a adaptação elimina a necessidade de compreender o código.
+
+## Campo de mensagem — Kokonut UI
+Referência escolhida: https://21st.dev/@kokonutd/components/ai-input-with-loading
+Código público consultado: https://github.com/kokonut-labs/kokonutui/blob/main/components/kokonutui/ai-input-search.tsx
+Licença preservada em licenses/kokonut-ui-MIT.txt. O componente With Loading não foi instalado integralmente. Adaptamos o arranjo de textarea e barra inferior do compositor público, com CSS comum: crescimento via field-sizing, envio circular e indicador conectado à prop carregando. Sem Motion, Tailwind, TypeScript, menus, anexos ou novas dependências. Não afirmar que se trata de cópia integral do componente.
+O layout atual das mensagens substitui o alinhamento invertido citado acima: ambos os autores à esquerda, com divisórias, conforme imagem escolhida por Miguel.

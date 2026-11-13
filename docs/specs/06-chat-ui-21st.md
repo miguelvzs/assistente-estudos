@@ -10,3 +10,6 @@ Aberto: aprovação visual e eventual publicação/substituição da entrega.
 
 ## Referência visual escolhida
 Miguel escolheu a imagem Chat Bubble AI Layout: ambas as falas alinhadas à esquerda, avatar circular e separadores discretos, sem fundo de balão. Manter a paleta clara atual. Não acrescentar botões de copiar/regenerar sem implementar suas ações. Campo de digitação permanece nesta alteração; escolha de componente de entrada é independente.
+
+## Campo de digitação
+Aplicar referência AI Input With Loading da Kokonut: caixa arredondada, textarea expansível e envio circular integrado. O código público atual consultado é AI Input Search; adaptação mínima do compositor, sem ferramentas, upload ou seleção de modelo. Crescimento via CSS field-sizing: content, com fallback redimensionável; espera usa carregando real. Nenhuma dependência nova.

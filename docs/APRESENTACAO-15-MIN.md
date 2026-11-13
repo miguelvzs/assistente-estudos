@@ -191,3 +191,5 @@ FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; 
 CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.
 
 Atualização visual: as falas agora seguem uma coluna à esquerda, identificadas por avatar e autoria, com separadores. A explicação de estados, props e envio continua igual.
+
+Campo: adaptação visual de referência Kokonut UI, com licença e origem documentadas. O CSS faz o campo crescer; a prop carregando controla a espera e bloqueia envio duplicado. Não houve instalação de biblioteca de UI.

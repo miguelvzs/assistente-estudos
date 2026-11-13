@@ -317,3 +317,6 @@ CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e mant
 
 ### Layout de mensagens escolhido
 App.css agora mantém sent e received à esquerda; ambos exibem avatar e fundo transparente. A borda inferior separa as falas. ChatBubble continua recebendo variant e children; não mudou a lógica da API. Esta decisão substitui a descrição anterior de balões verdes à direita. Os controles de copiar/regenerar da referência não foram adicionados.
+
+### Campo expansível e envio integrado
+FormularioPergunta recebe as mesmas quatro props. A barra inferior mostra a orientação ou Respondendo conforme carregando; a mesma prop desabilita envio e campo. O círculo de espera é CSS, sem temporizador nem resposta simulada na produção. field-sizing: content ajusta a altura ao texto, entre 56 e 160px; acima disso há rolagem. Navegadores sem suporte permitem redimensionar verticalmente. prefers-reduced-motion desliga a rotação. Enter/Shift+Enter e o fluxo Axios permanecem iguais. Créditos e licença Kokonut em CREDITOS-UI.md.
