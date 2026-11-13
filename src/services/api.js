@@ -4,7 +4,7 @@ import axios from 'axios';
 // A chave da OpenAI não passa por este arquivo.
 const api = axios.create({
   baseURL: '/api',
-  timeout: 50000,
+  timeout: 60000,
 });
 
 export default api;

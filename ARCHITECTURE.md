@@ -1,6 +1,8 @@
 # Arquitetura
 
-Fluxo aprovado: formulário React → POST /api/perguntar com pergunta e histórico (Axios) → função Vercel → POST https://api.openai.com/v1/responses → JSON {resposta} → useState → tela.
+Fluxo aprovado: formulário React → POST /api/perguntar com pergunta e histórico (Axios) → função Vercel → reserva no contador Blob privado → POST https://api.openai.com/v1/responses → JSON {resposta} → useState → tela.
+
+`server/limite-diario.js` lê `quota/consultas.json` sem cache e grava data/quantidade com ETag. São até 50 reservas por dia de Brasília, compartilhadas por todos os deploys que usam o mesmo armazenamento. Não há gravação de conversas. Falha no contador impede a chamada OpenAI. Explicação em docs/LIMITE-DIARIO.md.
 
 Frontend não recebe chave, modelo nem objetos internos da OpenAI. Mesmo domínio para tela e API. Sem CORS aberto. Backend valida método, JSON, histórico alternado de até seis mensagens e pergunta (1–2000 caracteres), usa chave de ambiente, limita saída, controla tempo e converte erros para mensagens sem detalhes secretos.
 

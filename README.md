@@ -12,6 +12,7 @@ Chat de estudos em React, preparado para consumir a API OpenAI. Mantém as mensa
 - [Roteiro falado de 15 minutos e perguntas da professora](docs/APRESENTACAO-15-MIN.md)
 - [Mapa entre código e aulas](docs/MAPA-DAS-AULAS.md)
 - [Testes e pendências](docs/VALIDACAO.md)
+- [Limite diário explicado](docs/LIMITE-DIARIO.md)
 - [Publicação e checklist de entrega](docs/ENTREGA.md)
 
 ## Rodar sem chave, só para ensaiar
@@ -57,7 +58,7 @@ Na Vercel, a chave será variável **somente do servidor**, nunca `VITE_OPENAI_A
 | vite | 8.3.8 | Desenvolvimento e build |
 | @vitejs/plugin-react | 6.3.0 | Integra React ao Vite |
 
-Testes usam recursos nativos do Node; nenhuma biblioteca extra de testes. Não há SDK da OpenAI, banco, roteador, biblioteca de UI ou sistema de login.
+Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas, roteador, biblioteca de UI ou login. `@vercel/blob` 2.4.0 é usado somente no servidor para o contador privado de 50 consultas por dia.
 
 ## API e limites
 
@@ -65,7 +66,9 @@ O frontend envia `POST /api/perguntar` com `{ "pergunta": "...", "historico": [{
 
 O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-6-luna`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
 
-A professora autorizou OpenAI conforme informação de Miguel. A função Vercel é a exceção técnica aceita pelo usuário, não um conteúdo atribuído às aulas React. A OpenAI cobra por uso; esta aplicação não implementa controle global de gastos. Perguntas são enviadas ao provedor e não ficam salvas pelo app.
+A professora autorizou OpenAI conforme informação de Miguel. Servidor e contador diário são infraestrutura adicional, feita com pesquisa e assistência de IA, não conteúdo atribuído às aulas React. A aplicação permite 50 tentativas por dia no total, renovadas à meia-noite de Brasília. Falhas do provedor também contam. Perguntas e respostas não são gravadas pelo app.
+
+Além de `OPENAI_API_KEY`, configurar `BLOB_READ_WRITE_TOKEN` somente no servidor. Sem contador disponível, a consulta é bloqueada. O Blob privado guarda apenas data e quantidade; sobrevive a reinícios e deploys. Preview não recebe a chave OpenAI de produção. Consulte [o guia do limite](docs/LIMITE-DIARIO.md).
 
 ## Links da entrega
 

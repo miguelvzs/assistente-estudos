@@ -30,7 +30,7 @@ Contexto → tela e função → testes simulados e build → chave real quando 
 - Publicação: preparar resultado antes de pedir autorização de produção exigida pelo contrato de commits. O GitHub já foi publicado com autorização; o deploy Vercel permanece pendente.
 
 ## 8. Limitações
-Sem controle global de gastos ou usuários. Limites de caracteres e tokens contêm uma chamada, não o gasto acumulado. Antes de expor uma chave em endpoint público, definir limites operacionais da conta/projeto; não tratar alertas de orçamento como bloqueio garantido. Simulação não satisfaz a entrega final de consumo real.
+Limite global de 50 tentativas por dia em Brasília, persistido em Blob privado. Não é quota individual nem controla outras aplicações na mesma conta. Falhas do provedor também consomem a reserva; falha do contador bloqueia a consulta. Esse armazenamento contém somente data e quantidade, como exceção à ausência de persistência. Não tratar alertas de orçamento como bloqueio garantido. Simulação não satisfaz a entrega final de consumo real.
 
 ## Público e finalidade
 Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.

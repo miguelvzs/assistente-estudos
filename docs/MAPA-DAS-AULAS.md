@@ -35,3 +35,5 @@ Material: arquivos `BRADWFR_REACTJS_...` da seção Materiais do Componente Curr
 `vite.config.js`, `vercel.json` e `tests/api.test.js`: configuração e verificação auxiliares dessa integração. Não são recursos adicionais do produto nem conteúdo a atribuir à professora.
 
 A aprovação da OpenAI pela professora foi informada por Miguel. O Moodle registra o tema Assistente de Estudos, não o nome do provedor.
+
+`server/limite-diario.js` e `@vercel/blob`: contador persistente, fuso horário e controle de concorrência por ETag. Essa infraestrutura foi adicionada para cumprir as 50 consultas/dia exigidas por Miguel. Está fora das aulas React, assim como a função que protege a chave. Veja LIMITE-DIARIO.md. Os testes e o script de verificação também são auxiliares, não conteúdo atribuído à professora.

@@ -119,7 +119,7 @@ As condições no JSX controlam os avisos. O texto aparece dentro de `{mensagem.
 
 ### services/api.js — o endereço de nossa função
 
-`axios.create` cria um cliente com baseURL `/api` e timeout de 50 segundos. Esse arquivo não chama diretamente a OpenAI e não contém credencial. `api.post('/perguntar', objeto)` junta base e caminho. A barra de `/api` aponta para o mesmo site que serviu a tela.
+`axios.create` cria um cliente com baseURL `/api` e timeout de 60 segundos. Esse arquivo não chama diretamente a OpenAI e não contém credencial. `api.post('/perguntar', objeto)` junta base e caminho. A barra de `/api` aponta para o mesmo site que serviu a tela. O tempo cobre a reserva no contador (até 8 segundos) e a OpenAI (até 45 segundos).
 
 ### main.jsx — início do React
 
@@ -159,7 +159,7 @@ Saída de erro:
 6. Exige Content-Type JSON; lê texto; recusa corpo excessivo; usa JSON.parse. Parse inválido recebe 400.
 7. Verifica tipo string, ausência/vazio e limite de 2000 caracteres. Ignora campos extras enviados pelo cliente, como modelo ou instruções.
 8. Lê `process.env.OPENAI_API_KEY`, disponível somente no servidor. Sem ela, retorna 503 antes de qualquer chamada externa.
-9. Usa Axios POST para o endereço fixo da OpenAI, com cabeçalho Authorization Bearer. A credencial nunca é devolvida ao cliente.
+9. Reserva uma das 50 consultas diárias usando `server/limite-diario.js`. Se esgotou, responde 429; se não consegue verificar, responde 503. Só após a reserva usa Axios POST para a OpenAI, com cabeçalho Authorization Bearer. A credencial nunca é devolvida ao cliente. Uma falha da OpenAI não devolve a reserva.
 10. Envia `model`, `instructions`, `input`, `reasoning`, `max_output_tokens` e `store`.
 11. Verifica status completed e array output. Uma resposta incompleta não é exibida como concluída.
 12. Percorre mensagens e conteúdos para reunir partes output_text. Itens de raciocínio não são exibidos. Ausência de texto/refusa sem texto recebe mensagem genérica para reformular.
@@ -190,9 +190,9 @@ O pedido de até 180 palavras é uma orientação ao modelo, não validação r�
 | 405 | Método diferente de POST |
 | 413 | Corpo excessivo |
 | 415 | Content-Type inadequado |
-| 429 | Provedor sinalizou limite/quota; verificar a conta |
+| 429 | Limite diário do app atingido ou quota do provedor |
 | 502 | Falha do provedor, resposta incompleta ou sem texto |
-| 503 | Chave ausente ou configuração rejeitada pelo provedor |
+| 503 | Chave ausente, contador indisponível ou configuração rejeitada pelo provedor |
 | 504 | Tempo de consulta excedido |
 
 ## 7. Estilo — App.css
@@ -226,6 +226,9 @@ Não há biblioteca de design, imagem externa ou animação. Os atributos de ace
 | vite.config.js | Plugin React e adaptador HTTP local para a função |
 | vercel.json | Configura build, pasta de saída, duração da função e headers |
 | tests/api.test.js | Verifica a fronteira com o provedor sem rede ou chave real |
+| server/limite-diario.js | Reserva uma das 50 consultas no contador privado |
+| tests/limite-diario.test.js | Verifica limite, concorrência, virada do dia e falhas |
+| scripts/verificar-limite-real.mjs | Testa Blob em arquivo isolado e o remove; não chama OpenAI |
 | README.md | Porta de entrada: execução, bibliotecas, links e situação |
 | PRODUCT.md | Objetivo e o que não é este produto |
 | ARCHITECTURE.md | Desenho do fluxo e separação navegador/servidor |
@@ -259,7 +262,7 @@ Headers limitam carregamento de conteúdo à própria origem, bloqueiam enquadra
 
 ## 9. Testes: o que provam e o que não provam
 
-Os 12 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key.
+Os 18 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key. Cinco testes verificam o contador com um armazenamento simulado, e um teste da rota garante que o bloqueio não chama OpenAI.
 
 Testam método, origem, formato, JSON inválido, ausência/tipo/vazio, tamanho, chave ausente, extração de texto, resposta incompleta, erros do provedor e timeout. A simulação de sucesso confere que campos indevidos do cliente não escolhem modelo/instruções e que detalhes internos não vazam.
 
@@ -271,7 +274,7 @@ Chave em variável do React não fica secreta: código de navegador é inspecion
 
 Há memória transitória em useState, sem banco; recarregar a página perde as mensagens. A OpenAI recebe o texto e possui suas próprias políticas de retenção. Não enviar dados pessoais. A resposta não substitui as fontes da disciplina.
 
-Endpoint público sem autenticação pode ser chamado por terceiros. Tamanho e tokens limitam uma consulta, não custo total. Não há rate limit global, login, quota por pessoa ou garantia contra abuso. Isso deve ser considerado antes da publicação com chave real; não acrescentar infraestrutura complexa sem combinar.
+Endpoint público sem autenticação pode ser chamado por terceiros. O limite global permite 50 tentativas por dia em Brasília. Não existe quota por pessoa: alguém pode consumir todas as vagas. Não limita chamadas de outros programas na mesma conta OpenAI. Falha do contador bloqueia a consulta. Veja [LIMITE-DIARIO.md](LIMITE-DIARIO.md) para entender cada bloco dessa infraestrutura adicional.
 
 ## 11. Fontes externas usadas apenas para a exceção de servidor
 

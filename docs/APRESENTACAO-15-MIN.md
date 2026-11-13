@@ -100,7 +100,7 @@ Apontar validação, process.env, Axios POST e retorno:
 
 “A função verifica o método e a pergunta. Lê a chave do ambiente do servidor, envia a lista de contexto e a pergunta no campo input e define instruções para uma explicação curta em português. O modelo está fixado no servidor. A resposta da OpenAI tem vários campos; retiro só o texto e devolvo um JSON simples ao React.”
 
-“Também existe limite de tamanho e de tempo. Eles evitam uma consulta muito grande ou uma espera indefinida, mas não são um controle de gasto acumulado.”
+“Também existe um limite compartilhado de 50 consultas por dia. Antes de chamar a IA, o servidor reserva uma vaga num contador privado. Ele sobrevive a reinícios e deploys. Se não for possível conferir a contagem, a consulta é bloqueada. Essa infraestrutura foi construída com pesquisa e assistência de IA; não faz parte das aulas de React.”
 
 Não abrir o valor de nenhuma variável. Não afirmar que as validações impedem todo abuso.
 
