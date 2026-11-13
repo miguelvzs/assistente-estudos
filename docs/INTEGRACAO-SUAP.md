@@ -17,7 +17,7 @@ Confirmar com a documentação/TI do IFSP:
 4. CORS: quais domínios podem fazer as consultas diretamente.
 5. Limites de uso e regras de dados pessoais.
 
-Solicitação enviada ao suporte em 13/11/2026; resposta ainda não verificada.
+Solicitação reenviada pela conta educacional ao suporte em 13/11/2026; resposta ainda não verificada.
 Veja o [registro do contato](CONTATO-SUPORTE-SUAP.md).
 Sem as informações necessárias, manter src/config/suap.js vazio.
 Não tentar contornar CAPTCHA, CORS, login ou permissões. Não usar scraping como
