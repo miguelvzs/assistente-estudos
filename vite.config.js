@@ -1,6 +1,7 @@
 // Configuração de desenvolvimento: a função real continua em api/perguntar.js.
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import perguntar from './api/perguntar.js';
 
 function apiLocal(modo) {
@@ -48,5 +49,5 @@ function apiLocal(modo) {
 }
 
 export default defineConfig(({ mode }) => ({
-  plugins: [react(), apiLocal(mode)],
+  plugins: [react(), tailwindcss(), apiLocal(mode)],
 }));
