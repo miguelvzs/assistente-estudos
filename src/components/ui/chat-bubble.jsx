@@ -23,7 +23,7 @@ export function ChatBubbleAvatar({ fallback, className }) {
     <span
       aria-hidden="true"
       className={cn(
-        'grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-semibold text-primary ring-1 ring-primary/15',
+        'grid size-8 shrink-0 place-items-center rounded-full bg-white text-xs font-semibold text-primary ring-1 ring-border',
         className
       )}
     >

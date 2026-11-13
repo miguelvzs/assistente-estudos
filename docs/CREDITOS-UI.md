@@ -20,6 +20,11 @@ Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte Inter e a
 - Mantido: textarea `rounded-3xl` com fundo `bg-black/5`, crescimento automático entre 56 e 200px pelo hook, botão dentro do campo com ícone CornerRightUp, quadrado girando durante a espera, linha de status abaixo, Enter envia e Shift+Enter quebra linha.
 - Adaptado: texto (`value`/`onChange`) e espera (`loading`) vêm do App, ligados à requisição real; removidos `loadingDuration`, `thinkingDuration` e `autoAnimate` (temporizadores de demonstração); botão `type="submit"` e Enter via `form.requestSubmit()`; botão alinhado à base e verde quando há texto; `whileTap` do Motion; textos em português.
 
+## Símbolo do IF
+
+- Arquivo: [Instituto Federal Marca 2015.svg](https://commons.wikimedia.org/wiki/File:Instituto_Federal_Marca_2015.svg), Wikimedia Commons, domínio público; elaborado a partir do Manual de Aplicação da Marca 2015 (Setec/MEC).
+- Uso: `src/components/MarcaIF.jsx` (mesma geometria e cores) e `public/ifai.svg` (ícone da aba). “IFAI” é o nome do projeto acadêmico; não é serviço oficial do IF.
+
 ## Bibliotecas instaladas
 
 | Pacote | Versão | Licença | Uso |

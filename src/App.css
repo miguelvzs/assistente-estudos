@@ -2,16 +2,21 @@
 @import "tailwindcss";
 
 /* Tema: nomes no padrão shadcn (primary, secondary, foreground...)
-   para que as classes dos componentes adaptados funcionem. */
+   para que as classes dos componentes adaptados funcionem.
+   Paleta do IF (Manual da Marca 2015): verde #2f9e41 e vermelho #cd191e.
+   primary é o verde do IF escurecido: texto branco sobre #2f9e41 tem contraste
+   3,5:1 (abaixo do mínimo 4,5:1); sobre #1f7a33, 5,4:1. */
 @theme {
   --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
-  --color-foreground: #17201b;
-  --color-muted-foreground: #66716b;
-  --color-primary: #1d7a3e;
+  --color-if-verde: #2f9e41;
+  --color-if-vermelho: #cd191e;
+  --color-foreground: #16231a;
+  --color-muted-foreground: #5f6d63;
+  --color-primary: #1f7a33;
   --color-primary-foreground: #ffffff;
-  --color-secondary: #f1f4f2;
-  --color-secondary-foreground: #17201b;
-  --color-border: #e4e8e5;
+  --color-secondary: #eef6ef;
+  --color-secondary-foreground: #16231a;
+  --color-border: #dfe8e1;
 }
 
 @layer base {
