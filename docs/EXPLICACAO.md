@@ -367,3 +367,12 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 - **Botão Apresentação** (cabeçalho): abre `GuiaApresentacao.jsx`, painel lateral com abas Roteiro, Fluxo, React, API, Servidor, Interface, Tecnologias e Perguntas. Novo estado no App: `guiaAberto` (só interface). O guia tem estado próprio `aba`. Fecha com X, clique fora ou Esc. `AnimatePresence` anima a entrada e a saída.
 - **Sugestões:** `Sugestoes.jsx` lê `conteudo/semestre.js` (6 matérias, 4 perguntas cada) e tem estado próprio `filtro`. Clicar chama `enviar(pergunta)` do App. Ver [CONTEUDOS-SEMESTRE.md](CONTEUDOS-SEMESTRE.md).
 - **Lista de tecnologias e sites:** [TECNOLOGIAS.md](TECNOLOGIAS.md).
+
+### Contexto do semestre na IA, logo e limpeza visual
+
+- **Estado novo `materia`** no App (`''` = todas). É mudado pelos filtros da tela inicial e pelo seletor acima do campo (os dois mostram o mesmo valor). Vai no POST: `{ pergunta, historico, materia }`.
+- **Servidor:** `api/perguntar.js` chama `montarInstrucoes(materia)` de `src/conteudo/semestre.js`. Ela sempre inclui o contexto do 2º semestre de ADS e, se o id estiver na lista, o nome, os temas e as ferramentas da disciplina. Um id desconhecido é ignorado; o navegador nunca escreve texto nas instruções. Teste: `matéria da lista acrescenta o contexto da disciplina; desconhecida é ignorada` (19 testes no total).
+- **Respostas:** até 220 palavras, exemplo no nível do semestre e, quando fizer sentido, um exercício curto sem resposta.
+- **Logo:** `MarcaIF.jsx` monta o IFAI na grade do Manual da Marca do IF (ver DESIGN.md e CREDITOS-UI.md). Versão completa na tela inicial; compacta no cabeçalho.
+- **Guia:** a aba Roteiro saiu; a agenda de 15 minutos continua em APRESENTACAO-15-MIN.md.
+- **Revisão anti-slop** (skill design-taste-frontend): sem travessões e sem excesso de pontos médios na interface; rodapés em frases simples.

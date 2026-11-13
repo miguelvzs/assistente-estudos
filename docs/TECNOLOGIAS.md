@@ -22,7 +22,7 @@ Tudo o que o projeto usa, com versão, função e origem. Versões conforme `pac
 | Vercel Functions (Node.js) | Função `api/perguntar.js`, que guarda a chave | https://vercel.com/docs/functions/runtimes/node-js |
 | Vercel Blob (@vercel/blob 2.4.0) | Contador privado de 50 consultas/dia | https://vercel.com/docs/vercel-blob |
 | Vercel | Hospedagem; merge na `main` publica sozinho | https://vercel.com |
-| Node.js ≥ 22.12 + node:test | 18 testes automáticos | https://nodejs.org/api/test.html |
+| Node.js ≥ 22.12 + node:test | 19 testes automáticos | https://nodejs.org/api/test.html |
 | GitHub + GitHub Actions | Código e verificação (npm ci, testes, build) | https://github.com/miguelvzs/assistente-estudos |
 
 ## Componentes e recursos de terceiros

@@ -1,11 +1,12 @@
-import { useState } from 'react';
 import { motion } from 'motion/react';
 import { materias } from '../conteudo/semestre';
 
 // Perguntas sugeridas a partir das matérias do semestre.
-// "Todas" mostra uma pergunta de cada matéria; ao escolher uma matéria, mostra as quatro dela.
-export default function Sugestoes({ aoEscolher }) {
-  const [filtro, setFiltro] = useState('todas');
+// "Todas" mostra uma pergunta de cada matéria; ao escolher uma matéria, mostra os temas e as seis perguntas dela.
+// A matéria escolhida fica no App: também define o contexto enviado ao servidor.
+export default function Sugestoes({ aoEscolher, materia, aoMudarMateria }) {
+  const filtro = materia || 'todas';
+  const atual = materias.find((item) => item.id === materia);
 
   const cartoes = filtro === 'todas'
     ? materias.map((materia) => ({ materia, pergunta: materia.perguntas[0] }))
@@ -20,15 +21,21 @@ export default function Sugestoes({ aoEscolher }) {
   return (
     <div className="mt-7 w-full max-w-2xl">
       <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:justify-center sm:px-0" role="group" aria-label="Filtrar sugestões por matéria">
-        <button type="button" onClick={() => setFiltro('todas')} aria-pressed={filtro === 'todas'} className={estiloChip(filtro === 'todas')}>
+        <button type="button" onClick={() => aoMudarMateria('')} aria-pressed={filtro === 'todas'} className={estiloChip(filtro === 'todas')}>
           Todas
         </button>
-        {materias.map((materia) => (
-          <button key={materia.id} type="button" onClick={() => setFiltro(materia.id)} aria-pressed={filtro === materia.id} title={materia.nome} className={estiloChip(filtro === materia.id)}>
-            {materia.sigla}
+        {materias.map((item) => (
+          <button key={item.id} type="button" onClick={() => aoMudarMateria(item.id)} aria-pressed={filtro === item.id} title={item.nome} className={estiloChip(filtro === item.id)}>
+            {item.sigla}
           </button>
         ))}
       </div>
+
+      {atual && (
+        <p className="mt-4 text-left text-xs leading-5 text-muted-foreground sm:text-center">
+          <span className="font-semibold text-foreground">{atual.nome}.</span> Temas: {atual.temas.join(', ')}.
+        </p>
+      )}
 
       <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
         {cartoes.map(({ materia, pergunta }, indice) => (

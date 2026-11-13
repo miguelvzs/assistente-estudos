@@ -16,6 +16,8 @@ export default function App() {
   const [erro, setErro] = useState('');
   // Estado só de interface: abre e fecha o guia de apresentação.
   const [guiaAberto, setGuiaAberto] = useState(false);
+  // Matéria escolhida ('' = todas): muda as sugestões e o contexto enviado ao servidor.
+  const [materia, setMateria] = useState('');
 
   function mudarPergunta(evento) {
     setPergunta(evento.target.value);
@@ -36,7 +38,7 @@ export default function App() {
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6) })
+    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
           setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
@@ -94,7 +96,7 @@ export default function App() {
   return (
     // MotionConfig: respeita quem pediu menos animação no sistema.
     <MotionConfig reducedMotion="user">
-      <Painel titulo="IFAI — Assistente de Estudos" subtitulo={<>Assistente de estudos<br />IFSP Bragança Paulista</>} status={status} acoes={acoes}>
+      <Painel titulo="IFAI, assistente de estudos" status={status} acoes={acoes}>
         <main className="flex flex-1 flex-col overflow-y-auto overscroll-contain" aria-busy={carregando}>
           <Resposta
             mensagens={mensagens}
@@ -102,16 +104,20 @@ export default function App() {
             erro={erro}
             pergunta={pergunta}
             aoEscolherSugestao={enviar}
+            materia={materia}
+            aoMudarMateria={setMateria}
             rodape={
               <p className="mt-8 text-xs leading-5 text-muted-foreground">
-                Lembra as últimas 3 trocas · A conversa é apagada ao atualizar a página
+                A conversa lembra as últimas 3 trocas e é apagada ao atualizar a página.
                 <br />
-                Projeto acadêmico de Miguel Vaz de Souza · Front End AA04 · não é serviço oficial do IF
+                Limite de 50 consultas por dia, somando todos os usuários.
+                <br />
+                Projeto acadêmico de Miguel Vaz de Souza (Front End, AA04). Não é um serviço oficial do IF.
               </p>
             }
           />
         </main>
-        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
+        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} materia={materia} aoMudarMateria={setMateria} />
       </Painel>
       <AnimatePresence>
         {guiaAberto && <GuiaApresentacao key="guia" aoFechar={() => setGuiaAberto(false)} />}
