@@ -88,6 +88,7 @@ const conteudo = {
           [c('carregando'), 'Se há consulta em andamento'],
           [c('erro'), 'Mensagem de falha'],
           [c('materia'), 'Matéria escolhida: muda sugestões e contexto da IA'],
+          [c('esforco'), 'Esforço de raciocínio: baixo, médio ou alto'],
           [c('guiaAberto'), 'Só interface: abre e fecha este guia'],
         ]}
       />
@@ -122,7 +123,8 @@ const conteudo = {
       <Codigo>{`api.post('/perguntar', {
   pergunta: texto.trim(),
   historico: mensagens.slice(-6),
-  materia
+  materia,
+  esforco
 })
   .then((retorno) => { /* retorno.data.resposta */ })
   .catch((falha) => { /* falha.response.data.erro */ });`}</Codigo>
@@ -130,6 +132,7 @@ const conteudo = {
         <li>{c('post')}: envia dados no corpo da requisição, em JSON.</li>
         <li>{c('trim()')}: tira espaços do começo e do fim.</li>
         <li>{c('slice(-6)')}: últimas 6 mensagens = 3 perguntas + 3 respostas.</li>
+        <li>{c('esforco')}: {c("'low'")}, {c("'medium'")} ou {c("'high'")}; mais esforço, resposta mais pensada e mais lenta.</li>
         <li>{c('materia')}: id da matéria escolhida ({c("'bd1'")}, {c("'poo'")}...) ou vazio para todas.</li>
         <li>{c('services/api.js')}: {c('axios.create')} com base {c('/api')} e tempo limite de 60 s.</li>
         <li>É assíncrono: a Promise termina depois; {c('then')} trata sucesso e {c('catch')} trata falha.</li>
@@ -148,7 +151,7 @@ const conteudo = {
         <li>Valida a pergunta: texto, não vazia, até 2000 caracteres.</li>
         <li>Monta as instruções com o semestre de ADS e, se houver matéria, os temas e as ferramentas dela (ex.: MySQL em BD1, Python em POO). O id só vale se estiver na lista de {c('conteudo/semestre.js')}.</li>
         <li>Reserva 1 das 50 consultas do dia (contador privado no Vercel Blob; renova à meia-noite de Brasília).</li>
-        <li>Chama a OpenAI (modelo {c('gpt-6-luna')}, até 600 tokens, tempo limite de 45 s).</li>
+        <li>Chama a OpenAI (modelo {c('gpt-6-luna')}) com o esforço escolhido: baixo (até 1500 tokens, 45 s), médio (3000 tokens, 50 s) ou alto (6000 tokens, 55 s). Os tokens de raciocínio contam nesse limite.</li>
         <li>Devolve só o texto em {c('{ resposta }')}, ou um erro curto.</li>
       </ol>
       <Tabela
@@ -232,6 +235,7 @@ const conteudo = {
         ['O que o Motion faz?', 'Anima entrada das mensagens e toque no botão.'],
         ['Por que o campo cresce?', 'Um hook mede o scrollHeight do texto e ajusta a altura.'],
         ['Como a IA sabe a matéria?', 'O App manda o id da matéria; o servidor troca pelo contexto da lista. O navegador não escreve as instruções.'],
+        ['O que muda no esforço?', 'Quanto o modelo raciocina antes de responder. Alto pensa mais, demora mais e gasta mais tokens.'],
         ['De onde vieram os temas?', 'Dos títulos das aulas e atividades do Moodle de cada disciplina.'],
       ]}
     />

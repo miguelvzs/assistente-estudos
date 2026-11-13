@@ -18,6 +18,8 @@ export default function App() {
   const [guiaAberto, setGuiaAberto] = useState(false);
   // Matéria escolhida ('' = todas): muda as sugestões e o contexto enviado ao servidor.
   const [materia, setMateria] = useState('');
+  // Esforço de raciocínio do modelo: 'low', 'medium' ou 'high'.
+  const [esforco, setEsforco] = useState('low');
 
   function mudarPergunta(evento) {
     setPergunta(evento.target.value);
@@ -38,7 +40,7 @@ export default function App() {
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia })
+    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia, esforco })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
           setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
@@ -117,7 +119,7 @@ export default function App() {
             }
           />
         </main>
-        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} materia={materia} aoMudarMateria={setMateria} />
+        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} materia={materia} aoMudarMateria={setMateria} esforco={esforco} aoMudarEsforco={setEsforco} />
       </Painel>
       <AnimatePresence>
         {guiaAberto && <GuiaApresentacao key="guia" aoFechar={() => setGuiaAberto(false)} />}

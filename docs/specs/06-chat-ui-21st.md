@@ -27,3 +27,6 @@ Pedido de Miguel: integrar a fonte oficial do IF. O Manual de Aplicação da Mar
 
 ## Contexto do semestre, logo e anti-slop (13/11/2026, noite)
 Pedidos de Miguel: aprofundar a ajuda no conteúdo específico do semestre; tirar o roteiro do guia de apresentação; tirar AI slops com a skill; melhorar a logo do IFAI. Decisões: matéria escolhida vai ao servidor só como id validado por lista; instruções com temas e ferramentas reais de cada disciplina; seis perguntas por matéria; logo na grade do Manual da Marca.
+
+## Esforço do modelo e chips (13/11/2026, noite)
+Miguel achou que o seletor de matéria destoava e pediu esforço low, medium e high. Decisões: matéria e esforço como chips dentro da caixa de digitação; esforço validado por lista no servidor, padrão low; teto de tokens e tempo crescem com o esforço porque o raciocínio conta no limite de saída.

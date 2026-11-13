@@ -3,6 +3,14 @@ import axios from 'axios';
 import limite from '../server/limite-diario.js';
 import { montarInstrucoes } from '../src/conteudo/semestre.js';
 
+// Esforço de raciocínio: o navegador escolhe só entre estes níveis.
+// Tokens de raciocínio contam no limite de saída, por isso o teto cresce com o esforço.
+const ESFORCOS = {
+  low: { tokens: 1500, tempo: 45000 },
+  medium: { tokens: 3000, tempo: 50000 },
+  high: { tokens: 6000, tempo: 55000 },
+};
+
 function json(dados, status = 200) {
   return Response.json(dados, {
     status,
@@ -63,6 +71,9 @@ export default {
     const entrada = historico.map((item) => ({ role: item.role, content: item.content }));
     entrada.push({ role: 'user', content: pergunta });
 
+    const nivel = Object.hasOwn(ESFORCOS, dados.esforco) ? dados.esforco : 'low';
+    const esforco = ESFORCOS[nivel];
+
     const chave = process.env.OPENAI_API_KEY;
     if (!chave) {
       return json({ erro: 'A integração com a OpenAI ainda não foi configurada.' }, 503);
@@ -82,12 +93,12 @@ export default {
         // Instruções com o contexto do semestre; a matéria só vale se estiver na lista.
         instructions: montarInstrucoes(typeof dados.materia === 'string' ? dados.materia : ''),
         input: entrada,
-        reasoning: { effort: 'none' },
-        max_output_tokens: 600,
+        reasoning: { effort: nivel },
+        max_output_tokens: esforco.tokens,
         store: false,
       }, {
         headers: { Authorization: `Bearer ${chave}` },
-        timeout: 45000,
+        timeout: esforco.tempo,
       });
 
       const dadosOpenAI = retorno.data;
