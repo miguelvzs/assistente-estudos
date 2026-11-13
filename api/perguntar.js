@@ -1,7 +1,19 @@
 // EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
 import axios from 'axios';
 import limite from '../server/limite-diario.js';
-import { montarInstrucoes } from '../src/conteudo/semestre.js';
+import { montarInstrucoes, materias } from '../src/conteudo/semestre.js';
+import material from '../server/material.js';
+
+const SIGLAS = Object.fromEntries(materias.map((m) => [m.id, m.sigla]));
+
+// Junta os trechos encontrados às instruções, numerados para a IA citar [1], [2]...
+function instrucoesComMaterial(base, trechos) {
+  if (trechos.length === 0) {
+    return base + ' Não foram encontrados trechos do material das aulas para esta pergunta; se a resposta depender do que a professora ensinou, avise que não está baseada no material.';
+  }
+  const lista = trechos.map((t, i) => '[' + (i + 1) + '] ' + SIGLAS[t.materia] + ', ' + t.arquivo + ':\n' + t.texto);
+  return base + ' Use como base principal os trechos do material das aulas do Moodle abaixo. Cite a fonte com [1], [2] logo após a informação tirada dela. Siga a forma como o material ensina (nomes, sintaxe e exemplos). Se algo da resposta não estiver nos trechos, deixe claro que é complemento.\n\n' + lista.join('\n\n');
+}
 
 // Esforço de raciocínio: o navegador escolhe só entre estes níveis.
 // Tokens de raciocínio contam no limite de saída, por isso o teto cresce com o esforço.
@@ -71,6 +83,8 @@ export default {
     const entrada = historico.map((item) => ({ role: item.role, content: item.content }));
     entrada.push({ role: 'user', content: pergunta });
 
+    const idMateria = typeof dados.materia === 'string' && SIGLAS[dados.materia] ? dados.materia : '';
+    const modo = dados.modo === 'treino' ? 'treino' : '';
     const nivel = Object.hasOwn(ESFORCOS, dados.esforco) ? dados.esforco : 'low';
     const esforco = ESFORCOS[nivel];
 
@@ -87,11 +101,15 @@ export default {
       return json({ erro: 'Não foi possível verificar o limite diário. Tente novamente mais tarde.' }, 503);
     }
 
+    // Busca no material das aulas: a pergunta atual e a anterior ajudam em perguntas curtas ("e um exemplo?").
+    const ultimaPergunta = historico.length ? historico[historico.length - 2].content : '';
+    const trechos = await material.buscarTrechos(pergunta + ' ' + ultimaPergunta.slice(0, 300), idMateria);
+
     try {
       const retorno = await axios.post('https://api.openai.com/v1/responses', {
         model: 'gpt-6-luna',
         // Instruções com o contexto do semestre; a matéria só vale se estiver na lista.
-        instructions: montarInstrucoes(typeof dados.materia === 'string' ? dados.materia : '', dados.modo === 'treino' ? 'treino' : ''),
+        instructions: instrucoesComMaterial(montarInstrucoes(idMateria, modo), trechos),
         input: entrada,
         reasoning: { effort: nivel },
         max_output_tokens: esforco.tokens,
@@ -121,7 +139,9 @@ export default {
       if (!resposta.trim()) {
         return json({ erro: 'A IA não retornou texto. Reformule a pergunta e tente novamente.' }, 502);
       }
-      return json({ resposta: resposta.trim() });
+      // Só o nome dos arquivos volta ao navegador; o texto do material fica no servidor.
+      const fontes = trechos.map((t, i) => ({ n: i + 1, materia: SIGLAS[t.materia], arquivo: t.arquivo }));
+      return json({ resposta: resposta.trim(), fontes });
     } catch (falha) {
       // Não devolver o objeto de erro do Axios: pode conter a chave nos headers.
       if (falha.code === 'ECONNABORTED') {
