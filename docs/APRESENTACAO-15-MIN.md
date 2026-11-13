@@ -2,7 +2,7 @@
 
 Objetivo: explicar o que você construiu e provar o consumo de API, sem ler o projeto inteiro. A explicação completa está em EXPLICACAO.md; este é o roteiro de ensaio.
 
-**Estado atual:** teste real local confirmado com gpt-6-luna. O ensaio local usa resposta fixa identificada. Antes da apresentação final, trocar para a integração real e conferir. Se isso não acontecer, dizer explicitamente que o provedor está simulado; não apresentar simulação como objetivo concluído.
+**Estado atual:** teste real local confirmado com gpt-6-luna. npm run demo usa resposta fixa identificada; npm run dev usa a integração real quando recebe as credenciais do servidor. Conferir o modo antes de apresentar. Se isso não acontecer, dizer explicitamente que o provedor está simulado; não apresentar simulação como objetivo concluído.
 
 ## Preparação antes de começar
 
@@ -42,7 +42,7 @@ Digitar a pergunta preparada. Antes de clicar:
 
 Clicar uma vez. Enquanto carrega:
 
-“Agora o estado carregando mudou para verdadeiro. O botão mostra Consultando e fica desabilitado, assim como o campo. A requisição ocorre sem recarregar a página.”
+“Agora o estado carregando mudou para verdadeiro. O botão mostra Respondendo... e fica desabilitado, assim como o campo. A requisição ocorre sem recarregar a página.”
 
 Após resposta real:
 
@@ -100,7 +100,7 @@ Apontar validação, process.env, Axios POST e retorno:
 
 “A função verifica o método e a pergunta. Lê a chave do ambiente do servidor, envia a lista de contexto e a pergunta no campo input e define instruções para uma explicação curta em português. O modelo está fixado no servidor. A resposta da OpenAI tem vários campos; retiro só o texto e devolvo um JSON simples ao React.”
 
-“Também existe limite de tamanho e de tempo. Eles evitam uma consulta muito grande ou uma espera indefinida, mas não são um controle de gasto acumulado.”
+“Também existe um limite compartilhado de 50 consultas por dia. Antes de chamar a IA, o servidor reserva uma vaga num contador privado. Ele sobrevive a reinícios e deploys. Se não for possível conferir a contagem, a consulta é bloqueada. Essa infraestrutura foi construída com pesquisa e assistência de IA; não faz parte das aulas de React.”
 
 Não abrir o valor de nenhuma variável. Não afirmar que as validações impedem todo abuso.
 
@@ -146,7 +146,7 @@ Não mostrar links como prontos se ainda estiverem pendentes. Se estiver usando 
 | A IA conhece as aulas? | Não automaticamente. Não conectamos Moodle nem documentos ao modelo |
 | A resposta é garantidamente correta? | Não. É necessário conferir com as fontes da disciplina |
 | Como foi testado sem chave? | Com substituto local explicitamente simulado e testes da função sem rede |
-| O teste simulado comprova consumo real? | Não. Esse teste só poderá ser confirmado depois da chave válida |
+| O teste simulado comprova consumo real? | Não. A chamada real local foi testada separadamente; veja VALIDACAO.md |
 | Por que não colocou mais funcionalidades? | Para cumprir o objetivo de consumo de API com o mínimo de conteúdo estudado |
 
 ## Checklist de domínio antes de apresentar
@@ -170,3 +170,14 @@ Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celu
 
 ## Conceito ampliado
 Apresente como apoio de estudos gerais aos alunos do IF. Demonstre com matemática ou interpretação de texto e uma continuação, em vez de restringir a conversa a programação. Diferencie o público do produto das tecnologias usadas para construí-lo. Modelo e limites continuam econômicos.
+
+## Assistência e partes adicionais
+
+Fala sugerida: “Usei as aulas para construir a interface React. A integração de
+servidor e o controle diário foram feitos com pesquisa e assistência de IA.
+Estudei o fluxo: o navegador envia a pergunta, o servidor valida, reserva uma
+consulta e chama a OpenAI sem revelar a chave. Essa infraestrutura não foi
+ensinada nas aulas de React.”
+
+Não repetir 103 linhas como total atual: essa contagem era da função antes do
+limite. Veja INVENTARIO.md. A versão SUAP fica em outra branch, com guia próprio.

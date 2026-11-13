@@ -1,5 +1,6 @@
 // EXCEÇÃO DOCUMENTADA: função de servidor. Nunca é importada pelo React.
 import axios from 'axios';
+import limite from '../server/limite-diario.js';
 
 function json(dados, status = 200) {
   return Response.json(dados, {
@@ -64,6 +65,14 @@ export default {
     const chave = process.env.OPENAI_API_KEY;
     if (!chave) {
       return json({ erro: 'A integração com a OpenAI ainda não foi configurada.' }, 503);
+    }
+
+    try {
+      if (!await limite.reservarConsulta()) {
+        return json({ erro: 'O limite de 50 consultas de hoje foi atingido. Tente novamente amanhã (horário de Brasília).' }, 429);
+      }
+    } catch {
+      return json({ erro: 'Não foi possível verificar o limite diário. Tente novamente mais tarde.' }, 503);
     }
 
     try {

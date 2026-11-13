@@ -33,7 +33,7 @@ React não gera a explicação. Axios não gera a explicação. A IA externa ger
 
 ## 3. Percurso completo de uma pergunta
 
-Exemplo didático: “Qual é a diferença entre props e state?”. O exemplo de resposta na demonstração é fixo; a resposta real só será verificada com uma chave válida.
+Exemplo didático: “Qual é a diferença entre props e state?”. O exemplo de resposta na demonstração é fixo; a chamada real local foi confirmada em 12/11/2026, conforme VALIDACAO.md.
 
 1. `index.html` cria a div `root` e carrega `main.jsx`.
 2. `main.jsx` coloca `App` dentro dessa div.
@@ -44,9 +44,9 @@ Exemplo didático: “Qual é a diferença entre props e state?”. O exemplo de
 7. Ao enviar, `onSubmit` chama `enviarPergunta`. `preventDefault()` evita a submissão HTML tradicional e o recarregamento da página.
 8. A função limpa o erro anterior, preserva a conversa e rejeita texto vazio depois de retirar espaços das pontas com `trim()`.
 9. `setCarregando(true)` muda o botão e bloqueia novo envio enquanto espera.
-10. `api.post('/perguntar', { pergunta: ... })` envia JSON para `/api/perguntar`. O prefixo `/api` vem da baseURL.
+10. `api.post('/perguntar', { pergunta: pergunta.trim(), historico: mensagens.slice(-6) })` envia JSON para `/api/perguntar`. O prefixo `/api` vem da baseURL.
 11. A função de servidor valida os dados novamente. A validação do navegador melhora o uso, mas não impede que outra pessoa chame a rota diretamente.
-12. Com chave configurada, o servidor envia POST à Responses API. A pergunta entra no campo `input`.
+12. Com chave configurada, o servidor envia POST à Responses API. O histórico validado e a pergunta entram no campo `input`.
 13. A OpenAI responde com um objeto maior. O servidor percorre os itens de saída, retira somente os textos e devolve `{ resposta: '...' }`.
 14. No navegador, `.then` recebe o retorno. O JSON já está convertido pelo Axios em `retorno.data`.
 15. `setMensagens([...mensagens, { role: "user", content: pergunta.trim() }, { role: "assistant", content: retorno.data.resposta }])` acrescenta a troca; `setPergunta('')` limpa o campo e `setCarregando(false)` libera o formulário.
@@ -58,10 +58,10 @@ sequenceDiagram
     participant R as React no navegador
     participant V as Função na Vercel
     participant O as OpenAI
-    U->>R: Digita e clica em Perguntar
-    R->>R: Valida e mostra Consultando
-    R->>V: POST /api/perguntar com pergunta
-    V->>V: Valida e lê chave do ambiente
+    U->>R: Digita e clica em Enviar
+    R->>R: Valida e mostra Respondendo...
+    R->>V: POST /api/perguntar com pergunta e histórico
+    V->>V: Valida, lê chave e reserva consulta diária
     V->>O: POST /v1/responses
     O-->>V: JSON com saída do modelo
     V-->>R: JSON com resposta textual
@@ -109,7 +109,7 @@ O if de carregando e o botão desabilitado evitam reenvios comuns pela interface
 
 ### Painel.jsx — props e children
 
-Recebe `titulo`, `imagem` e `children`. `titulo` vai para h2. `children` é o conteúdo colocado entre a abertura e o fechamento de Painel no App. Um único Painel contém conversa e formulário; imagem define o endereço do mascote.
+Recebe `titulo`, `imagem`, `status` e `children`. `status` mostra simulação, espera pela primeira resposta ou conexão confirmada na sessão. `titulo` vai para h2. `children` é o conteúdo colocado entre a abertura e o fechamento de Painel no App. Um único Painel contém conversa e formulário; imagem define o endereço do mascote.
 
 ### Resposta.jsx — quatro situações visuais
 
@@ -119,7 +119,7 @@ As condições no JSX controlam os avisos. O texto aparece dentro de `{mensagem.
 
 ### services/api.js — o endereço de nossa função
 
-`axios.create` cria um cliente com baseURL `/api` e timeout de 50 segundos. Esse arquivo não chama diretamente a OpenAI e não contém credencial. `api.post('/perguntar', objeto)` junta base e caminho. A barra de `/api` aponta para o mesmo site que serviu a tela.
+`axios.create` cria um cliente com baseURL `/api` e timeout de 60 segundos. Esse arquivo não chama diretamente a OpenAI e não contém credencial. `api.post('/perguntar', objeto)` junta base e caminho. A barra de `/api` aponta para o mesmo site que serviu a tela. O tempo cobre a reserva no contador (até 8 segundos) e a OpenAI (até 45 segundos).
 
 ### main.jsx — início do React
 
@@ -159,7 +159,7 @@ Saída de erro:
 6. Exige Content-Type JSON; lê texto; recusa corpo excessivo; usa JSON.parse. Parse inválido recebe 400.
 7. Verifica tipo string, ausência/vazio e limite de 2000 caracteres. Ignora campos extras enviados pelo cliente, como modelo ou instruções.
 8. Lê `process.env.OPENAI_API_KEY`, disponível somente no servidor. Sem ela, retorna 503 antes de qualquer chamada externa.
-9. Usa Axios POST para o endereço fixo da OpenAI, com cabeçalho Authorization Bearer. A credencial nunca é devolvida ao cliente.
+9. Reserva uma das 50 consultas diárias usando `server/limite-diario.js`. Se esgotou, responde 429; se não consegue verificar, responde 503. Só após a reserva usa Axios POST para a OpenAI, com cabeçalho Authorization Bearer. A credencial nunca é devolvida ao cliente. Uma falha da OpenAI não devolve a reserva.
 10. Envia `model`, `instructions`, `input`, `reasoning`, `max_output_tokens` e `store`.
 11. Verifica status completed e array output. Uma resposta incompleta não é exibida como concluída.
 12. Percorre mensagens e conteúdos para reunir partes output_text. Itens de raciocínio não são exibidos. Ausência de texto/refusa sem texto recebe mensagem genérica para reformular.
@@ -170,11 +170,11 @@ Saída de erro:
 
 | Campo | Valor/objetivo |
 |---|---|
-| model | gpt-6-luna, escolha técnica provisória ainda sem teste na conta |
+| model | gpt-6-luna, validado com uma chamada real local |
 | instructions | Orienta resposta curta em português, com exemplo, sem fingir fontes ou acesso ao curso |
-| input | Pergunta digitada |
-| reasoning.effort | minimal; reduz o esforço para esta tarefa simples |
-| max_output_tokens | 1200; limite inclui tokens internos, não apenas palavras visíveis |
+| input | Até seis mensagens anteriores e a pergunta digitada |
+| reasoning.effort | none; configuração usada nesta tarefa |
+| max_output_tokens | 600; teto de tokens de saída, não uma contagem de palavras |
 | store | false; não manter o objeto de resposta para recuperação posterior via API |
 | timeout do Axios | 45 segundos; depois a função responde com erro de tempo |
 
@@ -190,9 +190,9 @@ O pedido de até 180 palavras é uma orientação ao modelo, não validação r�
 | 405 | Método diferente de POST |
 | 413 | Corpo excessivo |
 | 415 | Content-Type inadequado |
-| 429 | Provedor sinalizou limite/quota; verificar a conta |
+| 429 | Limite diário do app atingido ou quota do provedor |
 | 502 | Falha do provedor, resposta incompleta ou sem texto |
-| 503 | Chave ausente ou configuração rejeitada pelo provedor |
+| 503 | Chave ausente, contador indisponível ou configuração rejeitada pelo provedor |
 | 504 | Tempo de consulta excedido |
 
 ## 7. Estilo — App.css
@@ -226,6 +226,9 @@ Não há biblioteca de design, imagem externa ou animação. Os atributos de ace
 | vite.config.js | Plugin React e adaptador HTTP local para a função |
 | vercel.json | Configura build, pasta de saída, duração da função e headers |
 | tests/api.test.js | Verifica a fronteira com o provedor sem rede ou chave real |
+| server/limite-diario.js | Reserva uma das 50 consultas no contador privado |
+| tests/limite-diario.test.js | Verifica limite, concorrência, virada do dia e falhas |
+| scripts/verificar-limite-real.mjs | Testa Blob em arquivo isolado e o remove; não chama OpenAI |
 | README.md | Porta de entrada: execução, bibliotecas, links e situação |
 | PRODUCT.md | Objetivo e o que não é este produto |
 | ARCHITECTURE.md | Desenho do fluxo e separação navegador/servidor |
@@ -259,11 +262,11 @@ Headers limitam carregamento de conteúdo à própria origem, bloqueiam enquadra
 
 ## 9. Testes: o que provam e o que não provam
 
-Os 12 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key.
+Os 18 testes usam `node:test` e `assert`, nativos do Node. `mock.method(axios, 'post', ...)` substitui a chamada HTTP por uma função controlada; nenhuma credencial real ou rede é usada. O valor de teste não é uma API key. Cinco testes verificam o contador com um armazenamento simulado, e um teste da rota garante que o bloqueio não chama OpenAI.
 
 Testam método, origem, formato, JSON inválido, ausência/tipo/vazio, tamanho, chave ausente, extração de texto, resposta incompleta, erros do provedor e timeout. A simulação de sucesso confere que campos indevidos do cliente não escolhem modelo/instruções e que detalhes internos não vazam.
 
-Isso verifica nossa lógica. Não comprova saldo, autorização da chave, acesso ao modelo, qualidade da IA, funcionamento na Vercel ou uso por terceiros. Estes dependem de teste real posterior. Build verifica empacotamento do frontend; não testa sozinho a função na nuvem.
+Isso verifica nossa lógica. Não comprova saldo, autorização da chave, acesso ao modelo, qualidade da IA, funcionamento na Vercel ou uso por terceiros. Esses pontos dependem de testes reais; a chamada local e o Blob real já foram verificados, conforme VALIDACAO.md. Build verifica empacotamento do frontend; não testa sozinho a função na nuvem.
 
 ## 10. Segurança e limites honestos
 
@@ -271,13 +274,12 @@ Chave em variável do React não fica secreta: código de navegador é inspecion
 
 Há memória transitória em useState, sem banco; recarregar a página perde as mensagens. A OpenAI recebe o texto e possui suas próprias políticas de retenção. Não enviar dados pessoais. A resposta não substitui as fontes da disciplina.
 
-Endpoint público sem autenticação pode ser chamado por terceiros. Tamanho e tokens limitam uma consulta, não custo total. Não há rate limit global, login, quota por pessoa ou garantia contra abuso. Isso deve ser considerado antes da publicação com chave real; não acrescentar infraestrutura complexa sem combinar.
+Endpoint público sem autenticação pode ser chamado por terceiros. O limite global permite 50 tentativas por dia em Brasília. Não existe quota por pessoa: alguém pode consumir todas as vagas. Não limita chamadas de outros programas na mesma conta OpenAI. Falha do contador bloqueia a consulta. Veja [LIMITE-DIARIO.md](LIMITE-DIARIO.md) para entender cada bloco dessa infraestrutura adicional.
 
 ## 11. Fontes externas usadas apenas para a exceção de servidor
 
 - [Responses API: contrato de entrada e saída](https://developers.openai.com/api/reference/resources/responses/methods/create).
-- [GPT-5 Mini](https://developers.openai.com/api/docs/models/gpt-6-luna).
-- [Reasoning minimal: modelos compatíveis](https://developers.openai.com/cookbook/examples/gpt-5/gpt-5_new_params_and_tools).
+- [GPT-6 Luna](https://developers.openai.com/api/docs/models/gpt-6-luna).
 - [Chave da API fora do navegador](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety).
 - [Funções Node na Vercel](https://vercel.com/docs/functions/runtimes/node-js).
 
@@ -290,14 +292,14 @@ Imagem gerada por IA a pedido de Miguel, salva em public/assistente.png. App.jsx
 O topo-painel usa display: flex e justify-content: space-between para separar o título à esquerda e o mascote à direita. A linha ocupa espaço normal no painel, evitando sobreposição das mensagens. A imagem aparece apenas quando a prop imagem existe.
 
 ## Textos da interface
-O topo contém somente o título. Identificação da disciplina, AA04, autoria, instituição e tecnologias ficam reunidas no rodapé. Removida a frase promocional de introdução; estados e orientações usam texto direto. Mantidos os limites e avisos que explicam o funcionamento. Mascote permanece no canto superior direito da conversa. Nenhuma alteração no consumo da API.
+O topo contém título e subtítulo de apoio aos alunos do IF. Identificação da disciplina, AA04, autoria, instituição e tecnologias ficam reunidas no rodapé. Removida a frase promocional de introdução; estados e orientações usam texto direto. Mantidos os limites e avisos que explicam o funcionamento. Mascote permanece no canto superior direito da conversa. Nenhuma alteração no consumo da API.
 Revisão anti-slop: título menor sem espaçamento artificial entre letras, fundo neutro e bordas discretas. CSS puro; nenhuma alteração no fluxo React. Critérios e limites registrados em REVISAO-ANTI-SLOP.md.
 
 ## Organização de UI/UX
 O painel tem cabeçalho, conversa e formulário separados por espaçamento e linhas discretas. Mensagens próprias alinham à direita (margin-left: auto); respostas à esquerda. max-width evita linhas longas e overflow-wrap quebra textos compridos. O formulário agrupa textarea e botão; flex organiza ajuda à esquerda e ação à direita. A media query empilha essa linha no celular. O mascote continua no canto superior direito. A informação de memória fica fora do painel, e a identificação acadêmica no rodapé. Não há altura fixa ou rolagem interna, nem novos hooks ou dependências. Painel usa padding por área, em vez de um único padding externo. Campos, limites e envio permanecem iguais.
 
 ## Repositório e automação
-Código público: https://github.com/miguelvzs/assistente-estudos, branch development. .github/workflows/verificar.yml executa npm ci, npm test e npm run build em push e pull request. public/assistente.png é a imagem estática. docs/CHAT.md detalha histórico; specs/02-chat.md e specs/03-organizacao-chat.md definem conversa e interface. A API real e a Vercel seguem pendentes.
+Código público: https://github.com/miguelvzs/assistente-estudos, branch development. .github/workflows/verificar.yml executa npm ci, npm test e npm run build em push e pull request. public/assistente.png é a imagem estática. docs/CHAT.md detalha histórico; specs/02-chat.md e specs/03-organizacao-chat.md definem conversa e interface. A API real local foi confirmada. A `main` é a branch de produção vinculada à Vercel; o estado da publicação está em VALIDACAO.md.
 
 ## Aviso de conexão
 App passa a prop status ao Painel. import.meta.env.MODE informa o modo do Vite: demonstracao mostra aviso explícito de simulação. No modo real, mensagens.length maior que zero indica que já chegou uma resposta da API nesta sessão; antes disso, a tela aguarda a primeira resposta. Condições e props continuam básicas; a variável de modo é configuração do Vite, não um hook. O texto confirma uma resposta passada, sem garantir disponibilidade futura.

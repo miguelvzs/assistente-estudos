@@ -1,8 +1,11 @@
 // Testes auxiliares da função: sem rede, sem chave real e sem custo.
-import { test, afterEach, mock } from 'node:test';
+import { test, beforeEach, afterEach, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import axios from 'axios';
 import perguntar from '../api/perguntar.js';
+import limite from '../server/limite-diario.js';
+
+beforeEach(() => mock.method(limite, 'reservarConsulta', async () => true));
 
 afterEach(() => {
   mock.restoreAll();
@@ -22,6 +25,18 @@ test('GET não dispara consulta e informa o método permitido', async () => {
   const retorno = await perguntar.fetch(new Request('https://estudo.example/api/perguntar'));
   assert.equal(retorno.status, 405);
   assert.equal(retorno.headers.get('Allow'), 'POST');
+});
+
+test('quota esgotada e contador indisponível nunca chamam OpenAI', async () => {
+  process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
+  const chamada = mock.method(axios, 'post', () => { throw new Error('Não deve chamar'); });
+  limite.reservarConsulta.mock.mockImplementation(async () => false);
+  assert.equal((await enviar({ pergunta: 'Explique uma fração.' })).status, 429);
+  limite.reservarConsulta.mock.mockImplementation(async () => { throw new Error('privado'); });
+  const retorno = await enviar({ pergunta: 'Explique uma fração.' });
+  assert.equal(retorno.status, 503);
+  assert.ok(!(await retorno.text()).includes('privado'));
+  assert.equal(chamada.mock.callCount(), 0);
 });
 
 test('recusa origem estrangeira', async () => {

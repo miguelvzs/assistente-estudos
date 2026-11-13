@@ -1,7 +1,34 @@
-# Inventário inicial — 12/11/2026
+# Inventário atual — 13/11/2026
 
-Projeto inexistente antes desta tarefa; foi criada a pasta projetos/assistente-estudos no workspace do tutor. Não substitui os laboratórios existentes.
+Contagem de linhas não vazias e não iniciadas por //, com a formatação atual.
+Não é medida de dificuldade nem quantidade de linhas alteradas. CSS tem várias
+regras numa linha. Base React (main.jsx/index.html), lockfile, testes, documentos
+e imagem não entram na tabela principal.
 
-Reaproveitamento conceitual: padrões das aulas 02–09 e enunciado AA04, já baixados. Não copiar node_modules dos laboratórios. README, contexto e matriz curricular escritos antes do código. Linha de base de tempo: não medida, aplicação nova.
+| Arquivo | Linhas de código |
+|---|---:|
+| src/App.jsx | 63 |
+| src/components/Painel.jsx | 12 |
+| src/components/FormularioPergunta.jsx | 25 |
+| src/components/Resposta.jsx | 15 |
+| src/services/api.js | 6 |
+| src/App.css | 49 |
+| api/perguntar.js | 111 |
+| server/limite-diario.js | 31 |
+| vite.config.js | 46 |
 
-Dependências escolhidas por consulta npm: React 19.3.1, Axios 1.21.1, Vite 8.3.8 e plugin-react 6.3.0; não significam versões exigidas pela professora. Node local 24.14.1. Lockfile fixa a árvore instalada.
+A função OpenAI tinha 103 linhas antes do limite. Agora há a chamada de reserva
+na função e um módulo separado para o contador; não apresentar 103 como total
+atual do servidor. Testes e adaptador Vite são ferramentas auxiliares.
+
+Para reproduzir (Python, na raiz):
+
+```python
+from pathlib import Path
+for nome in ['api/perguntar.js', 'server/limite-diario.js']:
+    linhas = Path(nome).read_text(encoding='utf-8').splitlines()
+    print(nome, sum(bool(l.strip()) and not l.lstrip().startswith('//') for l in linhas))
+```
+
+Versões exatas em package.json e package-lock.json. As versões não são exigências
+da professora. Reaproveitamento conceitual das aulas 02–09, detalhado no mapa.

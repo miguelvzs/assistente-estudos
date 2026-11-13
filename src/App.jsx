@@ -66,6 +66,7 @@ export default function App() {
         <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
       </Painel>
       <p className="nota-conversa">A IA considera as últimas 3 trocas. Ao atualizar a página, a conversa é apagada.</p>
+      <p className="nota-conversa">Limite compartilhado de 50 consultas por dia. Renova à meia-noite de Brasília.</p>
 
       <footer>
         <p>Miguel Vaz de Souza · IFSP Bragança Paulista</p>
