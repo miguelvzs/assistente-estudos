@@ -20,6 +20,8 @@ export default function App() {
   const [materia, setMateria] = useState('');
   // Esforço de raciocínio do modelo: 'low', 'medium' ou 'high'.
   const [esforco, setEsforco] = useState('low');
+  // Modo treino: a IA propõe exercícios e corrige as respostas do aluno.
+  const [treino, setTreino] = useState(false);
 
   function mudarPergunta(evento) {
     setPergunta(evento.target.value);
@@ -40,7 +42,7 @@ export default function App() {
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia, esforco })
+    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6), materia, esforco, modo: treino ? 'treino' : '' })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
           setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
@@ -58,6 +60,12 @@ export default function App() {
         }
         setCarregando(false);
       });
+  }
+
+  // Plano de estudo da agenda: escolhe a matéria da avaliação e envia o pedido.
+  function pedirPlano(idMateria, texto) {
+    setMateria(idMateria);
+    enviar(texto);
   }
 
   // O evento do formulário inicia a requisição; não precisamos de useEffect.
@@ -108,6 +116,7 @@ export default function App() {
             aoEscolherSugestao={enviar}
             materia={materia}
             aoMudarMateria={setMateria}
+            aoPedirPlano={pedirPlano}
             rodape={
               <p className="mt-8 text-xs leading-5 text-muted-foreground">
                 A conversa lembra as últimas 3 trocas e é apagada ao atualizar a página.
@@ -119,7 +128,7 @@ export default function App() {
             }
           />
         </main>
-        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} materia={materia} aoMudarMateria={setMateria} esforco={esforco} aoMudarEsforco={setEsforco} />
+        <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} materia={materia} aoMudarMateria={setMateria} esforco={esforco} aoMudarEsforco={setEsforco} treino={treino} aoMudarTreino={setTreino} />
       </Painel>
       <AnimatePresence>
         {guiaAberto && <GuiaApresentacao key="guia" aoFechar={() => setGuiaAberto(false)} />}

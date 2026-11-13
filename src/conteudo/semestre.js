@@ -105,9 +105,12 @@ const base = 'Você é o IFAI, assistente de estudos de alunos do 2º semestre d
 
 // Monta as instruções da IA. O id da matéria vem do navegador, mas só é usado
 // se existir nesta lista: o cliente não consegue mandar texto próprio para as instruções.
-export function montarInstrucoes(idMateria) {
+const treino = ' MODO TREINO: você é um treinador de prova. Proponha UM exercício por vez, no estilo das avaliações da disciplina, e não dê a resposta. Quando o aluno responder, corrija passo a passo: diga o que está certo, aponte o erro, dê uma dica antes de mostrar a solução e então proponha o próximo exercício, um pouco mais difícil. Se o aluno pedir a resposta, mostre com explicação.';
+
+export function montarInstrucoes(idMateria, modo = '') {
   const materia = materias.find((item) => item.id === idMateria);
-  if (!materia) return base;
-  return base + ' Contexto: o aluno está estudando ' + materia.nome + '. Temas da disciplina: ' + materia.temas.join(', ') + '. ' +
+  const extra = modo === 'treino' ? treino : '';
+  if (!materia) return base + extra;
+  return base + extra + ' Contexto: o aluno está estudando ' + materia.nome + '. Temas da disciplina: ' + materia.temas.join(', ') + '. ' +
     materia.contexto + ' Relacione a resposta a esses temas e use as ferramentas da disciplina nos exemplos.';
 }

@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Dumbbell } from 'lucide-react';
 import { AIInputWithLoading } from './ui/ai-input-with-loading';
 import { materias } from '../conteudo/semestre';
 
@@ -32,9 +32,20 @@ function Chip({ id, rotulo, titulo, valor, aoMudar, desabilitado, children }) {
 // Formulário do projeto: o evento onSubmit chama enviarPergunta, no App.
 // Os chips dentro da caixa escolhem a matéria (contexto) e o esforço de raciocínio da IA.
 // A caixa de digitação é o componente AI Input With Loading (Kokonut UI), adaptado.
-export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando, materia, aoMudarMateria, esforco, aoMudarEsforco }) {
+export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando, materia, aoMudarMateria, esforco, aoMudarEsforco, treino, aoMudarTreino }) {
   const chips = (
     <div className="flex min-w-0 items-center gap-1.5">
+      <button
+        type="button"
+        onClick={() => aoMudarTreino(!treino)}
+        aria-pressed={treino}
+        disabled={carregando}
+        title="Modo treino: a IA propõe exercícios e corrige suas respostas"
+        className={'inline-flex shrink-0 items-center gap-1 rounded-full py-1.5 pr-3 pl-2.5 text-xs font-medium ring-1 transition-colors focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-60 ' + (treino ? 'bg-primary text-white ring-primary' : 'bg-white text-muted-foreground ring-border hover:text-foreground')}
+      >
+        <Dumbbell className="size-3.5" aria-hidden="true" />
+        Treino
+      </button>
       <Chip id="materia" rotulo="Matéria" titulo="Matéria usada como contexto" valor={materia} aoMudar={aoMudarMateria} desabilitado={carregando}>
         <option value="">Todas as matérias</option>
         {materias.map((item) => (
@@ -62,7 +73,7 @@ export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carreg
         onChange={aoMudar}
         loading={carregando}
         maxLength={2000}
-        placeholder="Pergunte sobre seus estudos…"
+        placeholder={treino ? 'Peça um exercício ou responda o atual…' : 'Pergunte sobre seus estudos…'}
         acessorio={chips}
       />
       <p className="mx-auto mt-1 max-w-3xl text-center text-[11px] leading-4 text-muted-foreground">

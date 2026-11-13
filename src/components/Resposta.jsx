@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from './ui/chat-bubble';
 import MarcaIFAI, { SimboloIF } from './MarcaIF';
 import Sugestoes from './Sugestoes';
+import Agenda from './Agenda';
 
 // Animação de entrada (Motion): surge de baixo, suavemente.
 const entrada = {
@@ -19,7 +20,7 @@ function AvatarAssistente() {
   return <ChatBubbleAvatar fallback={<SimboloIF className="h-4 w-auto" />} />;
 }
 
-export default function Resposta({ mensagens, carregando, erro, pergunta, aoEscolherSugestao, materia, aoMudarMateria, rodape }) {
+export default function Resposta({ mensagens, carregando, erro, pergunta, aoEscolherSugestao, materia, aoMudarMateria, aoPedirPlano, rodape }) {
   // Enquanto espera, a pergunta enviada já aparece como balão.
   // Mesma posição (key) que ela terá na lista: assim não pisca quando a resposta chega.
   const itens = carregando ? [...mensagens, { role: 'user', content: pergunta.trim() }] : mensagens;
@@ -54,6 +55,7 @@ export default function Resposta({ mensagens, carregando, erro, pergunta, aoEsco
               Escolha uma matéria do semestre ou pergunte o que quiser. Eu explico com passos curtos e exemplos.
             </p>
             <Sugestoes aoEscolher={aoEscolherSugestao} materia={materia} aoMudarMateria={aoMudarMateria} />
+            <Agenda aoPedirPlano={aoPedirPlano} />
             {avisoErro && <div className="mt-6 w-full max-w-2xl">{avisoErro}</div>}
             {rodape}
           </motion.div>

@@ -112,6 +112,19 @@ test('esforço aceita só low, medium e high; outro valor vira low', async () =>
   assert.deepEqual(chamadas, [['medium', 3000, 50000], ['high', 6000, 55000], ['low', 1500, 45000], ['low', 1500, 45000]]);
 });
 
+test('modo treino muda as instruções; outro modo é ignorado', async () => {
+  process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
+  const instrucoes = [];
+  mock.method(axios, 'post', async (url, corpo) => {
+    instrucoes.push(corpo.instructions);
+    return { data: { status: 'completed', output: [{ type: 'message', content: [{ type: 'output_text', text: 'Ok.' }] }] } };
+  });
+  await enviar({ pergunta: 'Quero treinar', materia: 'poo', modo: 'treino' });
+  await enviar({ pergunta: 'Quero treinar', materia: 'poo', modo: 'hack' });
+  assert.ok(instrucoes[0].includes('MODO TREINO'));
+  assert.ok(!instrucoes[1].includes('MODO TREINO'));
+});
+
 test('matéria da lista acrescenta o contexto da disciplina; desconhecida é ignorada', async () => {
   process.env.OPENAI_API_KEY = 'valor-falso-apenas-em-teste';
   const instrucoes = [];
