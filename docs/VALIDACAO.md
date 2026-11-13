@@ -12,7 +12,7 @@
   chamadas, confirmou total 50 e bloqueio da seguinte. Arquivo de teste removido.
   Nenhuma chamada OpenAI; contador do app não alterado.
 - main criada; Vercel vinculada ao repositório com Production Branch main.
-  Publicação final ainda em verificação.
+  Deploy automático após o merge do PR #1 confirmado READY no commit a01c3c5.
 
 ## Evidências anteriores
 Interface conferida em desktop e celular em 12/11. Conversa, mascote, campo e
@@ -20,11 +20,20 @@ rodapé sem sobreposição observada. Fluxo real local mostrou resposta, limpou 
 campo e confirmou conexão. As portas locais daquela sessão não são links de entrega.
 
 ## Pendente nesta etapa
-- Publicação final da main e consulta real pela URL Vercel.
-- Verificação visual publicada e acesso sem login Vercel.
-- ZIP final e anexos/links salvos no Moodle.
+- Submissão no Moodle adiada por Miguel; nada enviado.
+
+- ZIP final será gerado do commit aprovado, com verificação do conteúdo.
 - Ensaio de Miguel com cronômetro: documentação não comprova domínio oral.
 - Integração SUAP, pertencente a outra branch.
 
 Saldo e consumo acumulado OpenAI não auditados. Testes não garantem disponibilidade
 futura. O limite controla este aplicativo, não outros usos da mesma credencial.
+
+## Produção confirmada em 13/11/2026
+[URL pública](https://assistente-estudos-three.vercel.app) respondeu HTTP 200
+sem login Vercel. Pergunta vazia retornou 400. Duas consultas reais sobre frações
+retornaram 200: uma pela rota e outra pelo formulário. Campo limpo e aviso de
+conexão confirmado após a resposta. Essas consultas consomem duas vagas do dia.
+Interface conferida com resposta em desktop (1905px) e celular (375px), sem
+sobreposição observada. Nenhum diagnóstico de erro no navegador nessa verificação.
+A proteção da main exige PR e verificação `verificar` aprovada antes de merge.

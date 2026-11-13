@@ -36,7 +36,7 @@ data e quantidade, sem IP, aluno, pergunta ou resposta.
 | gpt-6-luna, até 600 tokens e chave válida no cofre | 12/11/2026 | Chamada real local confirmada; não usar a entrada antiga de aviso |
 | Publicação condicionada a 50 requisições/dia | 12/11/2026 | Reserva persistente e bloqueio em falhas |
 | main com deploy após merge, commits unitários | 13/11/2026 | PR de development com CI verde e commit de merge |
-| ZIP e links no Moodle | 13/11/2026 | Autorização específica para esta entrega |
+| ZIP e links preparados; submissão adiada | 13/11/2026 | Pedido posterior de Miguel: conferir tudo antes de enviar |
 | Segunda versão básica em outra branch | 13/11/2026 | Não substituir nem misturar a versão OpenAI |
 
 ## Decisões abertas e limites

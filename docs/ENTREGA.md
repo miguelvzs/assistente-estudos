@@ -27,7 +27,7 @@ dist, .git, .vercel, arquivos .env com valores e logs. .env.example pode entrar,
 com campos vazios. Conferir lista do ZIP e comparar seu commit com o publicado.
 
 ## Moodle
-Miguel autorizou anexar o ZIP e os links desta versão em 13/11/2026. Usar a tarefa
+Miguel pediu preparar ZIP e links e depois adiou a submissão em 13/11/2026. Não enviar nesta etapa. Quando solicitar a submissão, usar a tarefa
 [AA04](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
 Não substituir arquivos anteriores sem necessidade. Não declarar autoria exclusiva
 nem aceitar declaração incompatível com o uso documentado de assistência de IA.
