@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { MotionConfig } from 'motion/react';
-import { SquarePen } from 'lucide-react';
+import { AnimatePresence, MotionConfig } from 'motion/react';
+import { Presentation, SquarePen } from 'lucide-react';
 import Painel from './components/Painel';
 import FormularioPergunta from './components/FormularioPergunta';
 import Resposta from './components/Resposta';
+import GuiaApresentacao from './components/GuiaApresentacao';
 import api from './services/api';
 import './App.css';
 
@@ -13,6 +14,8 @@ export default function App() {
   const [mensagens, setMensagens] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
+  // Estado só de interface: abre e fecha o guia de apresentação.
+  const [guiaAberto, setGuiaAberto] = useState(false);
 
   function mudarPergunta(evento) {
     setPergunta(evento.target.value);
@@ -69,23 +72,29 @@ export default function App() {
     ? 'Demonstração: respostas simuladas'
     : mensagens.length > 0 ? 'OpenAI conectada' : 'OpenAI';
 
-  const botaoNovaConversa = mensagens.length > 0 && (
-    <button
-      type="button"
-      onClick={novaConversa}
-      disabled={carregando}
-      className="inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-primary"
-    >
-      <SquarePen className="size-4" aria-hidden="true" />
-      <span className="hidden sm:inline">Nova conversa</span>
-      <span className="sr-only sm:hidden">Nova conversa</span>
-    </button>
+  const estiloBotao = 'inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-primary';
+
+  const acoes = (
+    <>
+      {mensagens.length > 0 && (
+        <button type="button" onClick={novaConversa} disabled={carregando} className={estiloBotao}>
+          <SquarePen className="size-4" aria-hidden="true" />
+          <span className="hidden sm:inline">Nova conversa</span>
+          <span className="sr-only sm:hidden">Nova conversa</span>
+        </button>
+      )}
+      <button type="button" onClick={() => setGuiaAberto(true)} className={estiloBotao + ' border border-border'}>
+        <Presentation className="size-4 text-if-vermelho" aria-hidden="true" />
+        <span className="hidden sm:inline">Apresentação</span>
+        <span className="sr-only sm:hidden">Apresentação</span>
+      </button>
+    </>
   );
 
   return (
     // MotionConfig: respeita quem pediu menos animação no sistema.
     <MotionConfig reducedMotion="user">
-      <Painel titulo="Assistente de Estudos" subtitulo="IFSP Bragança Paulista · Front End AA04" status={status} acao={botaoNovaConversa}>
+      <Painel titulo="IFAI — Assistente de Estudos" subtitulo={<>Assistente de estudos<br />IFSP Bragança Paulista</>} status={status} acoes={acoes}>
         <main className="flex flex-1 flex-col overflow-y-auto overscroll-contain" aria-busy={carregando}>
           <Resposta
             mensagens={mensagens}
@@ -94,16 +103,19 @@ export default function App() {
             pergunta={pergunta}
             aoEscolherSugestao={enviar}
             rodape={
-              <p className="mt-8 text-xs text-muted-foreground">
+              <p className="mt-8 text-xs leading-5 text-muted-foreground">
                 Lembra as últimas 3 trocas · A conversa é apagada ao atualizar a página
                 <br />
-                Miguel Vaz de Souza · React + OpenAI
+                Projeto acadêmico de Miguel Vaz de Souza · Front End AA04 · não é serviço oficial do IF
               </p>
             }
           />
         </main>
         <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
       </Painel>
+      <AnimatePresence>
+        {guiaAberto && <GuiaApresentacao key="guia" aoFechar={() => setGuiaAberto(false)} />}
+      </AnimatePresence>
     </MotionConfig>
   );
 }

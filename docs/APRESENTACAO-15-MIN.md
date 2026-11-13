@@ -202,3 +202,6 @@ Use esta seção só se apresentar a versão nova. O tempo sai do bloco “compo
 | Por que o campo cresce? | Um hook do componente mede a altura do texto (`scrollHeight`) e ajusta, até 200px. |
 | Isso mudou a lógica? | Não. Os quatro estados, o POST e o histórico de 3 trocas continuam iguais. |
 | Como ficou responsivo? | Classes com `sm:` mudam a partir de 640px: menos sugestões, balões mais largos e textos menores no celular. |
+## Botão Apresentação
+
+No app publicado, o botão **Apresentação** (canto superior direito) abre um resumo deste roteiro: agenda, fluxo, React, API, servidor, interface, tecnologias e perguntas. Use para consultar durante o ensaio. Na abertura, o nome do projeto agora é **IFAI**.
