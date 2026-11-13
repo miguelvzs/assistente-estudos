@@ -20,10 +20,6 @@ function Titulo({ children }) {
   return <h3 className="mt-6 mb-2 text-sm font-semibold text-foreground first:mt-0">{children}</h3>;
 }
 
-function Fala({ children }) {
-  return <blockquote className="my-3 rounded-xl border-l-4 border-if-verde bg-secondary px-4 py-3 text-sm italic leading-6">{children}</blockquote>;
-}
-
 function Codigo({ children }) {
   return <pre className="my-3 overflow-x-auto rounded-xl bg-foreground px-4 py-3 text-[13px] leading-6 text-white"><code>{children}</code></pre>;
 }
@@ -62,7 +58,7 @@ const conteudo = {
           ['Digitar', <>onChange chama {c('mudarPergunta')} → {c('setPergunta')} guarda o texto.</>],
           ['Enviar', <>Enter ou botão → {c('onSubmit')} → {c('enviarPergunta')} → {c('preventDefault()')} → {c('enviar(pergunta)')}.</>],
           ['Validar', <>Texto vazio vira erro; senão {c('setCarregando(true)')}.</>],
-          ['POST', <>Axios envia {c('{ pergunta, historico, materia }')} para {c('/api/perguntar')}.</>],
+          ['POST', <>Axios envia {c('{ pergunta, historico, materia, esforco }')} para {c('/api/perguntar')}.</>],
           ['Servidor', 'A função na Vercel valida, monta as instruções com o contexto da matéria, reserva 1 das 50 consultas do dia e chama a OpenAI com a chave guardada no servidor.'],
           ['Resposta', <>A função devolve só {c('{ resposta }')} ao navegador.</>],
           ['Atualizar', <>{c('then')}: {c('setMensagens')} acrescenta a troca e limpa o campo. {c('catch')}: {c('setErro')}. Nos dois: {c('setCarregando(false)')}.</>],
@@ -74,7 +70,7 @@ const conteudo = {
           </li>
         ))}
       </ol>
-      <Fala>“Há duas chamadas HTTP: o navegador chama a nossa função; a nossa função chama a OpenAI.”</Fala>
+      <p className="mt-3 text-sm leading-6">Há duas chamadas HTTP: o navegador chama a nossa função; a nossa função chama a OpenAI.</p>
     </>
   ),
   react: (
@@ -138,7 +134,7 @@ const conteudo = {
         <li>É assíncrono: a Promise termina depois; {c('then')} trata sucesso e {c('catch')} trata falha.</li>
         <li>{c('retorno.data')}: o Axios já converte o JSON da resposta.</li>
       </ul>
-      <Fala>“Uso POST porque envio uma pergunta no corpo. A resposta não chega na hora: por isso o then e o catch.”</Fala>
+      <p className="mt-3 text-sm leading-6">Uso POST porque envio uma pergunta no corpo. A resposta não chega na hora: por isso o then e o catch.</p>
     </>
   ),
   servidor: (
@@ -158,7 +154,7 @@ const conteudo = {
         colunas={['Código', 'Quando']}
         linhas={[['200', 'Resposta pronta'], ['400', 'Pergunta inválida'], ['429', 'Limite de 50/dia atingido'], ['502', 'Falha da OpenAI'], ['503', 'Chave ou contador indisponível'], ['504', 'Demorou demais']]}
       />
-      <Fala>“A função de servidor e o limite diário foram feitos com pesquisa e assistência de IA. Não fazem parte das aulas de React. Estudei como funcionam para explicar a integração.”</Fala>
+      <p className="mt-3 text-sm leading-6">A função de servidor e o limite diário foram feitos com pesquisa e assistência de IA. Não fazem parte das aulas de React. Estudei como funcionam para explicar a integração.</p>
     </>
   ),
   interface: (
@@ -169,7 +165,7 @@ const conteudo = {
         <li><strong>AI Input With Loading</strong>, da Kokonut UI (MIT): campo que cresce com o texto, botão dentro do campo e quadrado girando na espera.</li>
         <li>Adaptei: TypeScript → JSX, textos em português e ligação com o estado e a API reais (o original simulava a espera com temporizador).</li>
       </ul>
-      <Fala>“Usei componentes abertos do 21st.dev como base e adaptei ao projeto. O controle das mensagens e a chamada à API continuam no App.”</Fala>
+      <p className="mt-3 text-sm leading-6">Usei componentes abertos do 21st.dev como base e adaptei ao projeto. O controle das mensagens e a chamada à API continuam no App.</p>
       <Titulo>Estilo, animação e marca</Titulo>
       <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
         <li><strong>Tailwind CSS</strong>: classes de estilo direto no JSX; necessário porque os componentes vêm assim.</li>

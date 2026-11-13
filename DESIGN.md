@@ -14,3 +14,5 @@ Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Nome IFAI:
 Sem mascote, menus, anexos, seleção de modelo, copiar/regenerar ou streaming. Créditos: docs/CREDITOS-UI.md.
 
 Revisão anti-slop (skill design-taste-frontend, 13/11/2026): sem travessões na interface, no máximo um ponto médio por linha (hoje nenhum), rodapés reescritos em frases, aba Roteiro removida do guia.
+
+Card de citação removido do guia (13/11, noite): o componente Fala (caixa com barra verde e itálico) foi excluído a pedido de Miguel, por destoar do estilo da interface. As frases viraram parágrafos comuns.
