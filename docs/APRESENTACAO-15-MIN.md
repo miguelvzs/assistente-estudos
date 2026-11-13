@@ -188,7 +188,7 @@ Use esta seção só se apresentar a versão nova. O tempo sai do bloco “compo
 
 **O que mostrar (1 minuto):** tela inicial com sugestões → clicar uma → balão verde aparece, três pontos animados, resposta surge suavemente → “Nova conversa”. Depois, o mesmo no tamanho de celular.
 
-**Fala:** “Para a interface, usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Ficam separados na pasta components/ui. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion e fonte Inter. Fiz com assistência de IA; os créditos estão em CREDITOS-UI.md.”
+**Fala:** “Para a interface, usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Ficam separados na pasta components/ui. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion e Open Sans, a fonte oficial do IF. Fiz com assistência de IA; os créditos estão em CREDITOS-UI.md.”
 
 **Mostrar no código (30 segundos):** em Resposta.jsx, `<ChatBubble variant="sent">` para a pergunta e `<ChatBubble layout="ai">` para a resposta; em FormularioPergunta.jsx, `<AIInputWithLoading value={pergunta} onChange={aoMudar} loading={carregando} />`. São props, como nas aulas.
 

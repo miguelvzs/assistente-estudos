@@ -211,12 +211,12 @@ O pedido de até 180 palavras é uma orientação ao modelo, não validação r�
 Nesta branch o estilo é feito com **Tailwind CSS v4**: classes prontas escritas direto no JSX (`flex`, `px-4`, `rounded-2xl`...). Foi necessário porque os componentes do 21st.dev são escritos assim.
 
 - `App.css` tem só três partes: `@import "tailwindcss"`, o tema (`@theme`) e regras de base.
-- `@theme` define a fonte Inter e as cores com nomes do padrão shadcn (`primary`, `secondary`, `foreground`, `muted-foreground`, `border`). Assim `bg-primary` vira o verde do projeto.
+- `@theme` define a fonte Open Sans (oficial do IF) e as cores com nomes do padrão shadcn (`primary`, `secondary`, `foreground`, `muted-foreground`, `border`). Assim `bg-primary` vira o verde do projeto.
 - Responsividade: prefixo `sm:` vale a partir de 640px. Exemplos: `hidden sm:inline` (some no celular), `sm:grid-cols-2` (sugestões em duas colunas no computador), `max-w-[85%] sm:max-w-[75%]` (balões).
 - Layout: `h-dvh flex flex-col` no Painel; a conversa (`main`) é a única parte que rola; cabeçalho e campo ficam fixos. A coluna de conteúdo tem no máximo 768px (`max-w-3xl`), centralizada.
 - `pb-[max(env(safe-area-inset-bottom),0.75rem)]`: no iPhone, o campo não fica embaixo da barra de gestos.
 - Foco visível em botões e no campo; texto do campo em 16px para o iPhone não dar zoom.
-- Fonte: pacote `@fontsource-variable/inter`, importado em `main.jsx`. A fonte vai junto com o site; não depende do Google Fonts.
+- Fonte: Open Sans, a fonte oficial da marca do IF (Manual da Marca 2015, pág. 16). Pacote `@fontsource-variable/open-sans`, importado em `main.jsx`; vai junto com o site, sem Google Fonts. Substituiu a Inter em 13/11/2026.
 
 ## 8. Configuração e arquivos auxiliares
 
@@ -338,7 +338,7 @@ Fala sugerida: “Usei componentes abertos do 21st.dev como base, com licença M
 | `tailwindcss` + `@tailwindcss/vite` | Classes de estilo usadas pelos componentes do 21st.dev |
 | `motion` (motion.dev) | Animações: entrada das mensagens, troca da tela inicial, toque no botão |
 | `lucide-react` | Ícones (enviar, nova conversa, chapéu de formatura, brilho) |
-| `@fontsource-variable/inter` | Fonte Inter servida pelo próprio site |
+| `@fontsource-variable/open-sans` | Open Sans, fonte oficial do IF, servida pelo próprio site |
 
 Nenhuma delas recebe dados do aluno nem chama serviços externos.
 

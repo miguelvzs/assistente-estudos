@@ -12,7 +12,7 @@ Tudo o que o projeto usa, com versão, função e origem. Versões conforme `pac
 | Tailwind CSS + @tailwindcss/vite | 4.3.5 | Estilo por classes no JSX | https://tailwindcss.com |
 | Motion | 14.14.0 | Animações (entrada de mensagens, guia, botões) | https://motion.dev |
 | Lucide React | 1.72.0 | Ícones | https://lucide.dev |
-| Inter (@fontsource-variable/inter) | 5.3.0 | Fonte, servida pelo próprio site | https://rsms.me/inter · https://fontsource.org/fonts/inter |
+| Open Sans (@fontsource-variable/open-sans) | 5.3.0 | Fonte oficial da marca do IF (Manual da Marca 2015, pág. 16), servida pelo próprio site | https://fontsource.org/fonts/open-sans · https://web.archive.org/web/20190102031956/http://redefederal.mec.gov.br/images/pdf/manual.pdf |
 
 ## Servidor, dados e publicação
 

@@ -200,7 +200,7 @@ const conteudo = {
       <ul className="list-disc space-y-1 pl-5 text-sm leading-6">
         <li><strong>Tailwind CSS</strong>: classes de estilo direto no JSX; necessário porque os componentes vêm assim.</li>
         <li><strong>Motion</strong>: {c('initial')} (começo) e {c('animate')} (fim) nas mensagens; {c('whileTap')} no botão; desliga se o sistema pede menos movimento.</li>
-        <li><strong>Inter</strong>: fonte servida pelo próprio site. <strong>Lucide</strong>: ícones.</li>
+        <li><strong>Open Sans</strong>: fonte oficial da marca do IF (Manual da Marca 2015), servida pelo próprio site. <strong>Lucide</strong>: ícones.</li>
         <li><strong>Paleta do IF</strong>: verde {c('#2f9e41')} e vermelho {c('#cd191e')}. Botões e balões usam verde mais escuro ({c('#1f7a33')}) para o texto branco ter contraste suficiente.</li>
         <li><strong>IFAI</strong>: símbolo oficial do IF (domínio público, Setec/MEC) + “AI”.</li>
       </ul>
@@ -226,7 +226,7 @@ const conteudo = {
           [<Link href="https://tailwindcss.com">Tailwind CSS 4</Link>, 'Estilo'],
           [<Link href="https://motion.dev">Motion</Link>, 'Animações'],
           [<Link href="https://lucide.dev">Lucide</Link>, 'Ícones'],
-          [<Link href="https://rsms.me/inter/">Inter</Link>, <>Fonte, via <Link href="https://fontsource.org/fonts/inter">Fontsource</Link></>],
+          [<Link href="https://fontsource.org/fonts/open-sans">Open Sans</Link>, <>Fonte oficial do IF (<Link href="https://web.archive.org/web/20190102031956/http://redefederal.mec.gov.br/images/pdf/manual.pdf">Manual da Marca</Link>), via Fontsource</>],
         ]}
       />
       <Titulo>Sites de componentes e recursos</Titulo>

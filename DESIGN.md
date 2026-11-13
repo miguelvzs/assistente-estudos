@@ -1,6 +1,6 @@
 # Interface de chat — branch feat/chat-ui-21st
 
-Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Nome IFAI: símbolo oficial do IF + “IF” verde e “AI” vermelho. Fonte Inter. Paleta do IF: verde #2f9e41 e vermelho #cd191e; balões e botões em #1f7a33 (contraste com texto branco). Tailwind CSS v4, Motion e ícones Lucide.
+Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Nome IFAI: símbolo oficial do IF + “IF” verde e “AI” vermelho. Fonte Open Sans, oficial da marca do IF. Paleta do IF: verde #2f9e41 e vermelho #cd191e; balões e botões em #1f7a33 (contraste com texto branco). Tailwind CSS v4, Motion e ícones Lucide.
 
 - Cabeçalho fixo: marca IFAI, subtítulo (desktop), selo de status (telas largas), “Nova conversa” quando há mensagens e botão “Apresentação”, que abre o guia lateral.
 - Conversa: única área com rolagem; coluna máxima de 768px. Pergunta em balão verde à direita (Chat Bubble `sent`); resposta com avatar e texto em largura total (Chat Bubble layout `ai`). Espera com três pontos animados.
