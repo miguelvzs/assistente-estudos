@@ -1,5 +1,5 @@
 {
-  "name": "assistente-estudos",
+  "name": "assistente-academico-suap-base",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,11 +10,9 @@
     "dev": "vite --host 127.0.0.1",
     "demo": "vite --host 127.0.0.1 --mode demonstracao",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1",
-    "test": "node --test tests/*.test.js"
+    "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
-    "@vercel/blob": "2.4.0",
     "axios": "1.21.1",
     "react": "19.3.1",
     "react-dom": "19.3.1"

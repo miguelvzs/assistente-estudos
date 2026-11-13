@@ -1,18 +1,7 @@
-# Duas versões do trabalho
+# Separação das versões
+main e development contêm o chat OpenAI, com servidor e teto diário. versao-suap
+contém somente a base de consulta acadêmica, sem OpenAI. Não mesclar esta branch
+na main para substituir o trabalho. Os históricos Git preservam a origem comum.
 
-| Branch | Proposta | Documentação |
-|---|---|---|
-| main | Chat com OpenAI e limite diário; versão de entrega | README e docs desta branch |
-| development | Manutenção da versão OpenAI antes do merge | Mesmos guias atualizados com cada alteração |
-| versao-suap | Consulta acadêmica básica; integração IFSP ainda não confirmada | README e docs exclusivos dessa branch |
-
-A versão SUAP não é uma tela alternativa do chat e não deve ser mesclada na main
-para substituir a entrega. Para estudar uma versão, abrir a branch correspondente.
-Cada ZIP deve indicar claramente a versão. Simulação SUAP, se usada para ensinar
-a interface, não comprova consumo da API institucional.
-
-OpenAI: useState, props, formulário, Axios e lista de mensagens no navegador;
-servidor e contador são exceções estudadas com pesquisa e assistência de IA.
-SUAP: objetivo de reduzir a interface a botões de consulta e dados acadêmicos.
-Autenticação, rotas e CORS do IFSP precisam ser confirmados antes de declarar
-integração real ou prometer que dispensa servidor.
+Cada versão tem README, explicação, roteiro, mapa das aulas e ZIP próprios. A
+OpenAI está publicada; esta base SUAP depende de integração real ainda não confirmada.

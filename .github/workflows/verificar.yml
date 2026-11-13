@@ -1,8 +1,5 @@
-﻿name: Verificar projeto
-on:
-  push:
-    branches: [main, development]
-  pull_request:
+name: Verificar base SUAP
+on: [push, pull_request]
 permissions:
   contents: read
 jobs:
@@ -15,5 +12,4 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npm test
       - run: npm run build

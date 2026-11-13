@@ -1,0 +1,10 @@
+{
+  "aviso": "Dados fictícios, não são horários do campus.",
+  "aulas": [
+    {
+      "dia_exemplo": "Segunda-feira",
+      "inicio_exemplo": "19:00",
+      "disciplina": "Disciplina de exemplo A"
+    }
+  ]
+}

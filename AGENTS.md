@@ -1,10 +1,9 @@
-# Assistente de Estudos — regras do projeto
-
-- Leia PRODUCT.md, docs/ESCOPO.md, SEGURANCA.md, ARCHITECTURE.md, DESIGN.md e docs/specs/01-consulta.md, nesta ordem.
-- Projeto acadêmico individual: somente React básico das aulas; função de servidor é a única exceção aceita por Miguel.
-- Sem banco de alunos/conversas, login, persistência de histórico, upload, streaming ou bibliotecas de interface. Blob privado guarda somente o contador diário, conforme docs/specs/05-publicacao.md.
-- Documente cada arquivo e qualquer mudança em docs/EXPLICACAO.md; atualize o roteiro de 15 minutos quando mudar o fluxo.
-- Chaves OpenAI e Blob somente no servidor; usar exclusivamente a credencial válida do projeto no cofre. Não usar a entrada antiga de aviso.
-- Não alterar o Moodle fora de pedido explícito. Miguel autorizou em 13/11/2026 anexar os links e o ZIP desta entrega. Não declarar autoria exclusiva nem aceitar declarações incompatíveis com a assistência de IA. Estado de publicação em docs/VALIDACAO.md.
-- Siga docs/COMMITS.md e docs/DOCUMENTACAO.md. Commits sem trailer de IA.
-- As regras empresariais genéricas de autenticação de SEGURANCA.md são adaptadas conforme docs/ESCOPO.md §7, devido ao escopo acadêmico explicitamente aprovado.
+# Regras da base SUAP
+- Esta branch é versao-suap, independente do chat OpenAI na main. Não mesclar na main para substituir a entrega.
+- Ler PRODUCT.md, docs/ESCOPO.md, ARCHITECTURE.md e docs/specs/06-suap-basico.md antes de alterar.
+- Somente React básico das aulas, Axios GET e CSS. Sem IA, backend próprio ou dados pessoais salvos.
+- API IFSP ainda não confirmada: não inventar rotas, respostas, autenticação ou client_id.
+- Demonstração usa JSON fictício local e deve ser identificada. Não afirmar integração real.
+- Segredos nunca no React, VITE_*, logs ou ZIP. Login institucional somente pelo usuário.
+- Documentar cada mudança e seguir docs/COMMITS.md e docs/DOCUMENTACAO.md. Commits unitários sem trailer de IA.
+- Submissão adiada pelo usuário em 13/11/2026. Não enviar nada no Moodle nesta etapa.
