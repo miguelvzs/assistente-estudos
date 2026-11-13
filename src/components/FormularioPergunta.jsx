@@ -1,26 +1,26 @@
-// Formulário controlado: props, eventos e estado das Aulas 04, 07 e 08.
+import { AIInputWithLoading } from './ui/ai-input-with-loading';
+
+// Formulário do projeto: o evento onSubmit chama enviarPergunta, no App.
+// A caixa de digitação é o componente AI Input With Loading (Kokonut UI), adaptado.
 export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando }) {
   return (
-    <form className="formulario" onSubmit={aoEnviar}>
-      <label htmlFor="pergunta">Sua mensagem</label>
-      <textarea
+    <form
+      onSubmit={aoEnviar}
+      aria-busy={carregando}
+      className="shrink-0 bg-white px-3 pt-2 pb-[max(env(safe-area-inset-bottom),0.75rem)] sm:px-6 sm:pb-4"
+    >
+      <label htmlFor="pergunta" className="sr-only">Sua mensagem</label>
+      <AIInputWithLoading
         id="pergunta"
-        name="pergunta"
-        rows="3"
-        maxLength="2000"
         value={pergunta}
         onChange={aoMudar}
-        disabled={carregando}
-        placeholder="Ex.: Como resolvo uma equação do segundo grau?"
-        aria-describedby="orientacao"
+        loading={carregando}
+        maxLength={2000}
+        placeholder="Pergunte sobre seus estudos…"
       />
-      <div className="acoes-formulario">
-        <p id="orientacao" className="ajuda">Até 2.000 caracteres. Não inclua dados pessoais.</p>
-        <button type="submit" disabled={carregando}>
-          {carregando ? 'Respondendo...' : 'Enviar'}
-        </button>
-      </div>
-      <p className="aviso">A IA pode errar. Confira as respostas.</p>
+      <p className="mx-auto mt-1 max-w-3xl text-center text-[11px] leading-4 text-muted-foreground">
+        A IA pode errar. Confira com seu material<span className="hidden sm:inline"> e não inclua dados pessoais</span> · 50 consultas/dia
+      </p>
     </form>
   );
 }

@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { AnimatePresence, MotionConfig } from 'motion/react';
+import { Presentation, SquarePen } from 'lucide-react';
 import Painel from './components/Painel';
 import FormularioPergunta from './components/FormularioPergunta';
 import Resposta from './components/Resposta';
+import GuiaApresentacao from './components/GuiaApresentacao';
 import api from './services/api';
 import './App.css';
 
@@ -11,31 +14,32 @@ export default function App() {
   const [mensagens, setMensagens] = useState([]);
   const [carregando, setCarregando] = useState(false);
   const [erro, setErro] = useState('');
+  // Estado só de interface: abre e fecha o guia de apresentação.
+  const [guiaAberto, setGuiaAberto] = useState(false);
 
   function mudarPergunta(evento) {
     setPergunta(evento.target.value);
   }
 
-  // O evento do formulário inicia a requisição; não precisamos de useEffect.
-  function enviarPergunta(evento) {
-    evento.preventDefault();
-
+  // Envia um texto: usado pelo formulário e pelas sugestões da tela inicial.
+  function enviar(texto) {
     if (carregando) return;
 
     setErro('');
 
-    if (pergunta.trim() === '') {
+    if (texto.trim() === '') {
       setErro('Digite uma pergunta antes de enviar.');
       return;
     }
 
+    setPergunta(texto);
     setCarregando(true);
 
     // POST, Promises e response.data: Aula 09.
-    api.post('/perguntar', { pergunta: pergunta.trim(), historico: mensagens.slice(-6) })
+    api.post('/perguntar', { pergunta: texto.trim(), historico: mensagens.slice(-6) })
       .then((retorno) => {
         if (typeof retorno.data.resposta === 'string' && retorno.data.resposta.trim()) {
-          setMensagens([...mensagens, { role: 'user', content: pergunta.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
+          setMensagens([...mensagens, { role: 'user', content: texto.trim() }, { role: 'assistant', content: retorno.data.resposta }]);
           setPergunta('');
         } else {
           setErro('A consulta não retornou uma resposta. Tente novamente.');
@@ -52,32 +56,66 @@ export default function App() {
       });
   }
 
-  return (
-    <main className="pagina">
-      <header className="cabecalho">
-        <h1>Assistente de Estudos</h1>
-        <p className="publico">Apoio aos estudos para alunos do IF</p>
-      </header>
+  // O evento do formulário inicia a requisição; não precisamos de useEffect.
+  function enviarPergunta(evento) {
+    evento.preventDefault();
+    enviar(pergunta);
+  }
 
-      <Painel titulo="Conversa" imagem="/assistente.png" status={import.meta.env.MODE === 'demonstracao' ? 'Demonstração: respostas simuladas' : mensagens.length > 0 ? 'Conexão com a OpenAI confirmada' : 'OpenAI: aguardando a primeira resposta'}>
-        <div aria-live="polite" aria-busy={carregando}>
-          <Resposta mensagens={mensagens} carregando={carregando} erro={erro} />
-        </div>
+  function novaConversa() {
+    setMensagens([]);
+    setPergunta('');
+    setErro('');
+  }
+
+  const status = import.meta.env.MODE === 'demonstracao'
+    ? 'Demonstração: respostas simuladas'
+    : mensagens.length > 0 ? 'OpenAI conectada' : 'OpenAI';
+
+  const estiloBotao = 'inline-flex h-9 items-center gap-1.5 rounded-lg px-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-primary';
+
+  const acoes = (
+    <>
+      {mensagens.length > 0 && (
+        <button type="button" onClick={novaConversa} disabled={carregando} className={estiloBotao}>
+          <SquarePen className="size-4" aria-hidden="true" />
+          <span className="hidden sm:inline">Nova conversa</span>
+          <span className="sr-only sm:hidden">Nova conversa</span>
+        </button>
+      )}
+      <button type="button" onClick={() => setGuiaAberto(true)} className={estiloBotao + ' border border-border'}>
+        <Presentation className="size-4 text-if-vermelho" aria-hidden="true" />
+        <span className="hidden sm:inline">Apresentação</span>
+        <span className="sr-only sm:hidden">Apresentação</span>
+      </button>
+    </>
+  );
+
+  return (
+    // MotionConfig: respeita quem pediu menos animação no sistema.
+    <MotionConfig reducedMotion="user">
+      <Painel titulo="IFAI — Assistente de Estudos" subtitulo={<>Assistente de estudos<br />IFSP Bragança Paulista</>} status={status} acoes={acoes}>
+        <main className="flex flex-1 flex-col overflow-y-auto overscroll-contain" aria-busy={carregando}>
+          <Resposta
+            mensagens={mensagens}
+            carregando={carregando}
+            erro={erro}
+            pergunta={pergunta}
+            aoEscolherSugestao={enviar}
+            rodape={
+              <p className="mt-8 text-xs leading-5 text-muted-foreground">
+                Lembra as últimas 3 trocas · A conversa é apagada ao atualizar a página
+                <br />
+                Projeto acadêmico de Miguel Vaz de Souza · Front End AA04 · não é serviço oficial do IF
+              </p>
+            }
+          />
+        </main>
         <FormularioPergunta pergunta={pergunta} aoMudar={mudarPergunta} aoEnviar={enviarPergunta} carregando={carregando} />
       </Painel>
-      <p className="nota-conversa">A IA considera as últimas 3 trocas. Ao atualizar a página, a conversa é apagada.</p>
-      <p className="nota-conversa">Limite compartilhado de 50 consultas por dia. Renova à meia-noite de Brasília.</p>
-
-      <footer>
-        <p>Miguel Vaz de Souza · IFSP Bragança Paulista</p>
-        <p>Desenvolvimento Web Front End · AA04 · React + OpenAI</p>
-      </footer>
-    </main>
+      <AnimatePresence>
+        {guiaAberto && <GuiaApresentacao key="guia" aoFechar={() => setGuiaAberto(false)} />}
+      </AnimatePresence>
+    </MotionConfig>
   );
 }
-
-
-
-
-
-

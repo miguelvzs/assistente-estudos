@@ -62,7 +62,7 @@ Na Vercel, a chave será variável **somente do servidor**, nunca `VITE_OPENAI_A
 | vite | 8.3.8 | Desenvolvimento e build |
 | @vitejs/plugin-react | 6.3.0 | Integra React ao Vite |
 
-Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas, roteador, biblioteca de UI ou login. `@vercel/blob` 2.4.0 é usado somente no servidor para o contador privado de 50 consultas por dia.
+Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas, roteador ou login. Na branch `feat/chat-ui-21st`, a interface usa Tailwind CSS, Motion, ícones Lucide, fonte Inter e componentes do 21st.dev (ver [docs/CREDITOS-UI.md](docs/CREDITOS-UI.md)). Lista completa de tecnologias e sites: [docs/TECNOLOGIAS.md](docs/TECNOLOGIAS.md). `@vercel/blob` 2.4.0 é usado somente no servidor para o contador privado de 50 consultas por dia.
 
 ## API e limites
 
@@ -89,3 +89,6 @@ Modelo: `gpt-6-luna`, `reasoning.effort: none`, máximo de 600 tokens de saída 
 
 ## Público e finalidade
 Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.
+
+## Prévia de interface
+Esta branch adapta Chat Bubble do 21st.dev. Veja [créditos e licença](docs/CREDITOS-UI.md). A entrega Moodle e produção main continuam na versão anterior até aprovação desta prévia. Execute `npm run demo` para conferir o visual com resposta simulada identificada.

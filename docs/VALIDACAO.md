@@ -37,3 +37,12 @@ conexão confirmado após a resposta. Essas consultas consomem duas vagas do dia
 Interface conferida com resposta em desktop (1905px) e celular (375px), sem
 sobreposição observada. Nenhum diagnóstico de erro no navegador nessa verificação.
 A proteção da main exige PR e verificação `verificar` aprovada antes de merge.
+
+## Prévia chat 21st — branch separada
+Build e 18 testes de servidor aprovados. Navegador local: sucesso simulado com Enter, pergunta vazia recusada, Shift+Enter insere quebra sem enviar, duas mensagens por troca. Desktop 1159×693 e mobile 375×844 conferidos visualmente; nenhum estouro horizontal observado no desktop. API real não foi chamada nesta revisão visual. O modo demonstracao permanece identificado. Produção e ZIP submetido não foram substituídos.
+
+Campo Kokonut adaptado: build aprovado e 18 testes de servidor/quota passaram. Prévia mobile 375px: texto com três linhas expande textarea a 86px, sem estouro horizontal; Enter envia, resposta simulada aparece e campo limpa. Screenshot conferido. A espera por texto automático expirou por diferença de maiúsculas, mas snapshot confirmou a resposta. Sem chamada real à OpenAI nesta revisão.
+
+Chat de IA com componentes 21st.dev, Tailwind, Motion e Inter (13/11, noite): build aprovado e 18 testes passaram. Prévia de demonstração conferida em 1159px e 375px: tela inicial, sugestão enviada, três pontos de espera, resposta animada, campo cresce de 56 para 104px com texto longo e volta a 56px no envio, Nova conversa limpa, Enter vazio mostra alerta, sem rolagem horizontal. Fonte Inter carregada (document.fonts.check). Sem chamada real à OpenAI nesta revisão.
+
+IFAI (13/11, noite): marca com símbolo oficial do IF, paleta IF, guia de apresentação e sugestões por matéria. Conferido em 1159px e 375px: guia abre, troca de aba, fecha com Esc, 23 links; filtros e cartões de sugestão; sem rolagem horizontal.

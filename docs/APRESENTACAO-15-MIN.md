@@ -42,7 +42,7 @@ Digitar a pergunta preparada. Antes de clicar:
 
 Clicar uma vez. Enquanto carrega:
 
-“Agora o estado carregando mudou para verdadeiro. O botão mostra Respondendo... e fica desabilitado, assim como o campo. A requisição ocorre sem recarregar a página.”
+“Agora o estado carregando mudou para verdadeiro. O campo e o botão ficam desabilitados. A pergunta aparece imediatamente na conversa, seguida do indicador Preparando a resposta. A requisição ocorre sem recarregar a página.”
 
 Após resposta real:
 
@@ -108,7 +108,7 @@ Não abrir o valor de nenhuma variável. Não afirmar que as validações impede
 
 Abrir Resposta.jsx:
 
-“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. map transforma a lista em blocos; condições mostram os estados adicionais sem apagar a conversa. O botão também usa um ternário para mudar seu texto.”
+“Esse componente verifica quatro situações: espera, erro, resposta e estado inicial. map transforma a lista em blocos; condições mostram os estados adicionais sem apagar a conversa. O botão usa rótulo acessível; o indicador de espera aparece na conversa.”
 
 Na tela, apagar a pergunta e tentar enviar:
 
@@ -165,7 +165,7 @@ Sem olhar este roteiro, conseguir:
 Se algum ponto ainda depender de decorar palavras, voltar à seção correspondente de EXPLICACAO.md e explicar com o código aberto.
 
 ## Apoio visual
-Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celular, o botão ocupa a largura disponível. Veja CHAT.md para explicar slice(-6), spread e map/key.
+Apresente cabeçalho, conversa e campo. Na branch feat/chat-ui-21st, mostre também no celular (F12 → modo dispositivo). Veja CHAT.md para explicar slice(-6), spread e map/key.
 
 
 ## Conceito ampliado
@@ -181,3 +181,27 @@ ensinada nas aulas de React.”
 
 Não repetir 103 linhas como total atual: essa contagem era da função antes do
 limite. Veja INVENTARIO.md. A versão SUAP fica em outra branch, com guia próprio.
+
+## Versão com componentes do 21st.dev (branch feat/chat-ui-21st)
+
+Use esta seção só se apresentar a versão nova. O tempo sai do bloco “componentes” (03:00–04:30).
+
+**O que mostrar (1 minuto):** tela inicial com sugestões → clicar uma → balão verde aparece, três pontos animados, resposta surge suavemente → “Nova conversa”. Depois, o mesmo no tamanho de celular.
+
+**Fala:** “Para a interface, usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Ficam separados na pasta components/ui. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion e fonte Inter. Fiz com assistência de IA; os créditos estão em CREDITOS-UI.md.”
+
+**Mostrar no código (30 segundos):** em Resposta.jsx, `<ChatBubble variant="sent">` para a pergunta e `<ChatBubble layout="ai">` para a resposta; em FormularioPergunta.jsx, `<AIInputWithLoading value={pergunta} onChange={aoMudar} loading={carregando} />`. São props, como nas aulas.
+
+**Perguntas prováveis:**
+
+| Pergunta | Resposta curta |
+|---|---|
+| Você fez esses componentes? | Não. Peguei do 21st.dev, com licença MIT, e adaptei: JSX, textos, cores e ligação com a API real. |
+| O que é Tailwind? | Classes CSS prontas escritas no JSX. Os componentes do 21st.dev usam Tailwind, por isso instalei. |
+| O que o Motion faz? | Anima a entrada das mensagens e o toque no botão. `initial` é o começo e `animate` o fim. |
+| Por que o campo cresce? | Um hook do componente mede a altura do texto (`scrollHeight`) e ajusta, até 200px. |
+| Isso mudou a lógica? | Não. Os quatro estados, o POST e o histórico de 3 trocas continuam iguais. |
+| Como ficou responsivo? | Classes com `sm:` mudam a partir de 640px: menos sugestões, balões mais largos e textos menores no celular. |
+## Botão Apresentação
+
+No app publicado, o botão **Apresentação** (canto superior direito) abre um resumo deste roteiro: agenda, fluxo, React, API, servidor, interface, tecnologias e perguntas. Use para consultar durante o ensaio. Na abertura, o nome do projeto agora é **IFAI**.

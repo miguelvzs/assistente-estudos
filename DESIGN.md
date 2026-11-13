@@ -1,14 +1,13 @@
-﻿# Interface
+# Interface de chat — branch feat/chat-ui-21st
 
-Uma coluna com largura máxima de 880px, fundo claro, fonte Arial e botão verde escuro. Título acima de um único painel. Cabeçalho do painel com Conversa à esquerda e mascote à direita; área de mensagens; formulário na base. Informações de contexto abaixo do painel e identificação acadêmica no rodapé.
+Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Nome IFAI: símbolo oficial do IF + “IF” verde e “AI” vermelho. Fonte Inter. Paleta do IF: verde #2f9e41 e vermelho #cd191e; balões e botões em #1f7a33 (contraste com texto branco). Tailwind CSS v4, Motion e ícones Lucide.
 
-Mensagens do usuário à direita; respostas à esquerda. Texto preserva quebras de linha e quebra palavras compridas. Nenhuma rolagem interna forçada. O formulário agrupa orientação e botão, empilhados em telas de até 520px. Mascote de 64px no desktop e 56px no celular.
+- Cabeçalho fixo: marca IFAI, subtítulo (desktop), selo de status (telas largas), “Nova conversa” quando há mensagens e botão “Apresentação”, que abre o guia lateral.
+- Conversa: única área com rolagem; coluna máxima de 768px. Pergunta em balão verde à direita (Chat Bubble `sent`); resposta com avatar e texto em largura total (Chat Bubble layout `ai`). Espera com três pontos animados.
+- Tela inicial: marca IFAI grande, “Vamos estudar?”, filtros por matéria do semestre e cartões de perguntas (seis no computador, três no celular), aviso de memória e autoria.
+- Campo: AI Input With Loading (Kokonut): pílula cinza que cresce até 200px, botão interno verde quando há texto, quadrado girando durante a espera, status abaixo e aviso de que a IA pode errar.
+- Animações curtas (até 0,3s): entrada das mensagens, troca da tela inicial, toque no botão. Desligadas quando o sistema pede menos movimento.
+- Responsivo a partir de 375px, sem rolagem horizontal; área segura do iPhone respeitada; texto do campo em 16px.
+- Acessibilidade: rótulo do campo, `role="log"`, `role="alert"`, `role="status"`, foco visível, `aria-label` nos botões de ícone.
 
-Rótulo visível, foco de teclado, aria-live para atualizações e role alert para erros. Sem biblioteca visual, ícones instalados, animações, menus ou abas. Mascote gerado por IA a pedido do autor; não indica produto oficial da OpenAI. Consulte docs/specs/03-organizacao-chat.md.
-
-Mascote branco e verde com detalhes vermelhos inspirado na paleta do IF. Verde de referência #2f9e41; vermelho #cd191e. Controle usa #216b2d para legibilidade do texto branco. A pedido do autor, a ilustração apresenta os símbolos do IF e da OpenAI lado a lado no peito. Trata-se de representação gerada por IA, não arquivo vetorial oficial. Fonte em docs/specs/04-estudos-if.md.
-
-
-
-Mascote redesenhado por solicitação do autor: busto sem livro, traços mais simples, olhos discretos e duas marcas no torso.
-
+Sem mascote, menus, anexos, seleção de modelo, copiar/regenerar ou streaming. Créditos: docs/CREDITOS-UI.md.
