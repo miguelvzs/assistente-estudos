@@ -62,7 +62,7 @@ Na Vercel, a chave será variável **somente do servidor**, nunca `VITE_OPENAI_A
 | vite | 8.3.8 | Desenvolvimento e build |
 | @vitejs/plugin-react | 6.3.0 | Integra React ao Vite |
 
-Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas, roteador, biblioteca de UI ou login. `@vercel/blob` 2.4.0 é usado somente no servidor para o contador privado de 50 consultas por dia.
+Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas, roteador ou login. Na branch `feat/chat-ui-21st`, a interface usa Tailwind CSS, Motion, ícones Lucide, fonte Inter e componentes do 21st.dev (ver [docs/CREDITOS-UI.md](docs/CREDITOS-UI.md)). `@vercel/blob` 2.4.0 é usado somente no servidor para o contador privado de 50 consultas por dia.
 
 ## API e limites
 

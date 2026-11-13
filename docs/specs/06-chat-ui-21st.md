@@ -13,3 +13,8 @@ Miguel escolheu a imagem Chat Bubble AI Layout: ambas as falas alinhadas à esqu
 
 ## Campo de digitação
 Aplicar referência AI Input With Loading da Kokonut: caixa arredondada, textarea expansível e envio circular integrado. O código público atual consultado é AI Input Search; adaptação mínima do compositor, sem ferramentas, upload ou seleção de modelo. Crescimento via CSS field-sizing: content, com fallback redimensionável; espera usa carregando real. Nenhuma dependência nova.
+
+## Chat de IA completo (13/11/2026, noite)
+Pedido de Miguel: fonte Inter, aplicar de fato os componentes Chat Bubble e AI Input With Loading, Motion (motion.dev), layout de chat de IA convencional e responsividade. Substitui as restrições anteriores desta spec sobre não instalar Tailwind/bibliotecas e sobre mensagens alinhadas à esquerda.
+Decisões: Tailwind v4 para usar as classes originais; componentes em src/components/ui; pergunta em balão à direita e resposta no layout `ai`; sugestões na tela inicial; botão Nova conversa; Motion para entradas e toque, respeitando redução de movimento.
+Critérios: build e 18 testes; vazio, espera, sucesso e erro; Enter/Shift+Enter; 375px sem estouro horizontal; desktop 1159px. Produção só muda com merge na main.

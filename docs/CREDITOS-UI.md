@@ -1,16 +1,36 @@
 # Créditos e adaptação da interface
 
-Componente de origem: [Chat Bubble — Jakob Hoeg Mørk no 21st.dev](https://21st.dev/@jakobhoeg/components/chat-bubble).
-Código consultado: [shadcn-chat](https://github.com/jakobhoeg/shadcn-chat/blob/47e5f8af020b6eacbd4cbd6ad5f6ff8d60e76aa8/packages/ui/src/components/ui/chat/chat-bubble.tsx), commit 47e5f8af020b6eacbd4cbd6ad5f6ff8d60e76aa8.
-Licença MIT preservada em [licenses/shadcn-chat-MIT.txt](../licenses/shadcn-chat-MIT.txt).
+Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte Inter e animações com Motion. Os componentes ficam em `src/components/ui/`, separados do código do projeto.
 
-Adaptação simplificada, não instalação integral: composição de balão/avatar/conteúdo, variantes sent e received, alinhamento invertido e cantos distintos. ChatBubble.jsx usa funções e props comuns. As classes Tailwind foram traduzidas para CSS; removidos TypeScript, forwardRef, cloneElement, cva, Radix, ações e dependências visuais. Paleta, formulário, textos e layout geral foram ajustados para o projeto com assistência de IA.
+## Chat Bubble — Jakob Hoeg Mørk
 
-Fala correta: “Adaptei o componente Chat Bubble de Jakob Hoeg, encontrado no 21st.dev, sob licença MIT. Simplifiquei para JSX e CSS e conectei ao estado e à requisição do projeto, com assistência de IA.”
-Não afirmar autoria exclusiva nem que a adaptação elimina a necessidade de compreender o código.
+- Página: [Chat Bubble no 21st.dev](https://21st.dev/@jakobhoeg/components/chat-bubble).
+- Código consultado: [shadcn-chat, chat-bubble.tsx](https://github.com/jakobhoeg/shadcn-chat/blob/47e5f8af020b6eacbd4cbd6ad5f6ff8d60e76aa8/packages/ui/src/components/ui/chat/chat-bubble.tsx) e [message-loading.tsx](https://github.com/jakobhoeg/shadcn-chat/blob/47e5f8af020b6eacbd4cbd6ad5f6ff8d60e76aa8/packages/ui/src/components/ui/chat/message-loading.tsx), commit 47e5f8a.
+- Licença MIT: [licenses/shadcn-chat-MIT.txt](../licenses/shadcn-chat-MIT.txt).
+- Arquivos: `chat-bubble.jsx` (ChatBubble, ChatBubbleAvatar, ChatBubbleMessage) e `message-loading.jsx`.
+- Mantido: composição balão/avatar/mensagem, variantes `sent`/`received`, layout `ai`, `isLoading` com os três pontos animados (SVG copiado).
+- Adaptado: TypeScript → JSX; `cva` → objetos de variantes; `cloneElement` → props explícitas; Avatar do Radix → `span`; cantos `rounded-2xl` com um canto menor; layout `ai` sem borda superior; cores do tema do projeto. Não usados: Timestamp e Actions.
 
-## Campo de mensagem — Kokonut UI
-Referência escolhida: https://21st.dev/@kokonutd/components/ai-input-with-loading
-Código público consultado: https://github.com/kokonut-labs/kokonutui/blob/main/components/kokonutui/ai-input-search.tsx
-Licença preservada em licenses/kokonut-ui-MIT.txt. O componente With Loading não foi instalado integralmente. Adaptamos o arranjo de textarea e barra inferior do compositor público, com CSS comum: crescimento via field-sizing, envio circular e indicador conectado à prop carregando. Sem Motion, Tailwind, TypeScript, menus, anexos ou novas dependências. Não afirmar que se trata de cópia integral do componente.
-O layout atual das mensagens substitui o alinhamento invertido citado acima: ambos os autores à esquerda, com divisórias, conforme imagem escolhida por Miguel.
+## AI Input With Loading — Kokonut UI
+
+- Página: [AI Input With Loading no 21st.dev](https://21st.dev/@kokonutd/components/ai-input-with-loading).
+- O download direto no 21st.dev exige login. O código foi conferido em uma cópia pública instalada a partir do 21st.dev ([ingreBOARD, ai-input-with-loading.tsx](https://github.com/techynAR/ingreBOARD/blob/main/src/components/ui/ai-input-with-loading.tsx)) e no hook `use-auto-resize-textarea` do mesmo repositório. Conferir contra a página do 21st.dev quando possível.
+- Licença MIT da Kokonut UI: [licenses/kokonut-ui-MIT.txt](../licenses/kokonut-ui-MIT.txt).
+- Arquivos: `ai-input-with-loading.jsx` e `src/hooks/use-auto-resize-textarea.js`.
+- Mantido: textarea `rounded-3xl` com fundo `bg-black/5`, crescimento automático entre 56 e 200px pelo hook, botão dentro do campo com ícone CornerRightUp, quadrado girando durante a espera, linha de status abaixo, Enter envia e Shift+Enter quebra linha.
+- Adaptado: texto (`value`/`onChange`) e espera (`loading`) vêm do App, ligados à requisição real; removidos `loadingDuration`, `thinkingDuration` e `autoAnimate` (temporizadores de demonstração); botão `type="submit"` e Enter via `form.requestSubmit()`; botão alinhado à base e verde quando há texto; `whileTap` do Motion; textos em português.
+
+## Bibliotecas instaladas
+
+| Pacote | Versão | Licença | Uso |
+|---|---|---|---|
+| tailwindcss, @tailwindcss/vite | 4.3.5 | MIT | Classes de estilo dos componentes |
+| motion | 14.14.0 | MIT | Animações ([motion.dev](https://motion.dev)) |
+| lucide-react | 1.72.0 | ISC | Ícones |
+| @fontsource-variable/inter | 5.3.0 | OFL-1.1 (fonte) | Fonte Inter servida pelo site |
+
+## Como falar na apresentação
+
+“Usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion, fonte Inter. Fiz isso com assistência de IA.”
+
+Não afirmar autoria exclusiva nem que é cópia integral dos componentes.

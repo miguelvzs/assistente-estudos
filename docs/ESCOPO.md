@@ -53,4 +53,4 @@ ou banco de alunos para cumprir o template genérico. Publicação segue o contr
 de docs/COMMITS.md; evidências e pendências em VALIDACAO.md.
 
 ## Exceção visual posterior à entrega
-Miguel solicitou componente do 21st.dev em 13/11/2026. Nesta branch: ChatBubble adaptado em JSX/CSS, MIT preservada, callback ref e APIs DOM para rolagem e teclado. Sem biblioteca nova ou streaming. Ver spec 06.
+Miguel solicitou componente do 21st.dev em 13/11/2026. Nesta branch: Chat Bubble e AI Input With Loading adaptados em src/components/ui, MIT preservada; Tailwind, Motion, Lucide e Inter autorizados por Miguel em 13/11/2026. Sem streaming. Ver spec 06 e CREDITOS-UI.md.

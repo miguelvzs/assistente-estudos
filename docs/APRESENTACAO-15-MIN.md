@@ -165,7 +165,7 @@ Sem olhar este roteiro, conseguir:
 Se algum ponto ainda depender de decorar palavras, voltar à seção correspondente de EXPLICACAO.md e explicar com o código aberto.
 
 ## Apoio visual
-Apresente cabeçalho, conversa e formulário. O mascote fica à direita; no celular, o botão ocupa a largura disponível. Veja CHAT.md para explicar slice(-6), spread e map/key.
+Apresente cabeçalho, conversa e campo. Na branch feat/chat-ui-21st, mostre também no celular (F12 → modo dispositivo). Veja CHAT.md para explicar slice(-6), spread e map/key.
 
 
 ## Conceito ampliado
@@ -182,14 +182,23 @@ ensinada nas aulas de React.”
 Não repetir 103 linhas como total atual: essa contagem era da função antes do
 limite. Veja INVENTARIO.md. A versão SUAP fica em outra branch, com guia próprio.
 
-## Revisão visual na branch feat/chat-ui-21st
+## Versão com componentes do 21st.dev (branch feat/chat-ui-21st)
 
-Base externa e licença: [CREDITOS-UI.md](CREDITOS-UI.md). ChatBubble.jsx recebe variant e children, exibe autoria/avatar e aplica classes sent/received. Sem novas bibliotecas.
-Resposta.jsx mostra pergunta pendente usando o texto já existente no App; no sucesso a troca entra na lista. Em erro o balão provisório desaparece, mas a pergunta continua no campo para reenviar. Não envia pergunta duplicada no histórico.
-mostrarFinal é callback ref de montagem, definida fora do componente para não mudar enquanto se digita. scrollIntoView move a conversa para o trecho novo. Ref e API DOM são técnicas adicionais a explicar, não hooks.
-FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; Shift+Enter mantém quebra de linha. isComposing evita enviar durante composição de texto por teclado/IME. O campo aparece vazio durante espera, mas o estado conserva a pergunta até sucesso.
-CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.
+Use esta seção só se apresentar a versão nova. O tempo sai do bloco “componentes” (03:00–04:30).
 
-Atualização visual: as falas agora seguem uma coluna à esquerda, identificadas por avatar e autoria, com separadores. A explicação de estados, props e envio continua igual.
+**O que mostrar (1 minuto):** tela inicial com sugestões → clicar uma → balão verde aparece, três pontos animados, resposta surge suavemente → “Nova conversa”. Depois, o mesmo no tamanho de celular.
 
-Campo: adaptação visual de referência Kokonut UI, com licença e origem documentadas. O CSS faz o campo crescer; a prop carregando controla a espera e bloqueia envio duplicado. Não houve instalação de biblioteca de UI.
+**Fala:** “Para a interface, usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Ficam separados na pasta components/ui. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion e fonte Inter. Fiz com assistência de IA; os créditos estão em CREDITOS-UI.md.”
+
+**Mostrar no código (30 segundos):** em Resposta.jsx, `<ChatBubble variant="sent">` para a pergunta e `<ChatBubble layout="ai">` para a resposta; em FormularioPergunta.jsx, `<AIInputWithLoading value={pergunta} onChange={aoMudar} loading={carregando} />`. São props, como nas aulas.
+
+**Perguntas prováveis:**
+
+| Pergunta | Resposta curta |
+|---|---|
+| Você fez esses componentes? | Não. Peguei do 21st.dev, com licença MIT, e adaptei: JSX, textos, cores e ligação com a API real. |
+| O que é Tailwind? | Classes CSS prontas escritas no JSX. Os componentes do 21st.dev usam Tailwind, por isso instalei. |
+| O que o Motion faz? | Anima a entrada das mensagens e o toque no botão. `initial` é o começo e `animate` o fim. |
+| Por que o campo cresce? | Um hook do componente mede a altura do texto (`scrollHeight`) e ajusta, até 200px. |
+| Isso mudou a lógica? | Não. Os quatro estados, o POST e o histórico de 3 trocas continuam iguais. |
+| Como ficou responsivo? | Classes com `sm:` mudam a partir de 640px: menos sugestões, balões mais largos e textos menores no celular. |

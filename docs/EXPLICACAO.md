@@ -97,27 +97,36 @@ O if de carregando e o botão desabilitado evitam reenvios comuns pela interface
 - Não existe retorno direto da IA na função de envio: a atualização acontece quando a Promise termina.
 - JSX organiza cabeçalho, painel de conversa e rodapé.
 
+> Branch `feat/chat-ui-21st` (13/11/2026): a interface virou um chat de IA em tela cheia, com componentes do 21st.dev, Tailwind CSS, Motion, ícones Lucide e fonte Inter. A lógica do App (estados, POST, histórico) não mudou. Detalhes em "Chat de IA com componentes do 21st.dev", no fim deste guia.
+
+### App.jsx — o que mudou nesta branch
+
+- `enviar(texto)` concentra validação e requisição. É usada pelo formulário (`enviarPergunta`, que chama `preventDefault` e depois `enviar(pergunta)`) e pelas sugestões da tela inicial (clicar envia o texto da sugestão).
+- `novaConversa()` limpa `mensagens`, `pergunta` e `erro`. O botão só aparece quando há mensagens e fica desabilitado durante a espera.
+- `MotionConfig reducedMotion="user"`: se o sistema do aluno pede menos animação, o Motion desliga os movimentos.
+
 ### FormularioPergunta.jsx — entrada e envio
 
 - Recebe `pergunta`, `aoMudar`, `aoEnviar` e `carregando`.
 - `aoMudar` e `aoEnviar` são funções; passamos a referência, sem `()` no JSX, para executar somente no evento.
-- `form onSubmit` permite enviar pelo botão e conserva a semântica de formulário.
-- `label htmlFor="pergunta"` associa rótulo ao campo de mesmo id.
-- `value` e `onChange` fazem um campo controlado.
-- `rows` define altura inicial; `maxLength` limita entrada; o servidor também confere.
-- `disabled` bloqueia campo/botão na espera.
-- O ternário escolhe entre Enviar e Respondendo....
-- `aria-describedby` associa a orientação ao campo para leitores de tela.
+- `form onSubmit` continua sendo o ponto de envio; o botão do componente é `type="submit"`.
+- `label htmlFor="pergunta"` (escondido visualmente com `sr-only`) associa rótulo ao campo.
+- Repassa os valores ao componente `AIInputWithLoading` (Kokonut UI): `value`, `onChange`, `loading` e `maxLength={2000}`. O servidor também confere o tamanho.
 
 ### Painel.jsx — props e children
 
-Recebe `titulo`, `imagem`, `status` e `children`. `status` mostra simulação, espera pela primeira resposta ou conexão confirmada na sessão. `titulo` vai para h2. `children` é o conteúdo colocado entre a abertura e o fechamento de Painel no App. Um único Painel contém conversa e formulário; imagem define o endereço do mascote.
+Recebe `titulo`, `subtitulo`, `status`, `acao` e `children`. Desenha o cabeçalho fixo (marca, título, selo de status e o botão recebido em `acao`). `children` é o que o App coloca entre `<Painel>` e `</Painel>`: a área da conversa e o formulário. `h-dvh` faz o painel ocupar a altura visível da tela, inclusive no celular.
 
-### Resposta.jsx — quatro situações visuais
+### Resposta.jsx — situações visuais
 
-A lista é renderizada com map e key. Lista vazia mostra orientação inicial; carregando acrescenta espera; erro acrescenta aviso com role="alert". A conversa anterior permanece visível durante a requisição.
+- Lista vazia: tela de boas-vindas com quatro sugestões (duas no celular). `aoEscolherSugestao` vem do App.
+- Conversa: `map` desenha cada mensagem. Pergunta = `ChatBubble variant="sent"` (balão verde à direita). Resposta = `ChatBubble layout="ai"` (avatar e texto em largura total, como chats de IA).
+- Carregando: a pergunta enviada já aparece como balão; abaixo, `ChatBubbleMessage isLoading` mostra os três pontos animados.
+- Erro: aviso com `role="alert"`, tanto na tela inicial quanto na conversa.
+- `itens` junta `mensagens` e a pergunta pendente. Como a pergunta pendente ocupa a mesma posição (key) que terá na lista, ela não pisca quando a resposta chega.
+- `motion.div` com `initial`/`animate`: cada mensagem surge de baixo, suavemente. `AnimatePresence mode="wait"` troca a tela inicial pela conversa.
 
-As condições no JSX controlam os avisos. O texto aparece dentro de `{mensagem.content}`; React o trata como texto, não como HTML executável. `aria-live` no App ajuda a anunciar atualizações sem precisar de biblioteca.
+O texto aparece dentro de `{mensagem.content}`; React o trata como texto, não como HTML executável.
 
 ### services/api.js — o endereço de nossa função
 
@@ -197,22 +206,17 @@ O pedido de até 180 palavras é uma orientação ao modelo, não validação r�
 | 503 | Chave ausente, contador indisponível ou configuração rejeitada pelo provedor |
 | 504 | Tempo de consulta excedido |
 
-## 7. Estilo — App.css
+## 7. Estilo — App.css e Tailwind
 
-- `box-sizing: border-box`: largura considera padding e borda.
-- `body`: zera margem padrão, aplica fundo, cor, fonte do sistema e altura de linha.
-- `.pagina`: centraliza e limita largura; calc deixa espaço nas bordas.
-- Cabeçalho, título e introdução estabelecem ordem visual.
-- `.painel`: fundo branco, borda e espaço interno dos dois blocos.
-- `label` e `textarea`: entrada legível, largura total e altura mínima.
-- `:focus-visible`: contorno de foco para teclado.
-- `:disabled`: diferencia espera e bloqueia interação.
-- `button:hover`: retorno visual ao passar o mouse.
-- `.texto-resposta`: pre-wrap conserva quebras de linha; overflow-wrap evita estouro com palavras longas.
-- `.erro`, `.aviso` e `.estado`: distinguem falha, orientação e espera.
-- `@media`: em telas estreitas reduz margens/título e deixa botão largo.
+Nesta branch o estilo é feito com **Tailwind CSS v4**: classes prontas escritas direto no JSX (`flex`, `px-4`, `rounded-2xl`...). Foi necessário porque os componentes do 21st.dev são escritos assim.
 
-Não há biblioteca de design, imagem externa ou animação. Os atributos de acessibilidade são HTML; não são novos hooks ou pacotes React.
+- `App.css` tem só três partes: `@import "tailwindcss"`, o tema (`@theme`) e regras de base.
+- `@theme` define a fonte Inter e as cores com nomes do padrão shadcn (`primary`, `secondary`, `foreground`, `muted-foreground`, `border`). Assim `bg-primary` vira o verde do projeto.
+- Responsividade: prefixo `sm:` vale a partir de 640px. Exemplos: `hidden sm:inline` (some no celular), `sm:grid-cols-2` (sugestões em duas colunas no computador), `max-w-[85%] sm:max-w-[75%]` (balões).
+- Layout: `h-dvh flex flex-col` no Painel; a conversa (`main`) é a única parte que rola; cabeçalho e campo ficam fixos. A coluna de conteúdo tem no máximo 768px (`max-w-3xl`), centralizada.
+- `pb-[max(env(safe-area-inset-bottom),0.75rem)]`: no iPhone, o campo não fica embaixo da barra de gestos.
+- Foco visível em botões e no campo; texto do campo em 16px para o iPhone não dar zoom.
+- Fonte: pacote `@fontsource-variable/inter`, importado em `main.jsx`. A fonte vai junto com o site; não depende do Google Fonts.
 
 ## 8. Configuração e arquivos auxiliares
 
@@ -225,7 +229,11 @@ Não há biblioteca de design, imagem externa ou animação. Os atributos de ace
 | dist/ | Resultado de npm run build; gerado, não é código-fonte |
 | .gitignore | Evita versionar dependências, build, configuração local, logs e segredos |
 | .env.example | Nome esperado da variável, sem chave real; não é carregado automaticamente |
-| vite.config.js | Plugin React e adaptador HTTP local para a função |
+| vite.config.js | Plugins React e Tailwind e adaptador HTTP local para a função |
+| src/components/ui/ | Componentes de terceiros adaptados (21st.dev): chat-bubble, message-loading, ai-input-with-loading |
+| src/hooks/use-auto-resize-textarea.js | Hook que acompanha o campo da Kokonut: ajusta a altura ao texto |
+| src/lib/utils.js | Função `cn`, que junta classes CSS |
+| licenses/ | Licenças MIT dos componentes adaptados |
 | vercel.json | Configura build, pasta de saída, duração da função e headers |
 | tests/api.test.js | Verifica a fronteira com o provedor sem rede ou chave real |
 | server/limite-diario.js | Reserva uma das 50 consultas no contador privado |
@@ -307,18 +315,47 @@ Código público: https://github.com/miguelvzs/assistente-estudos, branch develo
 App passa a prop status ao Painel. import.meta.env.MODE informa o modo do Vite: demonstracao mostra aviso explícito de simulação. No modo real, mensagens.length maior que zero indica que já chegou uma resposta da API nesta sessão; antes disso, a tela aguarda a primeira resposta. Condições e props continuam básicas; a variável de modo é configuração do Vite, não um hook. O texto confirma uma resposta passada, sem garantir disponibilidade futura.
 Conceito IF: o prompt do servidor orienta estudos gerais e técnicos; não limita perguntas a React. O subtítulo e o exemplo de matemática comunicam esse público. A paleta foi alterada em CSS e na imagem estática, sem nova biblioteca ou hook. Modelo, limite de 600 tokens e histórico permanecem iguais.
 
-## Revisão visual na branch feat/chat-ui-21st
+## Chat de IA com componentes do 21st.dev
 
-Base externa e licença: [CREDITOS-UI.md](CREDITOS-UI.md). ChatBubble.jsx recebe variant e children, exibe autoria/avatar e aplica classes sent/received. Sem novas bibliotecas.
-Resposta.jsx mostra pergunta pendente usando o texto já existente no App; no sucesso a troca entra na lista. Em erro o balão provisório desaparece, mas a pergunta continua no campo para reenviar. Não envia pergunta duplicada no histórico.
-mostrarFinal é callback ref de montagem, definida fora do componente para não mudar enquanto se digita. scrollIntoView move a conversa para o trecho novo. Ref e API DOM são técnicas adicionais a explicar, não hooks.
-FormularioPergunta usa onKeyDown: Enter solicita envio pelo form.requestSubmit; Shift+Enter mantém quebra de linha. isComposing evita enviar durante composição de texto por teclado/IME. O campo aparece vazio durante espera, mas o estado conserva a pergunta até sucesso.
-CSS usa flex, min-height:0 e overflow-y:auto para rolar apenas a conversa e manter o formulário acessível. Não há streaming: resposta chega completa.
+Pedido de Miguel em 13/11/2026, na branch `feat/chat-ui-21st`: interface de chat de IA convencional, fonte Inter, componentes do 21st.dev aplicados, animações com Motion e layout responsivo. Esta seção substitui as descrições anteriores de mascote, Arial e mensagens alinhadas à esquerda.
 
-### Layout de mensagens escolhido
-App.css agora mantém sent e received à esquerda; ambos exibem avatar e fundo transparente. A borda inferior separa as falas. ChatBubble continua recebendo variant e children; não mudou a lógica da API. Esta decisão substitui a descrição anterior de balões verdes à direita. Os controles de copiar/regenerar da referência não foram adicionados.
+### O que veio pronto e o que é nosso
 
-### Campo expansível e envio integrado
-FormularioPergunta recebe as mesmas quatro props. A barra inferior mostra a orientação ou Respondendo conforme carregando; a mesma prop desabilita envio e campo. O círculo de espera é CSS, sem temporizador nem resposta simulada na produção. field-sizing: content ajusta a altura ao texto, entre 56 e 160px; acima disso há rolagem. Navegadores sem suporte permitem redimensionar verticalmente. prefers-reduced-motion desliga a rotação. Enter/Shift+Enter e o fluxo Axios permanecem iguais. Créditos e licença Kokonut em CREDITOS-UI.md.
+| Parte | Origem | O que adaptamos |
+|---|---|---|
+| `components/ui/chat-bubble.jsx` | Chat Bubble, Jakob Hoeg (shadcn-chat), MIT | TypeScript → JSX; `cva` → objetos de variantes; `cloneElement` → props explícitas; avatar sem Radix; cantos arredondados maiores; layout `ai` sem borda superior |
+| `components/ui/message-loading.jsx` | Mesmo pacote, MIT | Copiado; só `aria-hidden` |
+| `components/ui/ai-input-with-loading.jsx` | AI Input With Loading, Kokonut UI, MIT | Texto e espera vêm do App (requisição real); removidos os temporizadores de demonstração; botão `submit`; botão verde quando há texto; animações Motion |
+| `hooks/use-auto-resize-textarea.js` | Hook que acompanha o componente Kokonut | Só TypeScript → JavaScript |
+| `App.jsx`, `Painel.jsx`, `Resposta.jsx`, `FormularioPergunta.jsx` | Nossos | Layout, sugestões, nova conversa, ligação com estado e API |
 
-Painel deixou de receber imagem e de renderizar img: mascote removido da interface por pedido de Miguel. Arquivo de imagem histórico preservado. Fonte original Arial mantida; ajustes apenas de tamanho, entrelinha e espaçamento.
+Fala sugerida: “Usei componentes abertos do 21st.dev como base, com licença MIT. Converti para JSX e liguei ao estado e à requisição do projeto. O controle das mensagens e a chamada à API continuam no App.”
+
+### Bibliotecas novas
+
+| Pacote | Para quê |
+|---|---|
+| `tailwindcss` + `@tailwindcss/vite` | Classes de estilo usadas pelos componentes do 21st.dev |
+| `motion` (motion.dev) | Animações: entrada das mensagens, troca da tela inicial, toque no botão |
+| `lucide-react` | Ícones (enviar, nova conversa, chapéu de formatura, brilho) |
+| `@fontsource-variable/inter` | Fonte Inter servida pelo próprio site |
+
+Nenhuma delas recebe dados do aluno nem chama serviços externos.
+
+### Conceitos novos para explicar
+
+- **Hook `useRef`** (no hook do campo): guarda a referência ao `<textarea>` para medir a altura do texto (`scrollHeight`).
+- **`useCallback` e `useEffect`** (no mesmo hook): recriam o ajuste só quando os limites mudam e recalculam ao girar o celular. O App continua sem `useEffect` para a requisição.
+- **`useEffect` no campo**: volta à altura mínima quando o texto é limpo ou durante a espera.
+- **Motion**: `motion.div` aceita `initial` (como começa) e `animate` (como termina). `AnimatePresence` deixa animar a saída da tela inicial. `whileTap` encolhe o botão ao tocar.
+- **Callback ref `mostrarFinal`**: continua rolando a conversa até o trecho novo, agora com `behavior: 'smooth'`.
+
+### Responsividade
+
+- Celular (até 639px): cabeçalho só com título e ícone de nova conversa; duas sugestões; balões até 85% da largura; aviso curto abaixo do campo; espaço para a barra de gestos do iPhone.
+- Computador (640px ou mais): subtítulo, selo de status e texto “Nova conversa”; quatro sugestões em duas colunas; atalhos de teclado visíveis.
+- Coluna de leitura limitada a 768px em telas grandes.
+
+### Fluxo preservado
+
+`pergunta`, `mensagens`, `carregando` e `erro` continuam iguais. O POST continua sendo `api.post('/perguntar', { pergunta, historico: mensagens.slice(-6) })`. Servidor, limite de 50/dia e testes não mudaram.

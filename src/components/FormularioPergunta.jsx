@@ -1,22 +1,26 @@
-// Referência Kokonut UI (MIT), adaptação mínima. Ver docs/CREDITOS-UI.md.
+import { AIInputWithLoading } from './ui/ai-input-with-loading';
+
+// Formulário do projeto: o evento onSubmit chama enviarPergunta, no App.
+// A caixa de digitação é o componente AI Input With Loading (Kokonut UI), adaptado.
 export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carregando }) {
-  function aoPressionar(evento) {
-    if (evento.key === 'Enter' && !evento.shiftKey && !evento.nativeEvent.isComposing) {
-      evento.preventDefault();
-      if (!carregando) evento.currentTarget.form.requestSubmit();
-    }
-  }
   return (
-    <form className="formulario" onSubmit={aoEnviar} aria-busy={carregando}>
-      <label htmlFor="pergunta">Sua mensagem</label>
-      <div className="compositor">
-        <textarea id="pergunta" name="pergunta" rows="2" maxLength="2000"
-          value={carregando ? '' : pergunta} onChange={aoMudar} onKeyDown={aoPressionar}
-          disabled={carregando} placeholder="Escreva uma dúvida de estudo..." aria-describedby="orientacao" />
-        <div className="barra-compositor"><span className="estado-envio" role="status">{carregando ? 'Respondendo…' : 'Dúvidas, revisão e exercícios'}</span><button type="submit" disabled={carregando} aria-label={carregando ? 'Aguardando resposta' : 'Enviar mensagem'}><span aria-hidden="true" className={carregando ? 'indicador-envio' : ''}>{carregando ? '' : '↑'}</span></button></div>
-      </div>
-      <div className="acoes-formulario"><p id="orientacao" className="ajuda">Enter envia · Shift + Enter quebra linha</p><span className="ajuda">{pergunta.length}/2000</span></div>
-      <p className="aviso">A IA pode errar. Confira as respostas e não inclua dados pessoais.</p>
+    <form
+      onSubmit={aoEnviar}
+      aria-busy={carregando}
+      className="shrink-0 bg-white px-3 pt-2 pb-[max(env(safe-area-inset-bottom),0.75rem)] sm:px-6 sm:pb-4"
+    >
+      <label htmlFor="pergunta" className="sr-only">Sua mensagem</label>
+      <AIInputWithLoading
+        id="pergunta"
+        value={pergunta}
+        onChange={aoMudar}
+        loading={carregando}
+        maxLength={2000}
+        placeholder="Pergunte sobre seus estudos…"
+      />
+      <p className="mx-auto mt-1 max-w-3xl text-center text-[11px] leading-4 text-muted-foreground">
+        A IA pode errar. Confira com seu material<span className="hidden sm:inline"> e não inclua dados pessoais</span> · 50 consultas/dia
+      </p>
     </form>
   );
 }

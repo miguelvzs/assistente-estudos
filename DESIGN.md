@@ -1,9 +1,13 @@
-# Interface de chat — prévia
+# Interface de chat — branch feat/chat-ui-21st
 
-Painel claro com cabeçalho compacto, mascote à direita e conversa rolável; compositor fixo na base do painel. Paleta verde discreta, sem degradês, funções fictícias ou menus. Pergunta e resposta alinhadas à esquerda, com avatar circular e linha divisória, seguindo a referência Chat Bubble AI Layout escolhida pelo usuário. Tipografia Arial, mensagens sem fundo de balão, com autoria e avatar textual. Empty state com exemplo sem fazer consulta automática.
-Enter envia, Shift+Enter quebra linha. Foco visível, rótulo, role log e alert. Formulário bloqueado durante espera. Mobile mantém alvos de 44px e evita estouro horizontal. Servidor inalterado, sem streaming.
-Créditos: docs/CREDITOS-UI.md; licença MIT em licenses. Não substituir entrega/produção nesta etapa.
+Chat de IA convencional em tela cheia (13/11/2026, pedido de Miguel). Fonte Inter. Fundo branco, verde do projeto (#1d7a3e) em marca, balões do usuário e botão de envio. Tailwind CSS v4, Motion e ícones Lucide.
 
-Compositor: caixa de 22px de raio, textarea expansível (56–160px), barra inferior com envio circular e status real de carregamento. Referência Kokonut UI, adaptada sem biblioteca adicional.
+- Cabeçalho fixo: marca, título, subtítulo (desktop), selo de status (desktop) e “Nova conversa” quando há mensagens.
+- Conversa: única área com rolagem; coluna máxima de 768px. Pergunta em balão verde à direita (Chat Bubble `sent`); resposta com avatar e texto em largura total (Chat Bubble layout `ai`). Espera com três pontos animados.
+- Tela inicial: “Vamos estudar?”, quatro sugestões clicáveis (duas no celular), aviso de memória e autoria.
+- Campo: AI Input With Loading (Kokonut): pílula cinza que cresce até 200px, botão interno verde quando há texto, quadrado girando durante a espera, status abaixo e aviso de que a IA pode errar.
+- Animações curtas (até 0,3s): entrada das mensagens, troca da tela inicial, toque no botão. Desligadas quando o sistema pede menos movimento.
+- Responsivo a partir de 375px, sem rolagem horizontal; área segura do iPhone respeitada; texto do campo em 16px.
+- Acessibilidade: rótulo do campo, `role="log"`, `role="alert"`, `role="status"`, foco visível, `aria-label` nos botões de ícone.
 
-Pedido posterior: remover mascote do cabeçalho. Fonte conferida contra origin/main: Arial/Helvetica/sans-serif, mantida. Texto de mensagens 15px e entrelinha 1.75, fundo neutro e bordas discretas.
+Sem mascote, menus, anexos, seleção de modelo, copiar/regenerar ou streaming. Créditos: docs/CREDITOS-UI.md.
