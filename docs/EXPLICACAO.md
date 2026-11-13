@@ -394,3 +394,8 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 - **Material das aulas:** `server/material.js` busca (BM25) em 1.602 trechos extraídos do Moodle das 6 matérias, incluindo o material novo de Eng. Software (V&V, testes, template final). O índice fica no Blob privado (`material/indice.json`), enviado por `scripts/enviar-indice.mjs`; o material não vai ao GitHub. A função junta até 4 trechos às instruções e a IA cita [1], [2]. Só os nomes dos arquivos voltam ao navegador e aparecem em “Baseado no material das aulas”. Sem índice, a resposta segue sem material.
 - **Celular:** chips com rótulos curtos (Todas, Baixo), sem ícones e Treino só com ícone abaixo de 640px; a linha rola para o lado se faltar espaço. Corrige a sobreposição com as setas e o botão de enviar.
 - 23 testes.
+
+### Menu de matéria e esforço (13/11/2026)
+
+- `src/components/ui/menu-selecao.jsx`: menu no estilo do seletor de esforço de chats de IA. Chip que abre um cartão flutuante acima da caixa, com título, descrição e ✓ na opção escolhida. Acessível (listbox/option), setas, Enter, Esc e clique fora. Posição fixa calculada pelo botão, para não ser cortado pela linha de chips. Usa useState, useRef e useEffect.
+- Substitui os `<select>` nativos de matéria e esforço.

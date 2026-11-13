@@ -1,37 +1,19 @@
-import { BookOpen, ChevronDown, Dumbbell, Gauge } from 'lucide-react';
+import { BookOpen, Dumbbell, Gauge } from 'lucide-react';
 import { AIInputWithLoading } from './ui/ai-input-with-loading';
+import { MenuSelecao } from './ui/menu-selecao';
 import { materias } from '../conteudo/semestre';
 
 // Níveis de esforço de raciocínio do modelo. O servidor só aceita estes valores.
 const esforcos = [
-  { id: 'low', nome: 'Baixo' },
-  { id: 'medium', nome: 'Médio' },
-  { id: 'high', nome: 'Alto' },
+  { id: 'low', nome: 'Baixo', descricao: 'Mais rápido, para dúvidas diretas' },
+  { id: 'medium', nome: 'Médio', descricao: 'Pensa mais antes de responder' },
+  { id: 'high', nome: 'Alto', descricao: 'Mais profundo, para exercícios difíceis' },
 ];
 
-const estiloChip = 'rounded-full py-1.5 text-xs font-medium ring-1 transition-colors focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-60';
-
-// Chip com <select> nativo: acessível e funciona bem no celular.
-// No celular o ícone some para caber; no computador fica à esquerda e a seta à direita, com espaço reservado (pl-7, pr-7) para não cobrir o texto.
-function Chip({ id, rotulo, titulo, icone: Icone, valor, aoMudar, desabilitado, children }) {
-  return (
-    <div className="relative inline-flex shrink-0">
-      <label htmlFor={id} className="sr-only">{rotulo}</label>
-      <Icone className="pointer-events-none absolute top-1/2 left-2.5 hidden sm:block size-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-      <select
-        id={id}
-        value={valor}
-        onChange={(evento) => aoMudar(evento.target.value)}
-        disabled={desabilitado}
-        title={titulo}
-        className={estiloChip + ' appearance-none bg-white pr-7 pl-3 sm:pl-7 text-muted-foreground ring-border hover:text-foreground'}
-      >
-        {children}
-      </select>
-      <ChevronDown className="pointer-events-none absolute top-1/2 right-2 size-3.5 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
-    </div>
-  );
-}
+const opcoesMateria = [
+  { id: '', nome: 'Todas as matérias', descricao: 'Contexto geral do semestre', sigla: 'Todas' },
+  ...materias.map((m) => ({ id: m.id, nome: m.sigla, descricao: m.nome, sigla: m.sigla })),
+];
 
 // Formulário do projeto: o evento onSubmit chama enviarPergunta, no App.
 // Os chips dentro da caixa ligam o treino e escolhem a matéria e o esforço de raciocínio da IA.
@@ -46,22 +28,32 @@ export default function FormularioPergunta({ pergunta, aoMudar, aoEnviar, carreg
         aria-pressed={treino}
         disabled={carregando}
         title="Modo treino: a IA propõe exercícios e corrige suas respostas"
-        className={estiloChip + ' inline-flex shrink-0 items-center gap-1 px-2.5 sm:pr-3 ' + (treino ? 'bg-primary text-white ring-primary' : 'bg-white text-muted-foreground ring-border hover:text-foreground')}
+        className={'inline-flex shrink-0 items-center gap-1 rounded-full px-2.5 py-1.5 text-xs font-medium ring-1 transition-colors focus-visible:outline-2 focus-visible:outline-primary disabled:opacity-60 sm:pr-3 ' + (treino ? 'bg-primary text-white ring-primary' : 'bg-white text-muted-foreground ring-border hover:text-foreground')}
       >
         <Dumbbell className="size-3.5" aria-hidden="true" />
         <span className="sr-only sm:not-sr-only">Treino</span>
       </button>
-      <Chip id="materia" rotulo="Matéria" titulo="Matéria usada como contexto" icone={BookOpen} valor={materia} aoMudar={aoMudarMateria} desabilitado={carregando}>
-        <option value="">Todas</option>
-        {materias.map((item) => (
-          <option key={item.id} value={item.id}>{item.sigla}</option>
-        ))}
-      </Chip>
-      <Chip id="esforco" rotulo="Esforço de raciocínio" titulo="Esforço de raciocínio: mais esforço, resposta mais pensada e mais lenta" icone={Gauge} valor={esforco} aoMudar={aoMudarEsforco} desabilitado={carregando}>
-        {esforcos.map((item) => (
-          <option key={item.id} value={item.id}>{item.nome}</option>
-        ))}
-      </Chip>
+      <MenuSelecao
+        id="materia"
+        rotulo="Matéria"
+        titulo="Matéria usada como contexto"
+        icone={BookOpen}
+        valor={materia}
+        opcoes={opcoesMateria}
+        curto={(opcao) => opcao.sigla}
+        aoMudar={aoMudarMateria}
+        desabilitado={carregando}
+      />
+      <MenuSelecao
+        id="esforco"
+        rotulo="Esforço de raciocínio"
+        titulo="Quanto a IA pensa antes de responder"
+        icone={Gauge}
+        valor={esforco}
+        opcoes={esforcos}
+        aoMudar={aoMudarEsforco}
+        desabilitado={carregando}
+      />
     </div>
   );
 
