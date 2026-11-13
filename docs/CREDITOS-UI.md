@@ -39,3 +39,7 @@ Pedido de Miguel em 13/11/2026: aplicar componentes do 21st.dev, fonte (hoje Ope
 “Usei componentes abertos do 21st.dev: o Chat Bubble, de Jakob Hoeg, e o AI Input With Loading, da Kokonut UI, ambos com licença MIT. Converti para JSX, troquei a simulação de carregamento pela requisição real e liguei ao estado do App. Estilo com Tailwind, animações com Motion, fonte Open Sans, que é a oficial do IF. Fiz isso com assistência de IA.”
 
 Não afirmar autoria exclusiva nem que é cópia integral dos componentes.
+
+## Logo IFAI
+
+Composição feita para o projeto seguindo a grade de construção do Manual da Marca 2015 (pág. 6 a 8): módulo x = lado do quadrado, nome em Open Sans Bold e linhas de apoio em Open Sans Regular com 75% de x, cada linha apoiada numa fileira de quadrados. O símbolo não foi alterado. Código: `src/components/MarcaIF.jsx`.
