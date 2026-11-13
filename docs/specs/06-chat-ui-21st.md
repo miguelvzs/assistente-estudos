@@ -18,3 +18,6 @@ Aplicar referência AI Input With Loading da Kokonut: caixa arredondada, textare
 Pedido de Miguel: fonte Inter, aplicar de fato os componentes Chat Bubble e AI Input With Loading, Motion (motion.dev), layout de chat de IA convencional e responsividade. Substitui as restrições anteriores desta spec sobre não instalar Tailwind/bibliotecas e sobre mensagens alinhadas à esquerda.
 Decisões: Tailwind v4 para usar as classes originais; componentes em src/components/ui; pergunta em balão à direita e resposta no layout `ai`; sugestões na tela inicial; botão Nova conversa; Motion para entradas e toque, respeitando redução de movimento.
 Critérios: build e 18 testes; vazio, espera, sucesso e erro; Enter/Shift+Enter; 375px sem estouro horizontal; desktop 1159px. Produção só muda com merge na main.
+
+## IFAI, guia e sugestões (13/11/2026, noite)
+Pedidos de Miguel: botão no topo com toda a explicação para apresentar; paleta do IF; nome IFAI com o símbolo do IF + AI; citar tecnologias e sites; base com os conteúdos do semestre para perguntas sugeridas; publicar no Vercel com deploy automático (merge na main). Símbolo obtido do arquivo em domínio público (Setec/MEC), não redesenhado. Perguntas sugeridas escritas a partir dos temas do Moodle.

@@ -1,14 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { Sparkles } from 'lucide-react';
 import { ChatBubble, ChatBubbleAvatar, ChatBubbleMessage } from './ui/chat-bubble';
-
-// Sugestões da tela inicial: clicar envia o texto como pergunta.
-const sugestoes = [
-  { titulo: 'Explique regra de três', detalhe: 'com um exemplo do dia a dia', texto: 'Explique regra de três com um exemplo do dia a dia.' },
-  { titulo: 'Crie 3 exercícios', detalhe: 'de frações equivalentes, com gabarito', texto: 'Crie 3 exercícios de frações equivalentes, com gabarito.' },
-  { titulo: 'Revise para a prova', detalhe: 'o que são props e state no React', texto: 'Revise para a prova: o que são props e state no React?' },
-  { titulo: 'Organize meus estudos', detalhe: 'para uma prova daqui a 3 dias', texto: 'Monte um plano para estudar para uma prova daqui a 3 dias.' },
-];
+import MarcaIFAI, { SimboloIF } from './MarcaIF';
+import Sugestoes from './Sugestoes';
 
 // Animação de entrada (Motion): surge de baixo, suavemente.
 const entrada = {
@@ -23,7 +16,7 @@ function mostrarFinal(elemento) {
 }
 
 function AvatarAssistente() {
-  return <ChatBubbleAvatar fallback={<Sparkles className="size-4" />} />;
+  return <ChatBubbleAvatar fallback={<SimboloIF className="h-4 w-auto" />} />;
 }
 
 export default function Resposta({ mensagens, carregando, erro, pergunta, aoEscolherSugestao, rodape }) {
@@ -53,35 +46,14 @@ export default function Resposta({ mensagens, carregando, erro, pergunta, aoEsco
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="mx-auto flex w-full max-w-3xl grow flex-col items-center justify-center px-4 py-10 text-center sm:px-6"
+            className="mx-auto flex w-full max-w-3xl grow flex-col items-center justify-center px-4 py-8 text-center sm:px-6"
           >
-            <span className="grid size-12 place-items-center rounded-2xl bg-primary/10 text-primary" aria-hidden="true">
-              <Sparkles className="size-6" />
-            </span>
+            <MarcaIFAI tamanho="grande" />
             <h2 className="mt-5 text-2xl font-semibold tracking-tight sm:text-3xl">Vamos estudar?</h2>
             <p className="mt-2 max-w-md text-[15px] text-muted-foreground">
-              Pergunte sobre qualquer matéria. Eu explico com passos curtos e exemplos.
+              Escolha uma matéria do semestre ou pergunte o que quiser. Eu explico com passos curtos e exemplos.
             </p>
-            <ul className="mt-8 grid w-full max-w-2xl gap-2.5 sm:grid-cols-2">
-              {sugestoes.map((sugestao, indice) => (
-                <motion.li
-                  key={sugestao.titulo}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.08 + indice * 0.05, duration: 0.25 }}
-                  className={indice > 1 ? 'hidden sm:block' : ''}
-                >
-                  <button
-                    type="button"
-                    onClick={() => aoEscolherSugestao(sugestao.texto)}
-                    className="w-full rounded-2xl border border-border px-4 py-3 text-left transition-colors hover:bg-secondary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  >
-                    <span className="block text-sm font-medium">{sugestao.titulo}</span>
-                    <span className="block text-sm text-muted-foreground">{sugestao.detalhe}</span>
-                  </button>
-                </motion.li>
-              ))}
-            </ul>
+            <Sugestoes aoEscolher={aoEscolherSugestao} />
             {avisoErro && <div className="mt-6 w-full max-w-2xl">{avisoErro}</div>}
             {rodape}
           </motion.div>

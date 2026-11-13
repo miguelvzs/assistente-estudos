@@ -359,3 +359,11 @@ Nenhuma delas recebe dados do aluno nem chama serviços externos.
 ### Fluxo preservado
 
 `pergunta`, `mensagens`, `carregando` e `erro` continuam iguais. O POST continua sendo `api.post('/perguntar', { pergunta, historico: mensagens.slice(-6) })`. Servidor, limite de 50/dia e testes não mudaram.
+
+### IFAI, guia de apresentação e sugestões do semestre
+
+- **Nome e marca:** IFAI = símbolo oficial dos Institutos Federais (`MarcaIF.jsx`, SVG em domínio público, Setec/MEC) + “IF” em verde e “AI” em vermelho. Também é o ícone da aba (`public/ifai.svg`).
+- **Paleta do IF:** verde `#2f9e41` e vermelho `#cd191e`. Balões e botões usam `#1f7a33` (verde do IF escurecido) porque texto branco sobre `#2f9e41` tem contraste 3,5:1, abaixo do mínimo de 4,5:1.
+- **Botão Apresentação** (cabeçalho): abre `GuiaApresentacao.jsx`, painel lateral com abas Roteiro, Fluxo, React, API, Servidor, Interface, Tecnologias e Perguntas. Novo estado no App: `guiaAberto` (só interface). O guia tem estado próprio `aba`. Fecha com X, clique fora ou Esc. `AnimatePresence` anima a entrada e a saída.
+- **Sugestões:** `Sugestoes.jsx` lê `conteudo/semestre.js` (6 matérias, 4 perguntas cada) e tem estado próprio `filtro`. Clicar chama `enviar(pergunta)` do App. Ver [CONTEUDOS-SEMESTRE.md](CONTEUDOS-SEMESTRE.md).
+- **Lista de tecnologias e sites:** [TECNOLOGIAS.md](TECNOLOGIAS.md).
