@@ -1,8 +1,12 @@
 # Assistente de Estudos
 
-Chat de estudos em React, preparado para consumir a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
+Chat de estudos em React que consome a API OpenAI. Mantém as mensagens durante a sessão e envia as últimas três trocas como contexto. Trabalho individual AA04, Desenvolvimento Web Front End, IFSP Bragança Paulista. Autor: Miguel Vaz de Souza.
 
-**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), na branch `development`. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). Chave configurada no cofre e chamada real local à OpenAI confirmada (HTTP 200). Deploy Vercel ainda pendente. Simulação é apenas teste, não substitui consumo real da API na entrega.
+**Situação:** código publicado no [GitHub](https://github.com/miguelvzs/assistente-estudos), com `main` para produção e `development` para manutenção. Testes e compilação passaram no [GitHub Actions](https://github.com/miguelvzs/assistente-estudos/actions/runs/43287035516). Chave configurada no cofre e chamada real local à OpenAI confirmada (HTTP 200). Limite diário validado em testes e no Blob real. Projeto Vercel vinculado à `main`; publicação final em verificação. Consulte docs/VALIDACAO.md para o estado atualizado. Simulação é apenas teste, não substitui consumo real da API na entrega.
+
+## Versões
+
+Esta branch contém o chat OpenAI. A alternativa SUAP fica separada em `versao-suap`; acesso real à API do IFSP ainda não confirmado. Veja [a organização das versões](docs/VERSOES.md).
 
 ## Comece aqui
 
@@ -64,7 +68,7 @@ Testes usam recursos nativos do Node. Não há SDK da OpenAI, banco de conversas
 
 O frontend envia `POST /api/perguntar` com `{ "pergunta": "...", "historico": [{ "role": "user", "content": "..." }, { "role": "assistant", "content": "..." }] }` (histórico vazio na primeira pergunta). A função retorna `{ "resposta": "..." }` ou `{ "erro": "..." }`.
 
-O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo técnico provisório: `gpt-6-luna`; confirmar acesso e funcionamento quando houver chave. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
+O servidor chama [Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create) em `POST https://api.openai.com/v1/responses`. Modelo configurado: `gpt-6-luna`, com chamada real local validada em 12/11/2026. Uma pergunta por chamada, até 2.000 caracteres. O histórico inclui até seis mensagens alternadas, equivalentes a três trocas. Toda a conversa fica visível, mas é apagada ao atualizar a página. O corpo JSON tem limite de 16.000 caracteres. A resposta é texto puro.
 
 A professora autorizou OpenAI conforme informação de Miguel. Servidor e contador diário são infraestrutura adicional, feita com pesquisa e assistência de IA, não conteúdo atribuído às aulas React. A aplicação permite 50 tentativas por dia no total, renovadas à meia-noite de Brasília. Falhas do provedor também contam. Perguntas e respostas não são gravadas pelo app.
 
@@ -73,14 +77,14 @@ Além de `OPENAI_API_KEY`, configurar `BLOB_READ_WRITE_TOKEN` somente no servido
 ## Links da entrega
 
 - GitHub: [https://github.com/miguelvzs/assistente-estudos](https://github.com/miguelvzs/assistente-estudos).
-- Vercel: **pendente**.
+- Vercel: [Assistente de Estudos](https://assistente-estudos-three.vercel.app). Estado de validação em docs/VALIDACAO.md.
 - Prazo Moodle: **13/11/2026 às 23h59**. Apresentação: **até 15 minutos**.
 - [Enunciado oficial](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023).
 
 Código e documentação preparados com assistência de IA a partir das aulas, para estudo e conferência pelo autor. Não afirmar que a simulação é uma resposta real da OpenAI.
 
 ## Custo do modelo
-Modelo econômico: gpt-6-luna, reasoning.effort none e saída máxima de 600 tokens. Preços Standard consultados em 12/11/2026: US$ 0,10 por milhão de tokens de entrada e US$ 0,50 de saída. Exemplo hipotético: 1.000 chamadas com 1.000 tokens de entrada e 300 de saída cada custam US$ 0,25, sem impostos ou conversão cambial. O histórico também conta na entrada. Limite por resposta não limita o gasto acumulado. Fonte: https://developers.openai.com/api/docs/models/gpt-6-luna . Acesso e uma resposta real local foram confirmados com a chave do projeto; deploy ainda pendente.
+Modelo: `gpt-6-luna`, `reasoning.effort: none`, máximo de 600 tokens de saída e orientação de até 180 palavras. O histórico também conta na entrada. Consulte os [preços oficiais](https://developers.openai.com/api/docs/models/gpt-6-luna) antes de estimar custo; não há preço fixo por pergunta. O teto de 50 tentativas/dia vale para este aplicativo, não para toda a conta OpenAI.
 
 
 ## Público e finalidade

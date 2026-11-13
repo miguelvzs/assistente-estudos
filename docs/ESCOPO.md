@@ -1,36 +1,53 @@
-# Escopo
+# Escopo da versão OpenAI
 
-## 1. Objetivo
-Demonstrar React consumindo uma API. Fonte: [AA04](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023), lida em 12/11/2026. Tema confirmado na listagem do curso 587: API Assistente de Estudos.
+## Objetivo e entrega
+Demonstrar React consumindo API no trabalho AA04. Tema: Assistente de Estudos.
+[Enunciado](https://moodle.bra.ifsp.edu.br/mod/assign/view.php?id=21023), consultado
+em 12/11/2026. Entrega: GitHub, Vercel, README, ZIP sem node_modules e apresentação
+de até 15 minutos. Prazo informado pelo Moodle: 13/11/2026 às 23h59.
 
-## 2. Entrega
-GitHub, Vercel, README e ZIP sem node_modules; apresentação de até 15 minutos. Os links precisam funcionar em outro navegador deslogado. Nenhum envio automático ao Moodle.
+## Incluído
+Uma tela de chat: React/Vite/JavaScript, CSS, componentes, props, useState,
+eventos, condicionais, map/key e Axios. Histórico apenas no navegador, com as
+últimas três trocas enviadas como contexto. Apoio em estudos gerais e técnicos
+para alunos do IF, sem acesso institucional ou a materiais particulares.
 
-## 3. Incluído
-Uma tela de chat com formulário e lista de mensagens, React/Vite/JavaScript, CSS simples, componentes, props, useState, eventos, condicionais e Axios POST. Função de servidor na Vercel para proteger a chave. Documentação completa e ensaio guiado.
+Servidor protege a chave OpenAI; contador privado limita 50 tentativas diárias
+no total. Essas duas partes são infraestrutura adicional, construída com
+pesquisa e assistência de IA; não foram encontradas nas aulas React.
 
-## 4. Excluído
-Persistência de histórico, useEffect sem necessidade, rotas, autenticação, banco, upload, streaming, SDK de IA, TypeScript, frameworks de CSS e bibliotecas de estado. O conjunto das aulas é o limite de conteúdo, não uma lista de recursos a usar integralmente.
+## Excluído
+Login, banco de alunos, persistência de conversa, upload, streaming, TypeScript,
+SDK OpenAI, rotas de página e bibliotecas de interface. Não usar todos os tópicos
+das aulas só para aumentar o código. A versão SUAP fica na branch `versao-suap`
+com escopo/documentação próprios; não é função deste chat.
 
-## 5. Dados
-Pergunta didática e resposta: transitórias; não gravadas pelo app. Chave OpenAI: restrita, só no ambiente do servidor. Não usar dados pessoais nas perguntas. O provedor recebe a pergunta e até três trocas anteriores; store:false não significa ausência de toda retenção operacional pelo provedor.
+## Dados
+Pergunta e até seis mensagens anteriores são enviadas à OpenAI. O app não grava
+esse conteúdo; store:false não garante ausência de logs operacionais do provedor.
+Não enviar dados pessoais. Chaves ficam no servidor. Blob privado armazena apenas
+data e quantidade, sem IP, aluno, pergunta ou resposta.
 
-## 6. Etapas
-Contexto → tela e função → testes simulados e build → chave real quando Miguel fornecer → GitHub concluído → teste real → Vercel → ZIP final e ensaio. Estado e evidências em VALIDACAO.md.
+## Decisões tomadas
+| Decisão | Data | Consequência |
+|---|---|---|
+| Professora autorizou OpenAI, segundo Miguel | 12/11/2026 | Provedor pago aceito; não atribuir essa autorização ao enunciado |
+| React mínimo das aulas e exceção do servidor | 12/11/2026 | Declarar infraestrutura adicional na apresentação |
+| gpt-6-luna, até 600 tokens e chave válida no cofre | 12/11/2026 | Chamada real local confirmada; não usar a entrada antiga de aviso |
+| Publicação condicionada a 50 requisições/dia | 12/11/2026 | Reserva persistente e bloqueio em falhas |
+| main com deploy após merge, commits unitários | 13/11/2026 | PR de development com CI verde e commit de merge |
+| ZIP e links no Moodle | 13/11/2026 | Autorização específica para esta entrega |
+| Segunda versão básica em outra branch | 13/11/2026 | Não substituir nem misturar a versão OpenAI |
 
-## 7. Decisões e exceções
-- Miguel confirmou que a professora autorizou OpenAI apesar de o enunciado pedir API gratuita. Informação do usuário, não constante do texto do Moodle.
-- Miguel aceitou função mínima na Vercel como exceção ao conteúdo de React; o restante permanece básico.
-- Miguel quer documentação de tudo e apresentação de 15 minutos.
-- Miguel informou que fornecerá a chave depois. Não ler nem utilizar o valor anteriormente salvo no cofre; não fazer chamadas reais nesta etapa.
-- Exceção ao playbook empresarial: este exercício é público, sem dados empresariais e sem autenticação, conforme escopo aprovado. Não adicionar login, sessões, MFA, banco ou estrutura empresarial para cumprir o template genérico.
-- Preparação local usa adaptador de desenvolvimento e respostas simuladas explícitas. São ferramentas auxiliares da camada de servidor, não conteúdo apresentado como aula de React.
-- Modelo técnico provisório: gpt-6-luna, sem seleção pelo usuário do site; validar acesso/qualidade quando houver chave. Não afirmar que Miguel escolheu esse modelo.
-- Repositório público definido: `miguelvzs/assistente-estudos`, branch `development`. ABERTO: projeto Vercel; disponibilidade da chave, acesso ao modelo e saldo; confirmação do funcionamento publicado.
-- Publicação: preparar resultado antes de pedir autorização de produção exigida pelo contrato de commits. O GitHub já foi publicado com autorização; o deploy Vercel permanece pendente.
+## Decisões abertas e limites
+API SUAP do IFSP: acesso, autenticação e rotas acadêmicas ainda não confirmados.
+Isso bloqueia a integração real da segunda versão, não o chat OpenAI.
 
-## 8. Limitações
-Limite global de 50 tentativas por dia em Brasília, persistido em Blob privado. Não é quota individual nem controla outras aplicações na mesma conta. Falhas do provedor também consomem a reserva; falha do contador bloqueia a consulta. Esse armazenamento contém somente data e quantidade, como exceção à ausência de persistência. Não tratar alertas de orçamento como bloqueio garantido. Simulação não satisfaz a entrega final de consumo real.
+Sem quota individual: uma pessoa pode usar as 50 consultas. Falha do provedor
+também consome a vaga. O teto vale para este app, não para outras aplicações da
+mesma conta. Falha do Blob bloqueia a IA. Não contratar plano pago.
 
-## Público e finalidade
-Apoio a alunos do IF em estudos gerais e técnicos: dúvidas, revisão, exercícios e organização dos estudos. Não se limita a React ou programação. O limite às aulas de React se refere à implementação do projeto, não aos temas das perguntas. Projeto acadêmico independente, sem acesso ao Moodle ou atendimento institucional.
+Exceção ao playbook empresarial de SEGURANCA.md: exercício público sem dados
+empresariais e sem login, aprovado pelo usuário. Não acrescentar MFA, sessões
+ou banco de alunos para cumprir o template genérico. Publicação segue o contrato
+de docs/COMMITS.md; evidências e pendências em VALIDACAO.md.
